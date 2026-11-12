@@ -1,0 +1,55 @@
+# Dependencies & Package Manager Caches
+node_modules/
+.pnpm-store/
+.npm/
+.npmrc
+
+# Environment, Secrets & Credential Files
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.token
+.secrets/
+credentials.json
+secrets.*
+
+# Temporary Cache, Logs & Backup Files
+.cache/
+.temp/
+tmp/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Operating System Metadata
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor & IDE Configuration
+.vscode/
+.idea/
+
+# Temporary QA Scripts, Screenshots & Browser-Test Artifacts
+/screenshots/
+/capture_screenshots.js
+/capture_dashboard_cards.js
+.temp_chrome_cap_*/
+.temp_cap_dash_*/
+.playwright-mcp/
+test-results/
+playwright-report/

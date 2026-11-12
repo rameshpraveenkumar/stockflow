@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suppliers Directory | STOCKFLOW Retailer Workspace</title>
+  <meta name="description" content="Manage retail distributors, vendor contact books and track historical purchase orders.">
+
+  <!-- Tailwind CSS Local Bundle -->
+  <script src="../assets/vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#E88743',
+              50: '#FDF7F2',
+              100: '#FAECDF',
+              200: '#F4D4BC',
+              300: '#EEB994',
+              400: '#E89E6B',
+              500: '#E88743',
+              600: '#D5732E',
+              700: '#B85A1D',
+              800: '#944414',
+              900: '#73330D',
+            },
+            charcoal: {
+              DEFAULT: '#242A27',
+              50: '#F5F6F5',
+              100: '#E6E8E6',
+              200: '#CDD0CD',
+              700: '#2D3531',
+              800: '#242A27',
+              900: '#1A1E1C',
+            },
+            cream: {
+              DEFAULT: '#F7F5EF',
+              100: '#FAF9F5',
+              200: '#F1EFE6',
+            },
+            mutedOrange: '#F4C7A5',
+            sage: {
+              DEFAULT: '#A7B7A5',
+              light: '#D3DDD1',
+              dark: '#859883',
+            },
+            lightgrey: '#E8E8E2',
+            success: '#32845A',
+            warning: '#D99A32',
+            danger: '#D9534F'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons Local Bundle -->
+  <script src="../assets/vendor/lucide.min.js"></script>
+
+  <!-- Custom Styles & Theme Initializer -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/theme.js"></script>
+  <script src="../js/direction.js"></script>
+</head>
+<body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased min-h-screen flex selection:bg-brand selection:text-white">
+
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-charcoal/60 backdrop-blur-sm hidden lg:hidden"></div>
+
+  <!-- VERTICAL SIDEBAR -->
+  <aside 
+    id="dashboard-sidebar" 
+    class="fixed inset-y-0 left-0 rtl:left-auto rtl:right-0 z-50 w-64 bg-white dark:bg-charcoal-800 border-r rtl:border-r-0 rtl:border-l border-charcoal/10 dark:border-charcoal-700/60 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full rtl:translate-x-full lg:translate-x-0"
+  >
+    <div class="p-4 sm:p-5 flex-1 overflow-y-auto">
+      <!-- Brand Logo (Standardized Logo) -->
+      <a href="../index.html" class="inline-flex items-center gap-3 pb-6 border-b border-charcoal/10 dark:border-charcoal-700 group focus:outline-none flex-shrink-0 w-full" aria-label="STOCKFLOW Home">
+        <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200 flex-shrink-0">
+          <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display text-xl font-extrabold tracking-tight text-charcoal dark:text-cream leading-none">STOCKFLOW</span>
+          <span class="text-[9px] tracking-widest uppercase font-semibold text-brand dark:text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
+        </div>
+      </a>
+
+      <nav class="mt-6 space-y-1 text-xs font-semibold">
+        <a href="index.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </div>
+        </a>
+
+        <a href="products.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="box" class="w-4 h-4"></i>
+            <span>Products</span>
+          </div>
+        </a>
+
+        <a href="categories.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="folder-tree" class="w-4 h-4"></i>
+            <span>Categories</span>
+          </div>
+        </a>
+
+        <a href="suppliers.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="truck" class="w-4 h-4 text-brand"></i>
+            <span>Suppliers</span>
+          </div>
+        </a>
+
+        <a href="purchase-orders.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            <span>Purchase Orders</span>
+          </div>
+          <span id="sidebar-po-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand/15 text-brand">2</span>
+        </a>
+
+        <a href="stock-alerts.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span>Stock Alerts</span>
+          </div>
+          <span id="sidebar-alerts-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-danger/15 text-danger">5</span>
+        </a>
+
+        <a href="reports.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+            <span>Reports & Valuation</span>
+          </div>
+        </a>
+
+        <a href="settings.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </div>
+        </a>
+      </nav>
+    </div>
+
+    <div class="p-4 border-t border-charcoal/10 dark:border-charcoal-700 bg-cream/30 dark:bg-charcoal-900/40">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="retailer-avatar-initials w-9 h-9 rounded-full bg-brand/20 text-brand font-bold flex items-center justify-center text-xs flex-shrink-0">AM</div>
+          <div class="min-w-0">
+            <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block truncate">Alex Morgan</span>
+            <span class="retailer-role-display text-[10px] text-brand font-semibold block truncate">Store Manager (Admin)</span>
+          </div>
+        </div>
+        <button type="button" class="logout-trigger text-charcoal/50 hover:text-danger dark:text-cream/50 dark:hover:text-danger p-1.5 transition" title="Logout">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="flex-1 lg:pl-64 rtl:lg:pl-0 rtl:lg:pr-64 flex flex-col min-w-0 transition-all duration-300">
+    
+    <!-- TOP BAR -->
+    <header class="sticky top-0 z-30 h-16 bg-white/95 dark:bg-charcoal-800/95 backdrop-blur-md border-b border-charcoal/10 dark:border-charcoal-700/60 px-4 sm:px-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button type="button" id="sidebar-toggle-btn" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl text-charcoal dark:text-cream hover:bg-cream dark:hover:bg-charcoal-700">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div>
+          <h1 class="font-display text-base sm:text-lg font-bold text-charcoal dark:text-cream leading-tight">
+            Suppliers Management
+          </h1>
+          <span class="text-[10px] text-charcoal/50 dark:text-cream/50 hidden sm:block">Distributor Directory</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="relative hidden sm:block w-40 md:w-44 lg:w-64">
+          <input type="text" id="global-quick-search" placeholder="Search items, orders..." class="w-full h-9 ps-8 pe-3 rounded-xl bg-cream/70 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream placeholder-charcoal/40 dark:placeholder-cream/40 focus:outline-none focus:ring-2 focus:ring-brand/40">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-charcoal/40 dark:text-cream/40 absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <div id="global-search-results" class="hidden absolute top-full left-0 right-0 mt-1.5 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 overflow-hidden z-50"></div>
+        </div>
+
+        <button type="button" class="dir-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition">
+          <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+        </button>
+
+        <button type="button" class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition">
+          <i data-lucide="moon" class="theme-icon-dark w-4 h-4"></i>
+          <i data-lucide="sun" class="theme-icon-light w-4 h-4"></i>
+        </button>
+
+        <div class="relative">
+          <button type="button" id="notifications-btn" class="w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition relative">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span id="notif-unread-dot" class="hidden absolute top-1.5 end-1.5 w-2 h-2 rounded-full bg-danger"></span>
+          </button>
+          <div id="notifications-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-80 rounded-2xl bg-white dark:bg-charcoal-800 shadow-2xl border border-charcoal/10 dark:border-charcoal-700 p-2 z-50">
+            <div class="flex items-center justify-between px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="font-bold text-xs text-charcoal dark:text-cream">Store Notifications</span>
+              <a href="stock-alerts.html" class="text-[10px] text-brand font-semibold hover:underline">View All</a>
+            </div>
+            <div id="notifications-list-container" class="max-h-72 overflow-y-auto divide-y divide-charcoal/5 dark:divide-charcoal-700 py-1"></div>
+          </div>
+        </div>
+
+        <div class="relative flex items-center gap-2">
+          <span class="retailer-role-badge hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-brand/15 text-brand border border-brand/20">Manager</span>
+          <button type="button" id="user-profile-btn" class="flex items-center gap-2 p-1 rounded-xl hover:bg-cream dark:hover:bg-charcoal-700 transition">
+            <div class="retailer-avatar-initials w-8 h-8 rounded-full bg-brand text-white font-bold flex items-center justify-center text-xs shadow-sm">AM</div>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-charcoal/50 dark:text-cream/50 hidden sm:block"></i>
+          </button>
+          <div id="user-profile-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-52 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50">
+            <div class="px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block">Alex Morgan</span>
+              <span class="retailer-email-display text-[10px] text-charcoal/50 dark:text-cream/50 block truncate">alex.morgan@retailer.demo</span>
+            </div>
+            <a href="settings.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+              <span>Store Preferences</span>
+            </a>
+            <a href="../index.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              <span>Public Website</span>
+            </a>
+            <button type="button" class="logout-trigger w-full text-start flex items-center gap-2 px-3 py-2 text-xs text-danger hover:bg-red-50 dark:hover:bg-red-950/20 transition border-t border-charcoal/10 dark:border-charcoal-700">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Logout Session</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN PAGE CONTENT -->
+    <main class="p-4 sm:p-6 lg:p-8 space-y-6 flex-1">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-display text-2xl font-extrabold text-charcoal dark:text-cream">
+            Vendor Directory
+          </h2>
+          <p class="text-xs sm:text-sm text-charcoal/60 dark:text-cream/60">
+            Maintain supplier address books, linked products and track fulfillment history.
+          </p>
+        </div>
+
+        <button 
+          type="button" 
+          id="open-add-supplier-btn" 
+          class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs shadow-md transition"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Add Supplier</span>
+        </button>
+      </div>
+
+      <!-- KPI Summary -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm flex items-center justify-between">
+          <div>
+            <span class="text-xs text-charcoal/60 dark:text-cream/60">Total Registered Suppliers</span>
+            <div class="text-2xl font-display font-extrabold text-charcoal dark:text-cream mt-0.5" id="kpi-total-suppliers">--</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
+            <i data-lucide="truck" class="w-5 h-5"></i>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm flex items-center justify-between">
+          <div>
+            <span class="text-xs text-success">Active Commercial Accounts</span>
+            <div class="text-2xl font-display font-extrabold text-success mt-0.5" id="kpi-active-suppliers">--</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/40 text-success flex items-center justify-center">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm flex items-center justify-between">
+          <div>
+            <span class="text-xs text-charcoal/60 dark:text-cream/60">Purchase Invoices Issued</span>
+            <div class="text-2xl font-display font-extrabold text-brand mt-0.5" id="kpi-total-orders-placed">--</div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Input -->
+      <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm">
+        <div class="relative max-w-md">
+          <input 
+            type="text" 
+            id="search-suppliers" 
+            placeholder="Search suppliers by name, representative, email or location..." 
+            class="w-full h-10 ps-9 pe-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream focus:outline-none focus:ring-2 focus:ring-brand/40"
+          >
+          <i data-lucide="search" class="w-4 h-4 text-charcoal/40 dark:text-cream/40 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+      </div>
+
+      <!-- Suppliers Grid -->
+      <div id="suppliers-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="suppliers-empty-state" class="hidden p-12 text-center space-y-3 bg-white dark:bg-charcoal-800 rounded-2xl border border-charcoal/10 dark:border-charcoal-700">
+        <div class="w-12 h-12 rounded-2xl bg-brand/10 text-brand flex items-center justify-center mx-auto">
+          <i data-lucide="truck" class="w-6 h-6"></i>
+        </div>
+        <h4 class="font-bold text-sm text-charcoal dark:text-cream">No Suppliers Found</h4>
+        <p class="text-xs text-charcoal/60 dark:text-cream/60 max-w-xs mx-auto">
+          No vendors match your search. Click "Add Supplier" above to register a distributor.
+        </p>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: ADD / EDIT SUPPLIER -->
+  <div id="supplier-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div class="w-full max-w-lg rounded-3xl bg-white dark:bg-charcoal-800 border border-charcoal/15 dark:border-charcoal-700 shadow-2xl overflow-hidden flex flex-col">
+      <div class="p-5 border-b border-charcoal/10 dark:border-charcoal-700 flex items-center justify-between">
+        <h3 id="supplier-modal-title" class="font-display font-bold text-lg text-charcoal dark:text-cream">Add New Supplier</h3>
+        <button type="button" onclick="closeSupplierModal()" class="text-charcoal/50 hover:text-charcoal p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="supplier-form" class="p-5 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2 space-y-1">
+            <label class="block text-xs font-semibold">Company / Supplier Name *</label>
+            <input type="text" id="supplier-name" required placeholder="e.g. Apex Dairy & Beverage Co." class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Contact Representative</label>
+            <input type="text" id="supplier-contact" placeholder="e.g. Michael Chang" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Commercial Status</label>
+            <select id="supplier-status" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Email Address *</label>
+            <input type="email" id="supplier-email" required placeholder="supply@apexdairy.demo" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Phone Number</label>
+            <input type="text" id="supplier-phone" placeholder="+1 (555) 456-7890" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="sm:col-span-2 space-y-1">
+            <label class="block text-xs font-semibold">Warehouse / Dispatch Address</label>
+            <input type="text" id="supplier-address" placeholder="304 Meadowbrook Way, Madison, WI" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-charcoal/10 dark:border-charcoal-700 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeSupplierModal()" class="px-4 py-2 rounded-xl border border-charcoal/20 dark:border-charcoal-700 text-xs font-semibold hover:bg-cream dark:hover:bg-charcoal-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand hover:bg-brand-600 text-white text-xs font-semibold shadow-sm">Save Supplier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SUPPLIER DETAIL & PURCHASE HISTORY -->
+  <div id="supplier-detail-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-charcoal-800 border border-charcoal/15 dark:border-charcoal-700 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="p-5 border-b border-charcoal/10 dark:border-charcoal-700 flex items-center justify-between">
+        <h3 id="detail-sup-name" class="font-display font-bold text-lg text-charcoal dark:text-cream">Supplier Details</h3>
+        <button type="button" onclick="closeSupplierDetailModal()" class="text-charcoal/50 hover:text-charcoal p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-5 flex-1 text-xs">
+        <!-- Contact Summary -->
+        <div class="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-cream dark:bg-charcoal-900 border border-charcoal/5">
+          <div>
+            <span class="text-charcoal/50 dark:text-cream/50 block">Contact Person</span>
+            <span id="detail-sup-contact" class="font-bold text-charcoal dark:text-cream">--</span>
+          </div>
+          <div>
+            <span class="text-charcoal/50 dark:text-cream/50 block">Commercial Status</span>
+            <span id="detail-sup-status" class="font-bold text-success">--</span>
+          </div>
+          <div>
+            <span class="text-charcoal/50 dark:text-cream/50 block">Email Address</span>
+            <span id="detail-sup-email" class="font-bold text-charcoal dark:text-cream">--</span>
+          </div>
+          <div>
+            <span class="text-charcoal/50 dark:text-cream/50 block">Phone Number</span>
+            <span id="detail-sup-phone" class="font-bold text-charcoal dark:text-cream">--</span>
+          </div>
+          <div class="col-span-2">
+            <span class="text-charcoal/50 dark:text-cream/50 block">Warehouse Address</span>
+            <span id="detail-sup-address" class="font-bold text-charcoal dark:text-cream">--</span>
+          </div>
+        </div>
+
+        <!-- Linked Catalog Products -->
+        <div class="space-y-2">
+          <h4 class="font-bold text-sm text-charcoal dark:text-cream">Products Supplied from this Vendor</h4>
+          <div id="detail-sup-products" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Purchase Order History -->
+        <div class="space-y-2 pt-2 border-t border-charcoal/10 dark:border-charcoal-700">
+          <h4 class="font-bold text-sm text-charcoal dark:text-cream">Purchase Order History</h4>
+          <div id="detail-sup-orders" class="space-y-2 max-h-48 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-charcoal/10 dark:border-charcoal-700 flex justify-end">
+        <button type="button" onclick="closeSupplierDetailModal()" class="px-4 py-2 rounded-xl bg-brand text-white text-xs font-semibold">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DELETE SUPPLIER CONFIRMATION -->
+  <div id="delete-supplier-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-white dark:bg-charcoal-800 border border-charcoal/15 dark:border-charcoal-700 shadow-2xl p-6 text-center space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-red-100 text-danger flex items-center justify-center mx-auto">
+        <i data-lucide="trash-2" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Remove Supplier?</h3>
+        <p class="text-xs text-charcoal/60 dark:text-cream/60 mt-1">
+          Are you sure you want to remove <strong id="delete-supplier-name" class="text-charcoal dark:text-cream">this supplier</strong> from your address book?
+        </p>
+      </div>
+      <div class="pt-2 flex items-center justify-center gap-2.5">
+        <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 rounded-xl border border-charcoal/20 dark:border-charcoal-700 text-xs font-semibold hover:bg-cream dark:hover:bg-charcoal-700">Cancel</button>
+        <button type="button" id="confirm-delete-supplier-btn" class="px-4 py-2 rounded-xl bg-danger hover:bg-danger-600 text-white text-xs font-semibold">Delete Supplier</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="../js/auth.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/suppliers.js"></script>
+</body>
+</html>

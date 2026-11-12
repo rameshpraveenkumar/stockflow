@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Valuation | STOCKFLOW Retailer Workspace</title>
+  <meta name="description" content="Retail inventory valuation reports, gross margin calculations, category breakdowns, and CSV data export.">
+
+  <!-- Tailwind CSS Local Bundle -->
+  <script src="../assets/vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#E88743',
+              50: '#FDF7F2',
+              100: '#FAECDF',
+              200: '#F4D4BC',
+              300: '#EEB994',
+              400: '#E89E6B',
+              500: '#E88743',
+              600: '#D5732E',
+              700: '#B85A1D',
+              800: '#944414',
+              900: '#73330D',
+            },
+            charcoal: {
+              DEFAULT: '#242A27',
+              50: '#F5F6F5',
+              100: '#E6E8E6',
+              200: '#CDD0CD',
+              700: '#2D3531',
+              800: '#242A27',
+              900: '#1A1E1C',
+            },
+            cream: {
+              DEFAULT: '#F7F5EF',
+              100: '#FAF9F5',
+              200: '#F1EFE6',
+            },
+            mutedOrange: '#F4C7A5',
+            sage: {
+              DEFAULT: '#A7B7A5',
+              light: '#D3DDD1',
+              dark: '#859883',
+            },
+            lightgrey: '#E8E8E2',
+            success: '#32845A',
+            warning: '#D99A32',
+            danger: '#D9534F'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & Chart.js Local Bundles -->
+  <script src="../assets/vendor/lucide.min.js"></script>
+  <script src="../assets/vendor/chart.umd.min.js"></script>
+
+  <!-- Custom Styles & Theme Initializer -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/theme.js"></script>
+  <script src="../js/direction.js"></script>
+</head>
+<body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased min-h-screen flex selection:bg-brand selection:text-white">
+
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-charcoal/60 backdrop-blur-sm hidden lg:hidden"></div>
+
+  <!-- VERTICAL SIDEBAR -->
+  <aside 
+    id="dashboard-sidebar" 
+    class="fixed inset-y-0 left-0 rtl:left-auto rtl:right-0 z-50 w-64 bg-white dark:bg-charcoal-800 border-r rtl:border-r-0 rtl:border-l border-charcoal/10 dark:border-charcoal-700/60 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full rtl:translate-x-full lg:translate-x-0"
+  >
+    <div class="p-4 sm:p-5 flex-1 overflow-y-auto">
+      <!-- Brand Logo (Standardized Logo) -->
+      <a href="../index.html" class="inline-flex items-center gap-3 pb-6 border-b border-charcoal/10 dark:border-charcoal-700 group focus:outline-none flex-shrink-0 w-full" aria-label="STOCKFLOW Home">
+        <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200 flex-shrink-0">
+          <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display text-xl font-extrabold tracking-tight text-charcoal dark:text-cream leading-none">STOCKFLOW</span>
+          <span class="text-[9px] tracking-widest uppercase font-semibold text-brand dark:text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
+        </div>
+      </a>
+
+      <nav class="mt-6 space-y-1 text-xs font-semibold">
+        <a href="index.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </div>
+        </a>
+
+        <a href="products.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="box" class="w-4 h-4"></i>
+            <span>Products</span>
+          </div>
+        </a>
+
+        <a href="categories.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="folder-tree" class="w-4 h-4"></i>
+            <span>Categories</span>
+          </div>
+        </a>
+
+        <a href="suppliers.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="truck" class="w-4 h-4"></i>
+            <span>Suppliers</span>
+          </div>
+        </a>
+
+        <a href="purchase-orders.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            <span>Purchase Orders</span>
+          </div>
+          <span id="sidebar-po-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand/15 text-brand">2</span>
+        </a>
+
+        <a href="stock-alerts.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span>Stock Alerts</span>
+          </div>
+          <span id="sidebar-alerts-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-danger/15 text-danger">5</span>
+        </a>
+
+        <a href="reports.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bar-chart-2" class="w-4 h-4 text-brand"></i>
+            <span>Reports & Valuation</span>
+          </div>
+        </a>
+
+        <a href="settings.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </div>
+        </a>
+      </nav>
+    </div>
+
+    <div class="p-4 border-t border-charcoal/10 dark:border-charcoal-700 bg-cream/30 dark:bg-charcoal-900/40">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="retailer-avatar-initials w-9 h-9 rounded-full bg-brand/20 text-brand font-bold flex items-center justify-center text-xs flex-shrink-0">AM</div>
+          <div class="min-w-0">
+            <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block truncate">Alex Morgan</span>
+            <span class="retailer-role-display text-[10px] text-brand font-semibold block truncate">Store Manager (Admin)</span>
+          </div>
+        </div>
+        <button type="button" class="logout-trigger text-charcoal/50 hover:text-danger dark:text-cream/50 dark:hover:text-danger p-1.5 transition" title="Logout">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 lg:pl-64 rtl:lg:pl-0 rtl:lg:pr-64 flex flex-col min-w-0 transition-all duration-300">
+    
+    <!-- TOP BAR -->
+    <header class="sticky top-0 z-30 h-16 bg-white/95 dark:bg-charcoal-800/95 backdrop-blur-md border-b border-charcoal/10 dark:border-charcoal-700/60 px-4 sm:px-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button type="button" id="sidebar-toggle-btn" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl text-charcoal dark:text-cream hover:bg-cream dark:hover:bg-charcoal-700">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div>
+          <h1 class="font-display text-base sm:text-lg font-bold text-charcoal dark:text-cream leading-tight">
+            Reports & Analytics
+          </h1>
+          <span class="text-[10px] text-charcoal/50 dark:text-cream/50 hidden sm:block">Valuation & Profit Margins</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="relative hidden sm:block w-40 md:w-44 lg:w-64">
+          <input type="text" id="global-quick-search" placeholder="Search items, orders..." class="w-full h-9 ps-8 pe-3 rounded-xl bg-cream/70 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream placeholder-charcoal/40 dark:placeholder-cream/40 focus:outline-none focus:ring-2 focus:ring-brand/40">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-charcoal/40 dark:text-cream/40 absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <div id="global-search-results" class="hidden absolute top-full left-0 right-0 mt-1.5 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 overflow-hidden z-50"></div>
+        </div>
+
+        <button type="button" class="dir-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition">
+          <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+        </button>
+
+        <button type="button" class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition">
+          <i data-lucide="moon" class="theme-icon-dark w-4 h-4"></i>
+          <i data-lucide="sun" class="theme-icon-light w-4 h-4"></i>
+        </button>
+
+        <div class="relative">
+          <button type="button" id="notifications-btn" class="w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition relative">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span id="notif-unread-dot" class="hidden absolute top-1.5 end-1.5 w-2 h-2 rounded-full bg-danger"></span>
+          </button>
+          <div id="notifications-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-80 rounded-2xl bg-white dark:bg-charcoal-800 shadow-2xl border border-charcoal/10 dark:border-charcoal-700 p-2 z-50">
+            <div class="flex items-center justify-between px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="font-bold text-xs text-charcoal dark:text-cream">Store Notifications</span>
+              <a href="stock-alerts.html" class="text-[10px] text-brand font-semibold hover:underline">View All</a>
+            </div>
+            <div id="notifications-list-container" class="max-h-72 overflow-y-auto divide-y divide-charcoal/5 dark:divide-charcoal-700 py-1"></div>
+          </div>
+        </div>
+
+        <div class="relative flex items-center gap-2">
+          <span class="retailer-role-badge hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-brand/15 text-brand border border-brand/20">Manager</span>
+          <button type="button" id="user-profile-btn" class="flex items-center gap-2 p-1 rounded-xl hover:bg-cream dark:hover:bg-charcoal-700 transition">
+            <div class="retailer-avatar-initials w-8 h-8 rounded-full bg-brand text-white font-bold flex items-center justify-center text-xs shadow-sm">AM</div>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-charcoal/50 dark:text-cream/50 hidden sm:block"></i>
+          </button>
+          <div id="user-profile-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-52 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50">
+            <div class="px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block">Alex Morgan</span>
+              <span class="retailer-email-display text-[10px] text-charcoal/50 dark:text-cream/50 block truncate">alex.morgan@retailer.demo</span>
+            </div>
+            <a href="settings.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+              <span>Store Preferences</span>
+            </a>
+            <a href="../index.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              <span>Public Website</span>
+            </a>
+            <button type="button" class="logout-trigger w-full text-start flex items-center gap-2 px-3 py-2 text-xs text-danger hover:bg-red-50 dark:hover:bg-red-950/20 transition border-t border-charcoal/10 dark:border-charcoal-700">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Logout Session</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN PAGE CONTENT -->
+    <main class="p-4 sm:p-6 lg:p-8 space-y-6 flex-1">
+      
+      <!-- Page Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-display text-2xl font-extrabold text-charcoal dark:text-cream">
+            Inventory Valuation & Reports
+          </h2>
+          <p class="text-xs sm:text-sm text-charcoal/60 dark:text-cream/60">
+            Analyze tied-up working capital, projected retail sales margin and category turnover.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <select id="report-time-range" class="h-10 px-3 rounded-xl bg-white dark:bg-charcoal-800 border border-charcoal/20 dark:border-charcoal-700 text-xs font-semibold text-charcoal dark:text-cream focus:ring-2 focus:ring-brand/40">
+            <option value="current">Current On-Hand Stock</option>
+            <option value="last30">Last 30 Days Cycle</option>
+            <option value="quarter">Q4 2026 Audit</option>
+          </select>
+
+          <button 
+            type="button" 
+            id="export-valuation-csv-btn" 
+            class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs shadow-md transition"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Export Valuation CSV</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Prototype Note Disclaimer Banner -->
+      <div class="p-3.5 rounded-2xl bg-cream dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 text-xs text-charcoal/70 dark:text-cream/70 flex items-center gap-3">
+        <i data-lucide="info" class="w-5 h-5 text-brand flex-shrink-0"></i>
+        <span>Demonstration analytics calculated directly against local inventory dataset. Figures are illustrative retail examples.</span>
+      </div>
+
+      <!-- 4 Valuation Metrics Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-2">
+          <span class="text-xs text-charcoal/60 dark:text-cream/60 block">Wholesale Cost Value</span>
+          <div class="text-2xl font-display font-extrabold text-brand" id="rep-cost-valuation">$--</div>
+          <span class="text-[10px] text-charcoal/50 block">Tied-up capital basis</span>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-2">
+          <span class="text-xs text-success block">Projected Retail Revenue</span>
+          <div class="text-2xl font-display font-extrabold text-success" id="rep-retail-valuation">$--</div>
+          <span class="text-[10px] text-charcoal/50 block">At current shelf prices</span>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-2">
+          <span class="text-xs text-charcoal/60 dark:text-cream/60 block">Gross Profit Spread</span>
+          <div class="text-xl font-display font-extrabold text-charcoal dark:text-cream" id="rep-profit-margin">$--</div>
+          <span class="text-[10px] text-success font-semibold block">Net retail upside</span>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-2">
+          <span class="text-xs text-charcoal/60 dark:text-cream/60 block">Total Units In Stock</span>
+          <div class="text-2xl font-display font-extrabold text-charcoal dark:text-cream" id="rep-total-units">-- Units</div>
+          <span id="rep-sku-sublabel" class="text-[10px] text-charcoal/50 dark:text-cream/50 block">Across 28 product SKUs</span>
+        </div>
+      </div>
+
+      <!-- CHARTS GRID -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Category Valuation Bar Chart (8 cols) -->
+        <div class="lg:col-span-8 p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Category Valuation Comparison</h3>
+              <p class="text-xs text-charcoal/50 dark:text-cream/50">Wholesale Cost Investment vs Expected Retail Revenue</p>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-brand/10 text-brand">Departmental Breakdown</span>
+          </div>
+          <div class="relative h-64 w-full">
+            <canvas id="chartCategoryValuation"></canvas>
+          </div>
+        </div>
+
+        <!-- Category Share Donut (4 cols) -->
+        <div class="lg:col-span-4 p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div>
+            <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Valuation Share by Category</h3>
+            <p class="text-xs text-charcoal/50 dark:text-cream/50">Percentage share of tied-up inventory</p>
+          </div>
+          <div class="relative h-56 w-full flex items-center justify-center">
+            <canvas id="chartCategoryShare"></canvas>
+          </div>
+        </div>
+
+        <!-- Monthly Procurement Spending Line Chart (12 cols) -->
+        <div class="lg:col-span-12 p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Supplier Procurement Spending Over Time</h3>
+              <p class="text-xs text-charcoal/50 dark:text-cream/50">Total purchase invoice value fulfilled per month</p>
+            </div>
+            <span class="text-xs font-mono font-bold text-brand">Monthly Spend ($)</span>
+          </div>
+          <div class="relative h-52 w-full">
+            <canvas id="chartPOSpending"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TWO REPORT TABLES -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Top Products by Value Table -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div>
+            <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Top Products by Stock Value</h3>
+            <p class="text-xs text-charcoal/50 dark:text-cream/50">Highest concentration of on-hand inventory capital</p>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-charcoal/10 dark:border-charcoal-700">
+            <table class="w-full text-start text-xs">
+              <thead class="bg-cream/60 dark:bg-charcoal-900/60 border-b border-charcoal/10 dark:border-charcoal-700 text-charcoal/70 dark:text-cream/70">
+                <tr>
+                  <th class="py-2.5 px-3 text-center">Rank</th>
+                  <th class="py-2.5 px-3">Product</th>
+                  <th class="py-2.5 px-3 text-center">Stock</th>
+                  <th class="py-2.5 px-3 text-end">Cost</th>
+                  <th class="py-2.5 px-3 text-end">Total Cost</th>
+                  <th class="py-2.5 px-3 text-end">Retail Rev</th>
+                </tr>
+              </thead>
+              <tbody id="top-valued-tbody" class="divide-y divide-charcoal/5 dark:divide-charcoal-700"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Category Financial Breakdown Table -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div>
+            <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Category Financial Breakdown</h3>
+            <p class="text-xs text-charcoal/50 dark:text-cream/50">Department-wise stock volume and margin overview</p>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-charcoal/10 dark:border-charcoal-700">
+            <table class="w-full text-start text-xs">
+              <thead class="bg-cream/60 dark:bg-charcoal-900/60 border-b border-charcoal/10 dark:border-charcoal-700 text-charcoal/70 dark:text-cream/70">
+                <tr>
+                  <th class="py-2.5 px-3">Category</th>
+                  <th class="py-2.5 px-3 text-center">SKUs</th>
+                  <th class="py-2.5 px-3 text-center">Units</th>
+                  <th class="py-2.5 px-3 text-end">Cost Value</th>
+                  <th class="py-2.5 px-3 text-end">Retail Value</th>
+                </tr>
+              </thead>
+              <tbody id="category-breakdown-tbody" class="divide-y divide-charcoal/5 dark:divide-charcoal-700"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="../js/auth.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/reports.js"></script>
+</body>
+</html>

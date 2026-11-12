@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products Management | STOCKFLOW Retailer Workspace</title>
+  <meta name="description" content="Manage and organize your retail product catalogue, SKUs, wholesale costs, selling prices and safety stock thresholds.">
+
+  <!-- Tailwind CSS Local Bundle -->
+  <script src="../assets/vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#E88743',
+              50: '#FDF7F2',
+              100: '#FAECDF',
+              200: '#F4D4BC',
+              300: '#EEB994',
+              400: '#E89E6B',
+              500: '#E88743',
+              600: '#D5732E',
+              700: '#B85A1D',
+              800: '#944414',
+              900: '#73330D',
+            },
+            charcoal: {
+              DEFAULT: '#242A27',
+              50: '#F5F6F5',
+              100: '#E6E8E6',
+              200: '#CDD0CD',
+              700: '#2D3531',
+              800: '#242A27',
+              900: '#1A1E1C',
+            },
+            cream: {
+              DEFAULT: '#F7F5EF',
+              100: '#FAF9F5',
+              200: '#F1EFE6',
+            },
+            mutedOrange: '#F4C7A5',
+            sage: {
+              DEFAULT: '#A7B7A5',
+              light: '#D3DDD1',
+              dark: '#859883',
+            },
+            lightgrey: '#E8E8E2',
+            success: '#32845A',
+            warning: '#D99A32',
+            danger: '#D9534F'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons Local Bundle -->
+  <script src="../assets/vendor/lucide.min.js"></script>
+
+  <!-- Custom Styles & Theme Initializer -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/theme.js"></script>
+  <script src="../js/direction.js"></script>
+</head>
+<body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased min-h-screen flex selection:bg-brand selection:text-white">
+
+  <!-- Mobile Sidebar Overlay Backdrop -->
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-charcoal/60 backdrop-blur-sm hidden lg:hidden"></div>
+
+  <!-- VERTICAL SIDEBAR -->
+  <aside 
+    id="dashboard-sidebar" 
+    class="fixed inset-y-0 left-0 rtl:left-auto rtl:right-0 z-50 w-64 bg-white dark:bg-charcoal-800 border-r rtl:border-r-0 rtl:border-l border-charcoal/10 dark:border-charcoal-700/60 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full rtl:translate-x-full lg:translate-x-0"
+  >
+    <div class="p-4 sm:p-5 flex-1 overflow-y-auto">
+      <!-- Brand Logo (Standardized Logo) -->
+      <a href="../index.html" class="inline-flex items-center gap-3 pb-6 border-b border-charcoal/10 dark:border-charcoal-700 group focus:outline-none flex-shrink-0 w-full" aria-label="STOCKFLOW Home">
+        <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200 flex-shrink-0">
+          <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display text-xl font-extrabold tracking-tight text-charcoal dark:text-cream leading-none">STOCKFLOW</span>
+          <span class="text-[9px] tracking-widest uppercase font-semibold text-brand dark:text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
+        </div>
+      </a>
+
+      <nav class="mt-6 space-y-1 text-xs font-semibold">
+        <a href="index.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview</span>
+          </div>
+        </a>
+
+        <a href="products.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="box" class="w-4 h-4 text-brand"></i>
+            <span>Products</span>
+          </div>
+        </a>
+
+        <a href="categories.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="folder-tree" class="w-4 h-4"></i>
+            <span>Categories</span>
+          </div>
+        </a>
+
+        <a href="suppliers.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="truck" class="w-4 h-4"></i>
+            <span>Suppliers</span>
+          </div>
+        </a>
+
+        <a href="purchase-orders.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            <span>Purchase Orders</span>
+          </div>
+          <span id="sidebar-po-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand/15 text-brand">2</span>
+        </a>
+
+        <a href="stock-alerts.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span>Stock Alerts</span>
+          </div>
+          <span id="sidebar-alerts-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-danger/15 text-danger">5</span>
+        </a>
+
+        <a href="reports.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+            <span>Reports & Valuation</span>
+          </div>
+        </a>
+
+        <a href="settings.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+          <div class="flex items-center gap-3">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+            <span>Settings</span>
+          </div>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Sidebar Bottom Profile -->
+    <div class="p-4 border-t border-charcoal/10 dark:border-charcoal-700 bg-cream/30 dark:bg-charcoal-900/40">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="retailer-avatar-initials w-9 h-9 rounded-full bg-brand/20 text-brand font-bold flex items-center justify-center text-xs flex-shrink-0">
+            AM
+          </div>
+          <div class="min-w-0">
+            <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block truncate">Alex Morgan</span>
+            <span class="retailer-role-display text-[10px] text-brand font-semibold block truncate">Store Manager (Admin)</span>
+          </div>
+        </div>
+        <button type="button" class="logout-trigger text-charcoal/50 hover:text-danger dark:text-cream/50 dark:hover:text-danger p-1.5 transition" title="Logout">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="flex-1 lg:pl-64 rtl:lg:pl-0 rtl:lg:pr-64 flex flex-col min-w-0 transition-all duration-300">
+    
+    <!-- TOP BAR -->
+    <header class="sticky top-0 z-30 h-16 bg-white/95 dark:bg-charcoal-800/95 backdrop-blur-md border-b border-charcoal/10 dark:border-charcoal-700/60 px-4 sm:px-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button type="button" id="sidebar-toggle-btn" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl text-charcoal dark:text-cream hover:bg-cream dark:hover:bg-charcoal-700">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div>
+          <h1 class="font-display text-base sm:text-lg font-bold text-charcoal dark:text-cream leading-tight">
+            Products Management
+          </h1>
+          <span class="text-[10px] text-charcoal/50 dark:text-cream/50 hidden sm:block">Master SKU Catalog</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Global Search -->
+        <div class="relative hidden sm:block w-40 md:w-44 lg:w-64">
+          <input type="text" id="global-quick-search" placeholder="Search items, orders..." class="w-full h-9 ps-8 pe-3 rounded-xl bg-cream/70 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream placeholder-charcoal/40 dark:placeholder-cream/40 focus:outline-none focus:ring-2 focus:ring-brand/40">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-charcoal/40 dark:text-cream/40 absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <div id="global-search-results" class="hidden absolute top-full left-0 right-0 mt-1.5 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 overflow-hidden z-50"></div>
+        </div>
+
+        <button type="button" class="dir-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition">
+          <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+        </button>
+
+        <button type="button" class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition">
+          <i data-lucide="moon" class="theme-icon-dark w-4 h-4"></i>
+          <i data-lucide="sun" class="theme-icon-light w-4 h-4"></i>
+        </button>
+
+        <div class="relative">
+          <button type="button" id="notifications-btn" class="w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition relative">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span id="notif-unread-dot" class="hidden absolute top-1.5 end-1.5 w-2 h-2 rounded-full bg-danger"></span>
+          </button>
+          <div id="notifications-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-80 rounded-2xl bg-white dark:bg-charcoal-800 shadow-2xl border border-charcoal/10 dark:border-charcoal-700 p-2 z-50">
+            <div class="flex items-center justify-between px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="font-bold text-xs text-charcoal dark:text-cream">Store Notifications</span>
+              <a href="stock-alerts.html" class="text-[10px] text-brand font-semibold hover:underline">View All</a>
+            </div>
+            <div id="notifications-list-container" class="max-h-72 overflow-y-auto divide-y divide-charcoal/5 dark:divide-charcoal-700 py-1"></div>
+          </div>
+        </div>
+
+        <div class="relative flex items-center gap-2">
+          <span class="retailer-role-badge hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-brand/15 text-brand border border-brand/20">Manager</span>
+          <button type="button" id="user-profile-btn" class="flex items-center gap-2 p-1 rounded-xl hover:bg-cream dark:hover:bg-charcoal-700 transition">
+            <div class="retailer-avatar-initials w-8 h-8 rounded-full bg-brand text-white font-bold flex items-center justify-center text-xs shadow-sm">AM</div>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-charcoal/50 dark:text-cream/50 hidden sm:block"></i>
+          </button>
+          <div id="user-profile-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-52 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50">
+            <div class="px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block">Alex Morgan</span>
+              <span class="retailer-email-display text-[10px] text-charcoal/50 dark:text-cream/50 block truncate">alex.morgan@retailer.demo</span>
+            </div>
+            <a href="settings.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+              <span>Store Preferences</span>
+            </a>
+            <a href="../index.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              <span>Public Website</span>
+            </a>
+            <button type="button" class="logout-trigger w-full text-start flex items-center gap-2 px-3 py-2 text-xs text-danger hover:bg-red-50 dark:hover:bg-red-950/20 transition border-t border-charcoal/10 dark:border-charcoal-700">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Logout Session</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN PAGE CONTENT -->
+    <main class="p-4 sm:p-6 lg:p-8 space-y-6 flex-1">
+      
+      <!-- Page Header with Action Buttons -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-display text-2xl font-extrabold text-charcoal dark:text-cream">
+            Products Catalog
+          </h2>
+          <p class="text-xs sm:text-sm text-charcoal/60 dark:text-cream/60">
+            Manage and organize your retail inventory with live safety thresholds.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <button 
+            type="button" 
+            id="export-products-btn" 
+            class="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-white dark:hover:bg-charcoal-800 text-charcoal dark:text-cream font-semibold text-xs shadow-sm transition"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Export CSV</span>
+          </button>
+          <button 
+            type="button" 
+            id="open-add-product-btn" 
+            class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs shadow-md transition"
+          >
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Add Product</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm">
+          <span class="text-xs text-charcoal/60 dark:text-cream/60 block">Total Catalog Items</span>
+          <div class="text-2xl font-display font-extrabold text-charcoal dark:text-cream mt-1" id="kpi-prod-total">--</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm">
+          <span class="text-xs text-success block">Healthy In Stock</span>
+          <div class="text-2xl font-display font-extrabold text-success mt-1" id="kpi-prod-instock">--</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm">
+          <span class="text-xs text-warning block">Low Stock Alert</span>
+          <div class="text-2xl font-display font-extrabold text-warning mt-1" id="kpi-prod-low">--</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm">
+          <span class="text-xs text-danger block">Out of Stock</span>
+          <div class="text-2xl font-display font-extrabold text-danger mt-1" id="kpi-prod-out">--</div>
+        </div>
+      </div>
+
+      <!-- Filter & Search Controls Bar -->
+      <div class="p-4 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <!-- Search -->
+        <div class="relative flex-1 max-w-md">
+          <input 
+            type="text" 
+            id="search-products" 
+            placeholder="Search by product name, SKU or barcode..." 
+            class="w-full h-10 ps-9 pe-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream focus:outline-none focus:ring-2 focus:ring-brand/40"
+          >
+          <i data-lucide="search" class="w-4 h-4 text-charcoal/40 dark:text-cream/40 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+
+        <!-- Filters Dropdown Group -->
+        <div class="flex items-center gap-2.5">
+          <select 
+            id="filter-category" 
+            class="h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream focus:outline-none focus:ring-2 focus:ring-brand/40"
+          >
+            <option value="">All Categories</option>
+          </select>
+
+          <select 
+            id="filter-status" 
+            class="h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream focus:outline-none focus:ring-2 focus:ring-brand/40"
+          >
+            <option value="">All Stock Statuses</option>
+            <option value="in-stock">In Stock</option>
+            <option value="low-stock">Low Stock</option>
+            <option value="out-of-stock">Out of Stock</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Products Data Table Container -->
+      <div class="rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-start text-xs">
+            <thead class="bg-cream/60 dark:bg-charcoal-900/60 border-b border-charcoal/10 dark:border-charcoal-700 text-charcoal/70 dark:text-cream/70 font-semibold select-none">
+              <tr>
+                <th class="py-3 px-4 cursor-pointer hover:text-brand" onclick="sortBy('name')">
+                  <div class="flex items-center gap-1.5">
+                    <span>Product</span>
+                    <i data-lucide="arrow-up-down" class="w-3 h-3"></i>
+                  </div>
+                </th>
+                <th class="py-3 px-4 cursor-pointer hover:text-brand" onclick="sortBy('sku')">
+                  <div class="flex items-center gap-1.5">
+                    <span>SKU</span>
+                    <i data-lucide="arrow-up-down" class="w-3 h-3"></i>
+                  </div>
+                </th>
+                <th class="py-3 px-4">Category</th>
+                <th class="py-3 px-4 text-center cursor-pointer hover:text-brand" onclick="sortBy('stock')">
+                  <div class="flex items-center justify-center gap-1.5">
+                    <span>Stock Qty</span>
+                    <i data-lucide="arrow-up-down" class="w-3 h-3"></i>
+                  </div>
+                </th>
+                <th class="py-3 px-4 text-end cursor-pointer hover:text-brand" onclick="sortBy('costPrice')">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <span>Cost</span>
+                    <i data-lucide="arrow-up-down" class="w-3 h-3"></i>
+                  </div>
+                </th>
+                <th class="py-3 px-4 text-end cursor-pointer hover:text-brand" onclick="sortBy('sellingPrice')">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <span>Price</span>
+                    <i data-lucide="arrow-up-down" class="w-3 h-3"></i>
+                  </div>
+                </th>
+                <th class="py-3 px-4 text-center">Status</th>
+                <th class="py-3 px-4 text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody" class="divide-y divide-charcoal/5 dark:divide-charcoal-700">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="products-empty-state" class="hidden p-12 text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-brand/10 text-brand flex items-center justify-center mx-auto">
+            <i data-lucide="package-search" class="w-6 h-6"></i>
+          </div>
+          <h4 class="font-bold text-sm text-charcoal dark:text-cream">No Products Found</h4>
+          <p class="text-xs text-charcoal/60 dark:text-cream/60 max-w-xs mx-auto">
+            Try adjusting your search query or reset your category and status filters.
+          </p>
+        </div>
+
+        <!-- Pagination Bar -->
+        <div id="products-pagination" class="p-4 border-t border-charcoal/10 dark:border-charcoal-700 flex flex-col sm:flex-row items-center justify-between gap-3 bg-cream/30 dark:bg-charcoal-900/30"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: ADD / EDIT PRODUCT
+       ======================================================================== -->
+  <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-charcoal-800 border border-charcoal/15 dark:border-charcoal-700 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="p-5 border-b border-charcoal/10 dark:border-charcoal-700 flex items-center justify-between">
+        <h3 id="product-modal-title" class="font-display font-bold text-lg text-charcoal dark:text-cream">Add New Product</h3>
+        <button type="button" onclick="closeProductModal()" class="text-charcoal/50 hover:text-charcoal dark:text-cream/50 dark:hover:text-cream p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="product-form" class="p-5 overflow-y-auto space-y-4 flex-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2 space-y-1">
+            <label class="block text-xs font-semibold">Product Name *</label>
+            <input type="text" id="product-name" required placeholder="e.g. Royal Basmati Rice 5kg" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">SKU Code *</label>
+            <input type="text" id="product-sku" required placeholder="GRN-RICE-001" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Barcode / EAN</label>
+            <input type="text" id="product-barcode" placeholder="8901030456101" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Category *</label>
+            <select id="product-category" required class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+              <option value="" disabled selected>Select Category</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Primary Supplier *</label>
+            <select id="product-supplier" required class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+              <option value="" disabled selected>Select Supplier</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Packaging Unit</label>
+            <input type="text" id="product-unit" placeholder="e.g. Bag (5kg), Bottle (1L)" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Safety Reorder Threshold *</label>
+            <input type="number" id="product-threshold" required min="1" value="15" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Wholesale Cost Price ($) *</label>
+            <input type="number" id="product-cost" required step="0.01" min="0" placeholder="0.00" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold">Retail Selling Price ($) *</label>
+            <input type="number" id="product-price" required step="0.01" min="0" placeholder="0.00" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="space-y-1 sm:col-span-2">
+            <label class="block text-xs font-semibold">Initial On-Hand Stock Qty *</label>
+            <input type="number" id="product-stock" required min="0" value="0" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40">
+          </div>
+
+          <div class="sm:col-span-2 space-y-1">
+            <label class="block text-xs font-semibold">Product Description</label>
+            <textarea id="product-description" rows="2" placeholder="Brief retail specifications or storage requirements..." class="w-full p-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs focus:ring-2 focus:ring-brand/40"></textarea>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-charcoal/10 dark:border-charcoal-700 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeProductModal()" class="px-4 py-2 rounded-xl border border-charcoal/20 dark:border-charcoal-700 text-xs font-semibold hover:bg-cream dark:hover:bg-charcoal-700 transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand hover:bg-brand-600 text-white text-xs font-semibold shadow-sm transition">
+            Save Product Record
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: STOCK ADJUSTMENT
+       ======================================================================== -->
+  <div id="stock-adjust-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-white dark:bg-charcoal-800 border border-charcoal/15 dark:border-charcoal-700 shadow-2xl p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-charcoal/10 dark:border-charcoal-700 pb-3">
+        <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Adjust Stock Quantity</h3>
+        <button type="button" onclick="closeStockAdjustModal()" class="text-charcoal/50 hover:text-charcoal p-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="stock-adjust-form" class="space-y-3 text-xs">
+        <div>
+          <span class="text-charcoal/60 dark:text-cream/60">Product:</span>
+          <span class="font-bold text-charcoal dark:text-cream block" id="adjust-product-name">--</span>
+        </div>
+        <div>
+          <span class="text-charcoal/60 dark:text-cream/60">Current On-Hand Balance:</span>
+          <span class="font-mono font-bold text-brand ml-1" id="adjust-current-stock">--</span>
+        </div>
+
+        <div class="space-y-1 pt-2">
+          <label class="block font-semibold">New Verified Count *</label>
+          <input type="number" id="adjust-new-stock" required min="0" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-sm font-mono font-bold focus:ring-2 focus:ring-brand/40">
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-semibold">Reason for Adjustment</label>
+          <select id="adjust-reason" class="w-full h-10 px-3 rounded-xl bg-cream/50 dark:bg-charcoal-900 border border-charcoal/20 dark:border-charcoal-700 text-xs">
+            <option value="Physical Shelf Audit">Physical Shelf Audit</option>
+            <option value="Damaged / Expired Goods">Damaged / Expired Goods</option>
+            <option value="Customer Return">Customer Return</option>
+            <option value="Direct Supplier Inflow">Direct Supplier Inflow</option>
+          </select>
+        </div>
+
+        <div class="pt-3 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeStockAdjustModal()" class="px-3 py-2 rounded-xl border border-charcoal/20 dark:border-charcoal-700 font-semibold hover:bg-cream dark:hover:bg-charcoal-700">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold">Update Quantity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: DELETE CONFIRMATION
+       ======================================================================== -->
+  <div id="delete-product-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-white dark:bg-charcoal-800 border border-charcoal/15 dark:border-charcoal-700 shadow-2xl p-6 text-center space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-red-100 text-danger flex items-center justify-center mx-auto">
+        <i data-lucide="trash-2" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Delete Product?</h3>
+        <p class="text-xs text-charcoal/60 dark:text-cream/60 mt-1">
+          Are you sure you want to delete <strong id="delete-product-name" class="text-charcoal dark:text-cream">this product</strong>? This action will remove it from the catalog.
+        </p>
+      </div>
+      <div class="pt-2 flex items-center justify-center gap-2.5">
+        <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 rounded-xl border border-charcoal/20 dark:border-charcoal-700 text-xs font-semibold hover:bg-cream dark:hover:bg-charcoal-700">Cancel</button>
+        <button type="button" id="confirm-delete-product-btn" class="px-4 py-2 rounded-xl bg-danger hover:bg-danger-600 text-white text-xs font-semibold">Delete Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="../js/auth.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/products.js"></script>
+</body>
+</html>

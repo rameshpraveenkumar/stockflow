@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | STOCKFLOW Retail Inventory OS</title>
+  <meta name="description" content="Create your STOCKFLOW workspace account to manage product catalogs, live stock monitoring, suppliers, and store purchasing.">
+
+  <!-- Tailwind CSS Local Bundle -->
+  <script src="assets/vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#E88743',
+              50: '#FDF7F2',
+              100: '#FAECDF',
+              200: '#F4D4BC',
+              300: '#EEB994',
+              400: '#E89E6B',
+              500: '#E88743',
+              600: '#D5732E',
+              700: '#B85A1D',
+              800: '#944414',
+              900: '#73330D',
+            },
+            charcoal: {
+              DEFAULT: '#242A27',
+              50: '#F5F6F5',
+              100: '#E6E8E6',
+              200: '#CDD0CD',
+              700: '#2D3531',
+              800: '#242A27',
+              900: '#1A1E1C',
+              950: '#121514',
+            },
+            cream: {
+              DEFAULT: '#F7F5EF',
+              100: '#FAF9F5',
+              200: '#F1EFE6',
+            },
+            mutedOrange: '#F4C7A5',
+            sage: {
+              DEFAULT: '#A7B7A5',
+              light: '#D3DDD1',
+              dark: '#859883',
+            },
+            lightgrey: '#E8E8E2',
+            success: '#32845A',
+            warning: '#D99A32',
+            danger: '#D9534F'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons Local Bundle -->
+  <script src="assets/vendor/lucide.min.js"></script>
+
+  <!-- Custom Styles & Theme/Direction Initializers -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/theme.js"></script>
+  <script src="js/direction.js"></script>
+</head>
+<body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased min-h-screen flex flex-col selection:bg-brand selection:text-white">
+
+  <!-- Utility Bar: Direction Toggle & Theme Toggle -->
+  <header class="w-full max-w-7xl mx-auto px-4 sm:px-6 pt-4 pb-2 flex items-center justify-end z-20">
+    <div class="flex items-center gap-2 sm:gap-2.5">
+      <!-- RTL/LTR Direction Toggle -->
+      <button
+        type="button"
+        class="dir-toggle-btn login-focus-ring w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 bg-white/70 dark:bg-charcoal-800/80 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200"
+        title="Switch text direction (Current: LTR)"
+        aria-label="Switch text direction"
+      >
+        <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+      </button>
+
+      <!-- Light/Dark Mode Toggle -->
+      <button
+        type="button"
+        class="theme-toggle-btn login-focus-ring w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 bg-white/70 dark:bg-charcoal-800/80 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200"
+        title="Toggle Light/Dark Theme"
+        aria-label="Toggle Theme"
+      >
+        <i data-lucide="moon" class="theme-icon-dark w-4 h-4"></i>
+        <i data-lucide="sun" class="theme-icon-light w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Split-Screen Registration Container -->
+  <main class="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div class="login-split-card w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800">
+
+      <!-- ====================================================================
+           LEFT PANEL: Photographic Inventory Identity Panel (50% Desktop)
+           ==================================================================== -->
+      <section class="login-hero-panel lg:col-span-6 relative flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white overflow-hidden bg-charcoal-900" aria-label="STOCKFLOW Brand Overview">
+        <!-- Background Inventory Photograph -->
+        <img
+          src="assets/images/login/login-inventory.jpg"
+          alt="Organized retail store aisle and stocked product shelves"
+          class="absolute inset-0 w-full h-full object-cover object-center"
+        >
+        <!-- Atmospheric Dark Gradient Overlay -->
+        <div class="login-hero-overlay absolute inset-0" aria-hidden="true"></div>
+
+        <!-- Top STOCKFLOW Branding -->
+        <div class="relative z-10">
+          <a href="index.html" class="login-focus-ring inline-flex items-center gap-3 group rounded-xl" aria-label="STOCKFLOW Home">
+            <div class="w-10 h-10 rounded-xl bg-brand group-hover:bg-brand-600 flex items-center justify-center text-white shadow-md shadow-brand/30 transition-colors duration-300">
+              <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+              <span class="font-display text-2xl font-extrabold tracking-tight text-white block leading-none">STOCKFLOW</span>
+              <span class="text-[10px] tracking-widest uppercase font-semibold text-mutedOrange block mt-1">Retail Inventory OS</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Bottom Promotional Copy & Three Benefits -->
+        <div class="relative z-10 space-y-3 sm:space-y-4 pt-8 sm:pt-10 lg:pt-12">
+          <div class="w-12 h-1 bg-brand rounded-full" aria-hidden="true"></div>
+          <span class="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-mutedOrange block">
+            Retail Workspace Setup
+          </span>
+          <h2 class="font-display text-xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-white">
+            Start Managing Your Store Smarter.
+          </h2>
+          <p class="text-xs sm:text-sm text-cream/85 leading-relaxed font-normal max-w-md">
+            Bring your products, stock levels, suppliers and purchasing into one organized workspace.
+          </p>
+
+          <!-- Three Benefits -->
+          <div class="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1 text-[11px] sm:text-xs text-cream font-medium">
+            <span class="login-benefit-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-brand shrink-0"></i>
+              <span>Organized Product Catalog</span>
+            </span>
+            <span class="login-benefit-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-brand shrink-0"></i>
+              <span>Intelligent Stock Monitoring</span>
+            </span>
+            <span class="login-benefit-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-brand shrink-0"></i>
+              <span>Simplified Store Operations</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           RIGHT PANEL: Registration Form (50% Desktop)
+           ==================================================================== -->
+      <section class="login-form-panel lg:col-span-6 p-6 sm:p-10 lg:p-12 flex flex-col justify-center bg-white dark:bg-charcoal-800" aria-labelledby="register-heading">
+        <div class="max-w-md w-full mx-auto space-y-5">
+
+          <!-- Heading & Subtitle -->
+          <div>
+            <h1 id="register-heading" class="font-display text-2xl sm:text-3xl font-extrabold text-charcoal dark:text-cream tracking-tight">
+              Create Your Account
+            </h1>
+            <p class="text-xs sm:text-sm text-charcoal/70 dark:text-cream/70 mt-1">
+              Set up your retailer workspace and get started.
+            </p>
+          </div>
+
+          <!-- Feedback / Validation Banner -->
+          <div id="register-status-banner" class="hidden" aria-live="polite"></div>
+
+          <!-- Registration Form -->
+          <form id="register-form" class="space-y-3.5" novalidate>
+
+            <!-- Full Name & Store / Business Name -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label for="reg-name" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/80 mb-1.5">
+                  Full Name
+                </label>
+                <div class="relative">
+                  <i data-lucide="user" class="w-4 h-4 text-charcoal/45 dark:text-cream/45 absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                  <input
+                    type="text"
+                    id="reg-name"
+                    name="name"
+                    placeholder="Alex Morgan"
+                    autocomplete="name"
+                    enterkeyhint="next"
+                    required
+                    class="login-input-field w-full ps-10 pe-3.5 py-2.5 rounded-xl bg-cream/60 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/35 transition"
+                  >
+                </div>
+              </div>
+
+              <div>
+                <label for="reg-store" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/80 mb-1.5">
+                  Store / Business Name
+                </label>
+                <div class="relative">
+                  <i data-lucide="store" class="w-4 h-4 text-charcoal/45 dark:text-cream/45 absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                  <input
+                    type="text"
+                    id="reg-store"
+                    name="organization"
+                    placeholder="Metro Retail Mart"
+                    autocomplete="organization"
+                    enterkeyhint="next"
+                    required
+                    class="login-input-field w-full ps-10 pe-3.5 py-2.5 rounded-xl bg-cream/60 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/35 transition"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Email Address -->
+            <div>
+              <label for="reg-email" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/80 mb-1.5">
+                Email Address
+              </label>
+              <div class="relative">
+                <i data-lucide="mail" class="w-4 h-4 text-charcoal/45 dark:text-cream/45 absolute start-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                <input
+                  type="email"
+                  id="reg-email"
+                  name="email"
+                  placeholder="owner@yourstore.com"
+                  autocomplete="username"
+                  spellcheck="false"
+                  autocorrect="off"
+                  autocapitalize="none"
+                  enterkeyhint="next"
+                  required
+                  class="login-input-field w-full ps-11 pe-4 py-2.5 rounded-xl bg-cream/60 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/35 transition"
+                >
+              </div>
+            </div>
+
+            <!-- Password + Strength Guidance -->
+            <div>
+              <label for="reg-password" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/80 mb-1.5">
+                Password
+              </label>
+              <div class="relative">
+                <i data-lucide="lock" class="w-4 h-4 text-charcoal/45 dark:text-cream/45 absolute start-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                <input
+                  type="password"
+                  id="reg-password"
+                  name="password"
+                  placeholder="Minimum 8 characters"
+                  autocomplete="new-password"
+                  minlength="8"
+                  aria-describedby="password-strength-text"
+                  enterkeyhint="next"
+                  required
+                  class="login-input-field w-full ps-11 pe-11 py-2.5 rounded-xl bg-cream/60 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/35 transition"
+                >
+                <button
+                  type="button"
+                  id="toggle-reg-password-btn"
+                  aria-pressed="false"
+                  aria-label="Show password"
+                  class="login-focus-ring p-2 text-charcoal/50 dark:text-cream/50 hover:text-brand dark:hover:text-mutedOrange absolute end-2 top-1/2 -translate-y-1/2 rounded-lg transition-colors"
+                >
+                  <i data-lucide="eye" id="reg-eye-icon" class="w-4 h-4"></i>
+                  <i data-lucide="eye-off" id="reg-eye-off-icon" class="w-4 h-4 hidden"></i>
+                </button>
+              </div>
+
+              <!-- Password Strength Bar & Guidance -->
+              <div class="mt-2 space-y-1">
+                <div class="w-full h-1.5 rounded-full overflow-hidden strength-meter-track">
+                  <div id="password-strength-meter" class="h-1.5 rounded-full strength-meter-fill w-0"></div>
+                </div>
+                <p id="password-strength-text" class="text-[11px] font-medium text-charcoal/55 dark:text-cream/55">
+                  Use 8+ characters with mixed case, numbers, or symbols
+                </p>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+              <label for="reg-confirm-password" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/80 mb-1.5">
+                Confirm Password
+              </label>
+              <div class="relative">
+                <i data-lucide="lock" class="w-4 h-4 text-charcoal/45 dark:text-cream/45 absolute start-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                <input
+                  type="password"
+                  id="reg-confirm-password"
+                  name="confirmPassword"
+                  placeholder="Re-enter password"
+                  autocomplete="new-password"
+                  minlength="8"
+                  aria-describedby="confirm-match-hint"
+                  enterkeyhint="done"
+                  required
+                  class="login-input-field w-full ps-11 pe-11 py-2.5 rounded-xl bg-cream/60 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/35 transition"
+                >
+                <button
+                  type="button"
+                  id="toggle-reg-confirm-btn"
+                  aria-pressed="false"
+                  aria-label="Show confirm password"
+                  class="login-focus-ring p-2 text-charcoal/50 dark:text-cream/50 hover:text-brand dark:hover:text-mutedOrange absolute end-2 top-1/2 -translate-y-1/2 rounded-lg transition-colors"
+                >
+                  <i data-lucide="eye" id="confirm-eye-icon" class="w-4 h-4"></i>
+                  <i data-lucide="eye-off" id="confirm-eye-off-icon" class="w-4 h-4 hidden"></i>
+                </button>
+              </div>
+              <p id="confirm-match-hint" class="text-[11px] mt-1 hidden"></p>
+            </div>
+
+            <!-- Primary CTA -->
+            <button
+              type="submit"
+              id="register-submit-btn"
+              class="login-focus-ring w-full py-3.5 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 mt-1"
+            >
+              <span>Create Account</span>
+              <i data-lucide="user-plus" class="w-4 h-4 icon-flip-rtl"></i>
+            </button>
+          </form>
+
+          <!-- Sign In Switch Link -->
+          <p class="text-center text-xs sm:text-sm text-charcoal/70 dark:text-cream/70 pt-1">
+            <span>Already have an account? </span>
+            <a href="login.html" class="login-focus-ring text-brand dark:text-mutedOrange hover:text-brand-600 dark:hover:text-brand font-semibold hover:underline underline-offset-4 transition-colors duration-200 rounded">
+              Sign In
+            </a>
+          </p>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Subtle Portal Footer -->
+  <footer class="py-4 text-center text-xs text-charcoal/60 dark:text-cream/60">
+    <p>&copy; <span class="current-year">2026</span> STOCKFLOW Retail OS. Inventory Management Workspace.</p>
+  </footer>
+
+  <!-- Main scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/data.js"></script>
+</body>
+</html>

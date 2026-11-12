@@ -1,0 +1,136 @@
+# STOCKFLOW Image Sourcing, Asset Inventory & License Directory
+# Verified for local self-contained usage in STOCKFLOW Retail Inventory OS
+# Last Audited: 2026-11-12
+
+================================================================================
+1. PUBLIC SITE PHOTOGRAPHY & ILLUSTRATIONS
+================================================================================
+
+[Hero] Modern High-Bay Logistics & Retail Inventory Warehouse
+  File: assets/images/hero/hero-inventory.jpg
+  Source: https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[Hero] Dedicated Modern Gourmet Supermarket & Retail Store Interior (Home 2)
+  File: assets/images/hero/hero-home-2.jpg
+  Source: Generated custom wide-angle retail store architectural photography for STOCKFLOW Home 2
+  License: Project Owned / Royalty-Free Demonstration Asset
+
+[Hero] High-Bay Retail Warehouse Distribution Aisle
+  File: assets/images/hero/hero-about.jpg
+  Source: https://images.unsplash.com/photo-1553413077-190dd305871c?w=1400&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[Before & After] Cluttered Backroom Stock & Manual Clipboards (Before)
+  File: assets/images/before-after/before-inventory.jpg
+  Source: Generated custom retail backroom photography for STOCKFLOW
+  License: Project Owned / Royalty-Free Demonstration Asset
+
+[Before & After] Organized Barcoded Retail Stockroom & Scanner Station (After)
+  File: assets/images/before-after/after-inventory.jpg
+  Source: Generated custom eye-level organized stockroom photography for STOCKFLOW
+  License: Project Owned / Royalty-Free Demonstration Asset
+
+[About] Modern Gourmet & Retail Store Interior Display
+  File: assets/images/about/retail-operations.jpg
+  Source: https://commons.wikimedia.org/wiki/File:Sabor_Espana_shop_interior_Cala_Millor.jpg
+  Author: Steffen Mokosch
+  License: CC BY-SA 4.0 (Wikimedia Commons)
+
+[About] Operations Supervisor Auditing Stockroom Shelves with Tablet
+  File: assets/images/about/inventory-supervisor.jpg
+  Source: Generated custom store supervisor editorial photography for STOCKFLOW
+  License: Project Owned / Royalty-Free Demonstration Asset
+
+[About] Retail Management Team Reviewing Performance Metrics
+  File: assets/images/about/retail-team.jpg
+  Source: https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1000&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[About] Organized Bin Storage Aisle & Stock Worker
+  File: assets/images/about/warehouse-wide.jpg
+  Source: https://images.unsplash.com/photo-1586528116493-a029325540fa?w=1400&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[Services] Supermarket Aisle with Organized Grocery Shelves
+  File: assets/images/services/product-management.jpg
+  Source: https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=800&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[Services] Electronic Retail Shelf Tag & Price Audit
+  File: assets/images/services/stock-monitoring.jpg
+  Source: https://commons.wikimedia.org/wiki/File:Delhaize_crunchy_muesli_price_and_Nutri-Score.jpg
+  Author: The RedBurn
+  License: CC BY-SA 4.0 (Wikimedia Commons)
+
+[Services] Palletized Forklift Inbound Stock Loading
+  File: assets/images/services/purchase-orders.jpg
+  Source: https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[Services] Wholesale Distribution Loading Bay & Palletized Deliveries
+  File: assets/images/services/supplier-management.jpg
+  Source: Generated custom wholesale dock photography for STOCKFLOW
+  License: Project Owned / Royalty-Free Demonstration Asset
+
+[Features] Retail Associate Scanning Carton Barcode Label
+  File: assets/images/features/barcode-audit.jpg
+  Source: Generated custom barcode audit lifestyle photography for STOCKFLOW
+  License: Project Owned / Royalty-Free Demonstration Asset
+
+[Features] Grocery Store Aisles & Shelf Restock Monitoring
+  File: assets/images/features/low-stock.jpg
+  Source: https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=800&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[Features] Commercial Warehouse Barcoded Pallets
+  File: assets/images/features/procurement.jpg
+  Source: https://commons.wikimedia.org/wiki/File:Warehouse_goods.jpg
+  Author: ProjectManhattan
+  License: CC0 1.0 Public Domain (Wikimedia Commons)
+
+[Features] Financial Stock Valuation & Margin Analytics on Laptop
+  File: assets/images/features/reporting.jpg
+  Source: https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80
+  License: Unsplash License (Free Commercial Use)
+
+[Login] Architectural Upscale Neighborhood Retail Store Interior
+  File: assets/images/login/login-inventory.jpg
+  Source: Generated custom architectural store photography for STOCKFLOW
+  License: Project Owned / Royalty-Free Demonstration Asset
+
+================================================================================
+2. DASHBOARD PRODUCT THUMBNAILS (assets/images/products/)
+================================================================================
+
+- product-rice.jpg        | Basmati Rice Grains | Unsplash License
+- product-oil.jpg         | Extra Virgin Olive Oil | Unsplash License
+- product-coffee.jpg      | Roasted Coffee Beans Pouch | Unsplash License
+- product-tea.jpg         | English Breakfast / Herbal Tea | Unsplash License
+- product-cereal.jpg      | Crunchy Honey Corn Flakes & Oats | Unsplash License
+- product-milk.jpg        | Fresh Dairy Milk Pitcher | Unsplash License
+- product-soap.jpg        | Natural Bath Soap Bars | Unsplash License
+- product-chocolate.jpg   | Artisan Dark Chocolate | Famartin (CC BY-SA 4.0 Wikimedia Commons)
+- product-detergent.jpg   | Active Laundry Detergent | Generated Studio Asset (Project Owned)
+- product-sugar.jpg       | Pure Refined Cane Sugar | Generated Studio Asset (Project Owned)
+- product-flour.jpg       | Organic Whole Wheat Flour | Generated Studio Asset (Project Owned)
+
+================================================================================
+3. REAL APPLICATION INTERFACE SCREENSHOTS (assets/images/dashboard/)
+================================================================================
+
+Captured directly from the active STOCKFLOW dashboard workspace (`dashboard/*.html`):
+- overview-showcase.png   | Dashboard Overview (KPI cards, charts, activity log)
+- products-preview.png    | Products Management & SKU Catalog Table
+- po-preview.png          | Purchase Orders & Inbound Receiving Workflow
+- alerts-preview.png      | Stock Alerts & 1-Click Reorder Actions
+- reports-preview.png     | Valuation Metrics & Category Breakdown Charts
+
+================================================================================
+4. LOCALIZED FRONTEND LIBRARIES (assets/vendor/)
+================================================================================
+
+- tailwindcss.js          | Tailwind CSS Play Runtime (MIT License)
+- lucide.min.js           | Lucide Icon Library (ISC License)
+- chart.umd.min.js        | Chart.js v4.4.4 UMD Bundle (MIT License)
+- fonts.css + fonts/      | Inter & Plus Jakarta Sans (SIL Open Font License 1.1)

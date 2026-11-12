@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features | STOCKFLOW - Retail Inventory Software</title>
+  <meta name="description" content="Explore every module of STOCKFLOW: real-time inventory tracking, product management, purchase orders, low-stock alerts, supplier management, and analytics.">
+
+  <!-- Tailwind CSS Local Bundle -->
+  <script src="assets/vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#E88743',
+              50: '#FDF7F2',
+              100: '#FAECDF',
+              200: '#F4D4BC',
+              300: '#EEB994',
+              400: '#E89E6B',
+              500: '#E88743',
+              600: '#D5732E',
+              700: '#B85A1D',
+              800: '#944414',
+              900: '#73330D',
+            },
+            charcoal: {
+              DEFAULT: '#242A27',
+              50: '#F5F6F5',
+              100: '#E6E8E6',
+              200: '#CDD0CD',
+              700: '#2D3531',
+              800: '#242A27',
+              900: '#1A1E1C',
+            },
+            cream: {
+              DEFAULT: '#F7F5EF',
+              100: '#FAF9F5',
+              200: '#F1EFE6',
+            },
+            mutedOrange: '#F4C7A5',
+            sage: {
+              DEFAULT: '#A7B7A5',
+              light: '#D3DDD1',
+              dark: '#859883',
+            },
+            lightgrey: '#E8E8E2',
+            success: '#32845A',
+            warning: '#D99A32',
+            danger: '#D9534F'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons Local Bundle -->
+  <script src="assets/vendor/lucide.min.js"></script>
+
+  <!-- Custom Styles & Theme Initializer -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/theme.js"></script>
+  <script src="js/direction.js"></script>
+</head>
+<body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased selection:bg-brand selection:text-white">
+
+  <!-- ========================================================================
+       GLOBAL NAVIGATION BAR
+       ======================================================================== -->
+  <header class="sticky top-0 z-50 w-full transition-all duration-300 border-b border-charcoal/10 dark:border-charcoal-700/60 bg-cream/95 dark:bg-charcoal-900/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo & Identity (Far Left) -->
+        <a href="index.html" class="inline-flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="STOCKFLOW Home">
+          <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200">
+            <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-display text-2xl font-extrabold tracking-tight text-charcoal dark:text-cream leading-none">STOCKFLOW</span>
+            <span class="text-[10px] tracking-widest uppercase font-semibold text-brand dark:text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
+          </div>
+        </a>
+
+        <!-- 2-6. Center Navigation Links (Desktop) -->
+        <!-- Exact Order: Home | About | Features | Pricing | Dashboard -->
+        <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Primary Navigation">
+          
+          <!-- Home Dropdown (Home 1 and Home 2) -->
+          <div class="relative home-dropdown-container">
+            <button 
+              type="button" 
+              id="home-dropdown-btn" 
+              class="home-dropdown-trigger nav-link inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange focus:outline-none focus:ring-2 focus:ring-brand/30 whitespace-nowrap"
+              aria-expanded="false" 
+              aria-haspopup="true"
+            >
+              <span>Home</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 home-chevron"></i>
+            </button>
+            <div 
+              id="home-dropdown-menu" 
+              class="home-dropdown-menu hidden absolute left-0 rtl:left-auto rtl:right-0 top-full mt-1.5 w-48 rounded-2xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50 animate-fade-in"
+              role="menu"
+            >
+              <a 
+                href="index.html" 
+                class="home-dropdown-item flex items-center px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+                role="menuitem"
+              >
+                <span>Home 1</span>
+              </a>
+              <a 
+                href="home-2.html" 
+                class="home-dropdown-item flex items-center px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+                role="menuitem"
+              >
+                <span>Home 2</span>
+              </a>
+            </div>
+          </div>
+
+          <a href="about.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">About</a>
+          <a href="features.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Features</a>
+          <a href="pricing.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Pricing</a>
+          <a href="dashboard/index.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-semibold rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Dashboard</a>
+        </nav>
+
+        <!-- 8-10. Right Utilities & Action Controls (Far Right) -->
+        <!-- Exact Order: LTR/RTL Toggle | Light/Dark Theme Toggle | Login CTA -->
+        <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+          <!-- Utility Controls Group -->
+          <div class="flex items-center gap-1.5">
+            <!-- RTL/LTR Direction Toggle Button -->
+            <button 
+              type="button" 
+              class="dir-toggle-btn w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/40" 
+              title="Switch text direction (Current: LTR)" 
+              aria-label="Switch text direction"
+            >
+              <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Light/Dark Mode Toggle Button -->
+            <button 
+              type="button" 
+              class="theme-toggle-btn w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/40" 
+              title="Toggle Light/Dark Theme" 
+              aria-label="Toggle Theme"
+            >
+              <i data-lucide="moon" class="theme-icon-dark w-4 h-4"></i>
+              <i data-lucide="sun" class="theme-icon-light w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Login Button (Rightmost CTA) -->
+          <a 
+            href="login.html" 
+            class="hidden sm:inline-flex items-center gap-1.5 h-9 sm:h-10 px-3.5 xl:px-4 rounded-xl border border-brand/80 bg-brand/10 dark:bg-brand/15 hover:bg-brand hover:border-brand text-brand dark:text-mutedOrange hover:text-white dark:hover:text-white text-xs xl:text-sm font-semibold shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/50 whitespace-nowrap"
+          >
+            <i data-lucide="user" class="w-4 h-4"></i>
+            <span>Login</span>
+          </a>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button 
+            type="button" 
+            id="mobile-menu-btn" 
+            class="lg:hidden w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/40" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation menu"
+          >
+            <i data-lucide="menu" class="icon-menu w-5 h-5"></i>
+            <i data-lucide="x" class="icon-close w-5 h-5 hidden"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-charcoal/10 dark:border-charcoal-700/60 bg-cream/98 dark:bg-charcoal-900/98 px-4 pt-3 pb-6 space-y-2 shadow-xl animate-fade-in">
+      
+      <!-- Mobile Home Accordion -->
+      <div class="mobile-home-accordion rounded-xl border border-charcoal/10 dark:border-charcoal-800 bg-white/50 dark:bg-charcoal-800/50 overflow-hidden">
+        <button 
+          type="button" 
+          id="mobile-home-btn" 
+          class="w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10 transition-colors"
+          aria-expanded="false"
+        >
+          <span>Home</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 mobile-home-chevron"></i>
+        </button>
+        <div id="mobile-home-sublinks" class="hidden ps-4 pe-2 pb-2 pt-1 space-y-1">
+          <a href="index.html" class="nav-link flex items-center px-3 py-2 rounded-lg text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-brand/10 hover:text-brand">
+            Home 1
+          </a>
+          <a href="home-2.html" class="nav-link flex items-center px-3 py-2 rounded-lg text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-brand/10 hover:text-brand">
+            Home 2
+          </a>
+        </div>
+      </div>
+
+      <a href="about.html" class="nav-link block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10">About</a>
+      <a href="features.html" class="nav-link block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10">Features</a>
+      <a href="pricing.html" class="nav-link block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10">Pricing</a>
+      <a href="dashboard/index.html" class="nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-brand bg-brand/10">
+        <span>Dashboard</span>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-brand text-white font-bold">Launch App</span>
+      </a>
+      
+      <div class="pt-3 border-t border-charcoal/10 dark:border-charcoal-700/60 flex items-center justify-between gap-3">
+        <a href="login.html" class="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm transition shadow-sm">
+          <i data-lucide="user" class="w-4 h-4"></i>
+          <span>Login</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ========================================================================
+       FEATURES HERO (Standardized Photographic Hero)
+       ======================================================================== -->
+  <section class="page-hero">
+    <div class="page-hero-media">
+      <img
+        src="assets/images/hero/hero-inventory.jpg"
+        alt="Organized retail stockroom and automated barcode inventory monitoring"
+        class="page-hero-image"
+      />
+      <div class="page-hero-overlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="page-hero-content space-y-6">
+      <div class="page-hero-eyebrow">
+        <i data-lucide="layers" class="w-4 h-4"></i>
+        <span>Full Capability Suite</span>
+      </div>
+
+      <h1 class="page-hero-title text-4xl sm:text-5xl lg:text-6xl leading-tight lg:leading-none">
+        Designed for the Reality<br class="hidden sm:block" /> of Retail Operations
+      </h1>
+
+      <p class="page-hero-subtitle text-base sm:text-lg leading-relaxed">
+        Explore the specialized tools built to eliminate manual register counting, simplify supplier purchasing, and ensure top-selling inventory never hits zero.
+      </p>
+
+      <div class="page-hero-actions">
+        <a href="dashboard/index.html" class="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-brand/30 hover:shadow-xl transition">
+          <span>Explore Live Dashboard</span>
+          <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+        </a>
+        <a href="pricing.html" class="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-semibold text-sm sm:text-base transition">
+          <span>View Plans</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       ALTERNATING FEATURE SECTIONS (7 MODULES)
+       ======================================================================== -->
+  <div class="space-y-16 lg:space-y-24 py-16 lg:py-24">
+    
+    <!-- Feature 1: Inventory Tracking -->
+    <section id="tracking" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="activity" class="w-4 h-4"></i>
+            <span>Module 01</span>
+          </div>
+          <h2 class="font-display text-3xl font-extrabold text-charcoal dark:text-cream">
+            Smart Inventory Tracking
+          </h2>
+          <p class="text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Gain complete visibility into on-hand stock quantities across all categories. Track quantity movements, log manual audit counts, and visualize live balances that update the second purchase orders are fulfilled.
+          </p>
+          <ul class="space-y-3 text-sm text-charcoal/80 dark:text-cream/80">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Live quantity monitoring with automatic status classification</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Quick stock adjustment tool for physical shelf counts</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Instant sync between purchase receiving and stock levels</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-charcoal/10 dark:border-charcoal-700 group bg-charcoal-800">
+            <img 
+              src="assets/images/services/stock-monitoring.jpg" 
+              alt="Real-time stock monitoring and shelf auditing" 
+              class="w-full h-[360px] sm:h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border border-white/20 dark:border-charcoal-700 shadow-xl flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold text-charcoal dark:text-cream block">Live Balance Sync</span>
+                <span class="text-[11px] text-charcoal/60 dark:text-cream/60">Zero latency shelf updates</span>
+              </div>
+              <a href="dashboard/index.html" class="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline">
+                <span>View Live</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 2: Product Management (Reversed Layout) -->
+    <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 lg:order-2 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="box" class="w-4 h-4"></i>
+            <span>Module 02</span>
+          </div>
+          <h2 class="font-display text-3xl font-extrabold text-charcoal dark:text-cream">
+            Product Catalog Management
+          </h2>
+          <p class="text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Create and maintain clean master product data. Keep track of wholesale cost prices against retail selling prices to monitor your margins, assign primary suppliers, and register barcode identifiers for rapid POS retrieval.
+          </p>
+          <ul class="space-y-3 text-sm text-charcoal/80 dark:text-cream/80">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Complete product profile modal with input validations</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Cost vs. Selling price tracking for profit margin calculation</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Instant category and supplier indexing</span>
+            </li>
+          </ul>
+          <div class="pt-2">
+            <a href="dashboard/products.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs sm:text-sm shadow-sm hover:shadow-md transition">
+              <span>Launch Products Catalog</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 lg:order-1">
+          <div class="rounded-2xl overflow-hidden shadow-2xl border border-charcoal/10 dark:border-charcoal-700 bg-charcoal-900 group">
+            <div class="h-8 bg-charcoal-800 px-3 flex items-center gap-2 border-b border-charcoal-700">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
+              <span class="text-[10px] text-cream/60 ms-2 font-mono">dashboard/products.html</span>
+            </div>
+            <img 
+              src="assets/images/dashboard/products-preview.png" 
+              alt="Real STOCKFLOW Products Dashboard Screenshot" 
+              class="w-full h-auto object-cover group-hover:scale-101 transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 3: Purchase Orders -->
+    <section id="purchase-orders" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="file-check" class="w-4 h-4"></i>
+            <span>Module 03</span>
+          </div>
+          <h2 class="font-display text-3xl font-extrabold text-charcoal dark:text-cream">
+            Purchase Orders & Stock Receiving
+          </h2>
+          <p class="text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Eliminate disorganized vendor invoices. Issue itemized purchase orders with multiple product rows, expected delivery dates, and real-time total calculations. When deliveries arrive, record partial or full quantities with exact inventory balance incrementation.
+          </p>
+          <ul class="space-y-3 text-sm text-charcoal/80 dark:text-cream/80">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Multi-item line builder with auto-calculated subtotals and totals</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Status pipeline: Draft, Pending, Partially Received, Received, Cancelled</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Guaranteed single-increment stock logic preventing duplicate counts</span>
+            </li>
+          </ul>
+          <div class="pt-2">
+            <a href="dashboard/purchase-orders.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs sm:text-sm shadow-sm hover:shadow-md transition">
+              <span>Launch Purchase Orders</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="rounded-2xl overflow-hidden shadow-2xl border border-charcoal/10 dark:border-charcoal-700 bg-charcoal-900 group">
+            <div class="h-8 bg-charcoal-800 px-3 flex items-center gap-2 border-b border-charcoal-700">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
+              <span class="text-[10px] text-cream/60 ms-2 font-mono">dashboard/purchase-orders.html</span>
+            </div>
+            <img 
+              src="assets/images/dashboard/po-preview.png" 
+              alt="Real STOCKFLOW Purchase Orders Dashboard Screenshot" 
+              class="w-full h-auto object-cover group-hover:scale-101 transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 4: Low-Stock Alerts (Reversed Layout) -->
+    <section id="alerts" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 lg:order-2 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span>Module 04</span>
+          </div>
+          <h2 class="font-display text-3xl font-extrabold text-charcoal dark:text-cream">
+            Low-Stock Alerts & Auto Reordering
+          </h2>
+          <p class="text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Never be caught off-guard by a depleted shelf again. STOCKFLOW compares current on-hand units directly against your custom threshold levels. When items hit critical danger zones, create a purchase order directly from the alert modal in a single click.
+          </p>
+          <ul class="space-y-3 text-sm text-charcoal/80 dark:text-cream/80">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Dynamic safety threshold detection calculated from live inventory</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>One-click purchase order generation pre-filled with supplier and suggested quantities</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Estimated restocking cost preview to manage cash flow</span>
+            </li>
+          </ul>
+          <div class="pt-2">
+            <a href="dashboard/stock-alerts.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs sm:text-sm shadow-sm hover:shadow-md transition">
+              <span>Launch Stock Alerts</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 lg:order-1">
+          <div class="rounded-2xl overflow-hidden shadow-2xl border border-charcoal/10 dark:border-charcoal-700 bg-charcoal-900 group">
+            <div class="h-8 bg-charcoal-800 px-3 flex items-center gap-2 border-b border-charcoal-700">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
+              <span class="text-[10px] text-cream/60 ms-2 font-mono">dashboard/stock-alerts.html</span>
+            </div>
+            <img 
+              src="assets/images/dashboard/alerts-preview.png" 
+              alt="Real STOCKFLOW Stock Alerts Dashboard Screenshot" 
+              class="w-full h-auto object-cover group-hover:scale-101 transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 5: Supplier Directory -->
+    <section id="suppliers" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="truck" class="w-4 h-4"></i>
+            <span>Module 05</span>
+          </div>
+          <h2 class="font-display text-3xl font-extrabold text-charcoal dark:text-cream">
+            Supplier Directory & History
+          </h2>
+          <p class="text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Centralize your distributor network in one address book. Store direct phone numbers, dispatch email addresses, physical warehouses, and view historical purchase orders placed with each distributor.
+          </p>
+          <ul class="space-y-3 text-sm text-charcoal/80 dark:text-cream/80">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Comprehensive vendor cards with active contact credentials</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Interactive supplier detail drawer with order history breakdown</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Quick supplier association when onboarding new catalog products</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-charcoal/10 dark:border-charcoal-700 group bg-charcoal-800">
+            <img 
+              src="assets/images/features/procurement.jpg" 
+              alt="Supplier procurement and distributor logistics" 
+              class="w-full h-[360px] sm:h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border border-white/20 dark:border-charcoal-700 shadow-xl flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold text-charcoal dark:text-cream block">Supplier Network</span>
+                <span class="text-[11px] text-charcoal/60 dark:text-cream/60">Linked catalogs &amp; contact logs</span>
+              </div>
+              <a href="dashboard/suppliers.html" class="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline">
+                <span>View Directory</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 6: Reports & Analytics (Reversed Layout) -->
+    <section id="reports" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 lg:order-2 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+            <span>Module 06</span>
+          </div>
+          <h2 class="font-display text-3xl font-extrabold text-charcoal dark:text-cream">
+            Reports & Inventory Valuation
+          </h2>
+          <p class="text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Gain an immediate understanding of your capital tied up in inventory. View distribution charts by product category, compare cost vs. retail sales potential, and export clean formatted CSV files for accounting and tax preparation.
+          </p>
+          <ul class="space-y-3 text-sm text-charcoal/80 dark:text-cream/80">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Interactive Chart.js visualizations adapting to Light and Dark mode</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Inventory valuation breakdown: Total Cost Basis vs. Projected Retail Revenue</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>One-click CSV exporting for offline spreadsheets and auditing</span>
+            </li>
+          </ul>
+          <div class="pt-2">
+            <a href="dashboard/reports.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs sm:text-sm shadow-sm hover:shadow-md transition">
+              <span>Launch Reports &amp; Valuation</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 lg:order-1">
+          <div class="rounded-2xl overflow-hidden shadow-2xl border border-charcoal/10 dark:border-charcoal-700 bg-charcoal-900 group">
+            <div class="h-8 bg-charcoal-800 px-3 flex items-center gap-2 border-b border-charcoal-700">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
+              <span class="text-[10px] text-cream/60 ms-2 font-mono">dashboard/reports.html</span>
+            </div>
+            <img 
+              src="assets/images/dashboard/reports-preview.png" 
+              alt="Real STOCKFLOW Reports & Analytics Dashboard Screenshot" 
+              class="w-full h-auto object-cover group-hover:scale-101 transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature 7: Categories Management -->
+    <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-brand/10 text-brand text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="folder-tree" class="w-4 h-4"></i>
+            <span>Module 07</span>
+          </div>
+          <h2 class="font-display text-3xl font-extrabold text-charcoal dark:text-cream">
+            Category Management & Organization
+          </h2>
+          <p class="text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Keep products grouped systematically. Monitor product counts per department, manage category titles, and safeguard against accidental deletion with built-in product assignment checks.
+          </p>
+          <ul class="space-y-3 text-sm text-charcoal/80 dark:text-cream/80">
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Create, edit, and organize departmental categories</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Auto-synced product counts reflecting real assigned catalog items</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-success flex-shrink-0"></i>
+              <span>Safe deletion validation preventing orphaned inventory records</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-charcoal/10 dark:border-charcoal-700 group bg-charcoal-800">
+            <img 
+              src="assets/images/features/barcode-audit.jpg" 
+              alt="Category taxonomy and warehouse shelf aisles" 
+              class="w-full h-[360px] sm:h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border border-white/20 dark:border-charcoal-700 shadow-xl flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold text-charcoal dark:text-cream block">6 Active Store Categories</span>
+                <span class="text-[11px] text-charcoal/60 dark:text-cream/60">Grains, Oils, Dairy, Care &amp; more</span>
+              </div>
+              <a href="dashboard/categories.html" class="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline">
+                <span>Manage Categories</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ========================================================================
+       SECTION: LET'S MAKE INVENTORY MANAGEMENT SIMPLER (CTA)
+       ======================================================================== -->
+  <section class="py-16 sm:py-20 bg-charcoal text-cream dark:bg-charcoal-950 border-t border-charcoal-700/60 relative overflow-hidden">
+    <!-- Subtle ambient brand glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[260px] bg-brand/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/15 border border-brand/25 text-brand text-xs font-bold tracking-wide uppercase">
+        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+        <span>Retail Inquiries & Support</span>
+      </div>
+
+      <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+        Let's Make Inventory Management Simpler.
+      </h2>
+
+      <p class="text-base sm:text-lg text-cream/80 max-w-2xl mx-auto leading-relaxed">
+        Have questions about STOCKFLOW or want to explore how it can support your retail operations? We'd love to hear from you.
+      </p>
+
+      <div class="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a 
+          href="mailto:support@stockflow.demo?subject=STOCKFLOW%20Retail%20Inquiry" 
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 h-12 px-8 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transition duration-200"
+        >
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          <span>Get in Touch</span>
+        </a>
+        <a 
+          href="dashboard/index.html" 
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border border-cream/20 hover:bg-cream/10 text-cream font-semibold text-sm sm:text-base transition duration-200"
+        >
+          <span>Explore Live Dashboard</span>
+          <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl"></i>
+        </a>
+      </div>
+
+      <!-- Live Contact Note -->
+      <div class="pt-2 text-xs text-cream/50 flex items-center justify-center gap-2">
+        <i data-lucide="clock" class="w-3.5 h-3.5 text-brand"></i>
+        <span>Average demo inquiry response time: under 2 hours</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       STANDARDIZED 5-COLUMN FOOTER
+       ======================================================================== -->
+  <footer class="bg-charcoal-900 text-cream/80 border-t border-charcoal-700/60 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-charcoal-700/60">
+        
+        <!-- Column 1: Brand Identity (Standardized Logo) -->
+        <div class="space-y-4">
+          <a href="index.html" class="inline-flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="STOCKFLOW Home">
+            <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200">
+              <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+            </div>
+            <div class="flex flex-col">
+              <span class="font-display text-2xl font-extrabold tracking-tight text-white leading-none">STOCKFLOW</span>
+              <span class="text-[10px] tracking-widest uppercase font-semibold text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
+            </div>
+          </a>
+          <p class="text-xs text-cream/65 leading-relaxed">
+            The intelligent inventory management and purchase order software designed specifically for general retailers, supermarkets, and specialty merchants.
+          </p>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Quick Links</h4>
+          <ul class="space-y-2 text-xs text-cream/70">
+            <li><a href="index.html" class="hover:text-brand transition">Home 1</a></li>
+            <li><a href="home-2.html" class="hover:text-brand transition">Home 2</a></li>
+            <li><a href="about.html" class="hover:text-brand transition">About Us</a></li>
+            <li><a href="features.html" class="hover:text-brand transition">Features</a></li>
+            <li><a href="pricing.html" class="hover:text-brand transition">Pricing Plans</a></li>
+            <li><a href="dashboard/index.html" class="hover:text-brand transition font-semibold text-brand">Dashboard</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Product Modules -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Product Modules</h4>
+          <ul class="space-y-2 text-xs text-cream/70">
+            <li><a href="dashboard/products.html" class="hover:text-brand transition">Products Catalog</a></li>
+            <li><a href="dashboard/categories.html" class="hover:text-brand transition">Categories</a></li>
+            <li><a href="dashboard/suppliers.html" class="hover:text-brand transition">Suppliers Directory</a></li>
+            <li><a href="dashboard/purchase-orders.html" class="hover:text-brand transition">Purchase Orders</a></li>
+            <li><a href="dashboard/stock-alerts.html" class="hover:text-brand transition">Stock Alerts</a></li>
+            <li><a href="dashboard/reports.html" class="hover:text-brand transition">Reports & Analytics</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Contact -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Contact</h4>
+          <p class="text-xs text-cream/60 leading-relaxed">
+            Have questions or need retail workflow support? Reach our team directly.
+          </p>
+          <div class="space-y-1.5 pt-1 text-xs">
+            <div class="text-cream/80">
+              <span class="block text-cream/50 text-[10px] uppercase font-bold tracking-wider">Direct Email:</span>
+              <a href="mailto:support@stockflow.demo" class="text-brand hover:underline font-medium">support@stockflow.demo</a>
+            </div>
+            <div class="pt-1">
+              <a 
+                href="mailto:support@stockflow.demo?subject=STOCKFLOW%20Retail%20Inquiry" 
+                class="inline-flex items-center gap-1.5 text-xs text-brand hover:text-brand-400 font-semibold transition"
+              >
+                <span>Get in Touch</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 5: Social Media & Legal -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Community &amp; Legal</h4>
+          <!-- Social Media Icons: Instagram, Facebook, LinkedIn, X (Twitter) -->
+          <div id="footer-social-links" class="flex flex-wrap items-center gap-2.5 pt-0.5">
+            <a href="#footer-social-links" data-platform="instagram" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="Instagram" title="Instagram">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#footer-social-links" data-platform="facebook" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="Facebook" title="Facebook">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"></path>
+              </svg>
+            </a>
+            <a href="#footer-social-links" data-platform="linkedin" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="LinkedIn" title="LinkedIn">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z"></path>
+              </svg>
+            </a>
+            <a href="#footer-social-links" data-platform="x" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="X (Twitter)" title="X (Twitter)">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </svg>
+            </a>
+          </div>
+          <!-- Dynamic Year Copyright Notice -->
+          <p class="text-xs text-cream/60 pt-2 leading-relaxed">
+            &copy; <span class="current-year-display">2026</span> STOCKFLOW. All rights reserved.
+          </p>
+          <div class="flex flex-col gap-1 text-[11px] text-cream/50 pt-1">
+            <button type="button" class="legal-notice-trigger text-start hover:text-brand transition" data-topic="Privacy Policy">Privacy Policy</button>
+            <button type="button" class="legal-notice-trigger text-start hover:text-brand transition" data-topic="Terms of Service">Terms of Service</button>
+            <button type="button" class="legal-notice-trigger text-start hover:text-brand transition" data-topic="Security Overview">Security Overview</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Disclaimer Bar -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream/50">
+        <div>
+          STOCKFLOW Retail Operating System &bull; Automated Retail Inventory Suite
+        </div>
+        <div class="text-[11px]">
+          Trusted by supermarkets, grocers &amp; specialty retail teams
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Back to Top Button -->
+  <button 
+    id="back-to-top-btn" 
+    type="button" 
+    class="back-to-top fixed bottom-6 end-6 z-40 w-11 h-11 rounded-xl bg-brand text-white shadow-lg flex items-center justify-center opacity-0 pointer-events-none translate-y-4 transition-all duration-300 hover:bg-brand-600 focus:outline-none"
+    aria-label="Back to top"
+  >
+    <i data-lucide="arrow-up" class="w-5 h-5"></i>
+  </button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
