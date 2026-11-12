@@ -120,8 +120,9 @@
 ================================================================================
 
 Captured directly from the active STOCKFLOW dashboard workspace (`dashboard/*.html`):
-- overview-showcase.png   | Dashboard Overview (KPI cards, charts, activity log)
-- products-preview.png    | Products Management & SKU Catalog Table
+- overview-showcase.png      | Admin Dashboard Overview (KPI cards, charts, activity log)
+- user-dashboard-preview.png | User Dashboard Associate Workspace (floor SKUs, shelf counter, deliveries)
+- products-preview.png       | Products Management & SKU Catalog Table
 - po-preview.png          | Purchase Orders & Inbound Receiving Workflow
 - alerts-preview.png      | Stock Alerts & 1-Click Reorder Actions
 - reports-preview.png     | Valuation Metrics & Category Breakdown Charts

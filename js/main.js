@@ -4,9 +4,13 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+
   initStickyHeader();
-  initHomeDropdown();
-  initMobileHomeAccordion();
+  initNavDropdowns();
+  initMobileAccordions();
   initMobileMenu();
   initBeforeAfterSlider();
   initChallengesCarousel();
@@ -18,11 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initFooterNewsletter();
   initFooterLegalModals();
   initSocialLinks();
+  initContactPage();
   initTestHooks();
-
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
 });
 
 /**
@@ -50,34 +51,66 @@ function initStickyHeader() {
 function initMobileMenu() {
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  const header = document.querySelector('header');
   if (!menuBtn || !mobileMenu) return;
 
-  const iconMenu = menuBtn.querySelector('.icon-menu');
-  const iconClose = menuBtn.querySelector('.icon-close');
+  const getIcons = () => ({
+    iconMenu: menuBtn.querySelector('.icon-menu'),
+    iconClose: menuBtn.querySelector('.icon-close')
+  });
 
-  menuBtn.addEventListener('click', () => {
+  const closeMenu = (restoreFocus = false) => {
+    if (mobileMenu.classList.contains('hidden')) return;
+    mobileMenu.classList.add('hidden');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    const { iconMenu, iconClose } = getIcons();
+    if (iconMenu) iconMenu.classList.remove('hidden');
+    if (iconClose) iconClose.classList.add('hidden');
+    if (restoreFocus) menuBtn.focus();
+  };
+
+  const openMenu = () => {
+    mobileMenu.classList.remove('hidden');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    const { iconMenu, iconClose } = getIcons();
+    if (iconMenu) iconMenu.classList.add('hidden');
+    if (iconClose) iconClose.classList.remove('hidden');
+  };
+
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
-    menuBtn.setAttribute('aria-expanded', !isExpanded);
-
     if (isExpanded) {
-      mobileMenu.classList.add('hidden');
-      if (iconMenu) iconMenu.classList.remove('hidden');
-      if (iconClose) iconClose.classList.add('hidden');
+      closeMenu();
     } else {
-      mobileMenu.classList.remove('hidden');
-      if (iconMenu) iconMenu.classList.add('hidden');
-      if (iconClose) iconClose.classList.remove('hidden');
+      openMenu();
     }
   });
 
   // Close when clicking mobile links
   mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      if (iconMenu) iconMenu.classList.remove('hidden');
-      if (iconClose) iconClose.classList.add('hidden');
-    });
+    link.addEventListener('click', () => closeMenu());
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+      closeMenu(true);
+    }
+  });
+
+  // Close when clicking outside the header/drawer
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.classList.contains('hidden') && header && !header.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  // Reset mobile drawer when resizing up to desktop nav breakpoint (>=1280px)
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1280) {
+      closeMenu();
+    }
   });
 }
 
@@ -104,97 +137,175 @@ function initBackToTop() {
 }
 
 /**
- * Home Navigation Dropdown (Desktop)
+ * Unified Navigation Dropdowns (Home & Dashboard - Mouse, Keyboard & Touch)
  */
-function initHomeDropdown() {
-  const container = document.querySelector('.home-dropdown-container');
-  const btn = document.getElementById('home-dropdown-btn');
-  const menu = document.getElementById('home-dropdown-menu');
-  if (!btn || !menu) return;
+function initNavDropdowns() {
+  const legacyHomeContainer = document.querySelector('.home-dropdown-container');
+  const legacyHomeBtn = document.getElementById('home-dropdown-btn');
+  const legacyHomeMenu = document.getElementById('home-dropdown-menu');
 
-  const chevron = btn.querySelector('.home-chevron, .dropdown-chevron');
-  let hoverTimeout = null;
+  const containers = [
+    ...document.querySelectorAll('[data-nav-dropdown], [data-dropdown], .home-dropdown-container, .dashboard-dropdown-container')
+  ].filter((el, idx, arr) => arr.indexOf(el) === idx);
+  if (!containers.length && legacyHomeBtn && legacyHomeMenu) {
+    const parent = legacyHomeBtn.parentElement;
+    if (parent) containers.push(parent);
+  }
+  if (!containers.length) return;
 
-  const openMenu = () => {
-    clearTimeout(hoverTimeout);
-    menu.classList.remove('hidden', 'opacity-0', 'translate-y-1', 'pointer-events-none');
-    btn.setAttribute('aria-expanded', 'true');
-    if (chevron) chevron.classList.add('rotate-180');
-  };
+  const controllers = [];
 
-  const closeMenu = () => {
-    menu.classList.add('hidden');
-    btn.setAttribute('aria-expanded', 'false');
-    if (chevron) chevron.classList.remove('rotate-180');
-  };
-
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = !menu.classList.contains('hidden');
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-
-  // Desktop hover support with debounce
-  if (container) {
-    container.addEventListener('mouseenter', () => {
-      if (window.innerWidth >= 1024) openMenu();
+  const closeAllExcept = (activeCtrl) => {
+    controllers.forEach((ctrl) => {
+      if (ctrl !== activeCtrl) ctrl.close();
     });
-    container.addEventListener('mouseleave', () => {
-      if (window.innerWidth >= 1024) {
-        hoverTimeout = setTimeout(closeMenu, 180);
+  };
+
+  containers.forEach((container) => {
+    const btn = container.querySelector('[data-dropdown-trigger], #home-dropdown-btn, #dashboard-dropdown-btn');
+    const menu = container.querySelector('[data-dropdown-menu], #home-dropdown-menu, #dashboard-dropdown-menu');
+    if (!btn || !menu) return;
+
+    const getChevron = () =>
+      btn.querySelector('.home-chevron, .dashboard-chevron, .dropdown-chevron, [data-dropdown-chevron], [data-lucide="chevron-down"]');
+    const items = [...menu.querySelectorAll('a[role="menuitem"], a')];
+    let hoverTimeout = null;
+
+    const open = (focusTargetIndex = -1) => {
+      clearTimeout(hoverTimeout);
+      closeAllExcept(ctrl);
+      menu.classList.remove('hidden', 'opacity-0', 'translate-y-1', 'pointer-events-none');
+      btn.setAttribute('aria-expanded', 'true');
+      const chevron = getChevron();
+      if (chevron) chevron.classList.add('rotate-180');
+      if (focusTargetIndex >= 0 && items[focusTargetIndex]) {
+        items[focusTargetIndex].focus();
+      }
+    };
+
+    const close = () => {
+      clearTimeout(hoverTimeout);
+      menu.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      const chevron = getChevron();
+      if (chevron) chevron.classList.remove('rotate-180');
+    };
+
+    const ctrl = { container, btn, menu, open, close };
+    controllers.push(ctrl);
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !menu.classList.contains('hidden');
+      if (isOpen) {
+        close();
+      } else {
+        open();
       }
     });
-  }
 
-  // Close when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!menu.contains(e.target) && !btn.contains(e.target)) {
-      closeMenu();
-    }
-  });
-
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
-      closeMenu();
-      btn.focus();
-    }
-  });
-
-  // Close when clicking dropdown items
-  menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      closeMenu();
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        open(0);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        open(items.length - 1);
+      } else if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        e.preventDefault();
+        close();
+        btn.focus();
+      }
     });
+
+    menu.addEventListener('keydown', (e) => {
+      if (!items.length) return;
+      const currentIdx = items.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIdx = (currentIdx + 1) % items.length;
+        items[nextIdx].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIdx = (currentIdx - 1 + items.length) % items.length;
+        items[prevIdx].focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        items[0].focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        items[items.length - 1].focus();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+        btn.focus();
+      }
+    });
+
+    container.addEventListener('mouseenter', () => {
+      if (window.innerWidth >= 1280) open();
+    });
+    container.addEventListener('mouseleave', () => {
+      if (window.innerWidth >= 1280) {
+        hoverTimeout = setTimeout(close, 180);
+      }
+    });
+
+    container.addEventListener('focusout', (e) => {
+      if (!e.relatedTarget || !container.contains(e.relatedTarget)) {
+        close();
+      }
+    });
+
+    items.forEach((link) => {
+      link.addEventListener('click', () => {
+        close();
+      });
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    controllers.forEach((ctrl) => {
+      if (!ctrl.container.contains(e.target)) {
+        ctrl.close();
+      }
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      controllers.forEach((ctrl) => {
+        if (!ctrl.menu.classList.contains('hidden')) {
+          ctrl.close();
+          ctrl.btn.focus();
+        }
+      });
+    }
   });
 }
 
 /**
- * Mobile Home Accordion Menu
+ * Mobile Navigation Accordions (Home & Dashboard)
  */
-function initMobileHomeAccordion() {
-  const btn = document.getElementById('mobile-home-btn');
-  const sublinks = document.getElementById('mobile-home-sublinks');
-  if (!btn || !sublinks) return;
+function initMobileAccordions() {
+  const pairs = [
+    { btnId: 'mobile-home-btn', subId: 'mobile-home-sublinks', chevSel: '.mobile-home-chevron' },
+    { btnId: 'mobile-dashboard-btn', subId: 'mobile-dashboard-sublinks', chevSel: '.mobile-dashboard-chevron' }
+  ];
 
-  const chevron = btn.querySelector('.mobile-home-chevron');
+  pairs.forEach(({ btnId, subId, chevSel }) => {
+    const btn = document.getElementById(btnId);
+    const sublinks = document.getElementById(subId);
+    if (!btn || !sublinks) return;
 
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isClosed = sublinks.classList.contains('hidden');
-    if (isClosed) {
-      sublinks.classList.remove('hidden');
-      btn.setAttribute('aria-expanded', 'true');
-      if (chevron) chevron.classList.add('rotate-180');
-    } else {
-      sublinks.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-      if (chevron) chevron.classList.remove('rotate-180');
-    }
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isClosed = sublinks.classList.contains('hidden');
+      sublinks.classList.toggle('hidden', !isClosed);
+      btn.setAttribute('aria-expanded', isClosed ? 'true' : 'false');
+      const chevron = btn.querySelector(chevSel);
+      if (chevron) chevron.classList.toggle('rotate-180', isClosed);
+    });
   });
 }
 
@@ -202,41 +313,64 @@ function initMobileHomeAccordion() {
  * Active Navigation Link Indicator
  */
 function initActiveNav() {
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  const isHome1 = currentPath === 'index.html' || currentPath === '';
-  const isHome2 = currentPath === 'home-2.html';
+  const rawLastSegment = window.location.pathname.split('/').pop() || '';
+  const isRootHome = window.location.pathname === '/' || window.location.pathname === '';
+  const currentPath = rawLastSegment || (isRootHome ? 'index.html' : '');
+  const currentSlug = currentPath.replace(/\.html$/i, '');
+  const isDashboardRoute = window.location.pathname.includes('/dashboard/');
+  const isHome1 = !isDashboardRoute && (isRootHome || currentSlug === 'index');
+  const isHome2 = !isDashboardRoute && currentSlug === 'home-2';
 
-  // Highlight top-level Home button if on either Home 1 or Home 2
   const homeBtn = document.getElementById('home-dropdown-btn');
   const mobileHomeBtn = document.getElementById('mobile-home-btn');
   if (isHome1 || isHome2) {
     if (homeBtn) {
-      homeBtn.classList.add('text-brand', 'font-semibold');
+      homeBtn.classList.add('text-brand', 'dark:text-mutedOrange', 'font-semibold');
       homeBtn.classList.remove('text-charcoal/80', 'dark:text-cream/80');
     }
     if (mobileHomeBtn) {
-      mobileHomeBtn.classList.add('text-brand', 'font-semibold');
+      mobileHomeBtn.classList.add('text-brand', 'dark:text-mutedOrange', 'font-semibold');
     }
   }
 
-  // Style active links in dropdown
   if (isHome1) {
-    document.querySelectorAll('a[href="index.html"].home-dropdown-item').forEach(el => {
-      el.classList.add('text-brand', 'font-bold', 'bg-brand/5', 'dark:bg-charcoal-700/50');
+    document.querySelectorAll('a[href$="index.html"].home-dropdown-item').forEach((el) => {
+      el.classList.add('text-brand', 'dark:text-mutedOrange', 'font-bold', 'bg-brand/5', 'dark:bg-charcoal-700/50');
+      el.setAttribute('aria-current', 'page');
     });
   } else if (isHome2) {
-    document.querySelectorAll('a[href="home-2.html"].home-dropdown-item').forEach(el => {
-      el.classList.add('text-brand', 'font-bold', 'bg-brand/5', 'dark:bg-charcoal-700/50');
+    document.querySelectorAll('a[href$="home-2.html"].home-dropdown-item').forEach((el) => {
+      el.classList.add('text-brand', 'dark:text-mutedOrange', 'font-bold', 'bg-brand/5', 'dark:bg-charcoal-700/50');
+      el.setAttribute('aria-current', 'page');
     });
   }
 
-  // Other navigation links
-  const navLinks = document.querySelectorAll('.nav-link:not(#home-dropdown-btn):not(.home-dropdown-item)');
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (href === currentPath) {
-      link.classList.add('text-brand', 'font-semibold');
-      link.classList.remove('text-charcoal/70', 'text-charcoal/80');
+  const dashboardBtn = document.getElementById('dashboard-dropdown-btn');
+  const mobileDashboardBtn = document.getElementById('mobile-dashboard-btn');
+  if (isDashboardRoute) {
+    if (dashboardBtn) {
+      dashboardBtn.classList.add('text-brand', 'dark:text-mutedOrange', 'font-semibold');
+      dashboardBtn.classList.remove('text-charcoal/80', 'dark:text-cream/80');
+    }
+    if (mobileDashboardBtn) {
+      mobileDashboardBtn.classList.add('text-brand', 'dark:text-mutedOrange', 'font-semibold');
+    }
+    const targetSuffix = currentSlug === 'user-dashboard' ? 'dashboard/user-dashboard.html' : 'dashboard/index.html';
+    document.querySelectorAll(`.dashboard-dropdown-item[href$="${targetSuffix}"]`).forEach((el) => {
+      el.classList.add('text-brand', 'dark:text-mutedOrange', 'font-bold', 'bg-brand/5', 'dark:bg-charcoal-700/50');
+      el.setAttribute('aria-current', 'page');
+    });
+  }
+
+  const navLinks = document.querySelectorAll('.nav-link:not(#home-dropdown-btn):not(.home-dropdown-item):not(#dashboard-dropdown-btn):not(.dashboard-dropdown-item)');
+  navLinks.forEach((link) => {
+    const rawHref = link.getAttribute('href') || '';
+    const hrefName = rawHref.split('/').pop() || '';
+    const hrefSlug = hrefName.replace(/\.html$/i, '');
+    if (currentSlug && hrefSlug === currentSlug) {
+      link.classList.add('text-brand', 'dark:text-mutedOrange', 'font-semibold');
+      link.classList.remove('text-charcoal/70', 'text-charcoal/80', 'dark:text-cream/80');
+      link.setAttribute('aria-current', 'page');
     }
   });
 }
@@ -246,23 +380,26 @@ function initActiveNav() {
  */
 function initFaqAccordions() {
   const items = document.querySelectorAll('.faq-item');
-  items.forEach(item => {
+  items.forEach((item) => {
     const trigger = item.querySelector('.faq-trigger');
     if (!trigger) return;
+
+    trigger.setAttribute('aria-expanded', item.classList.contains('active') ? 'true' : 'false');
 
     trigger.addEventListener('click', () => {
       const isActive = item.classList.contains('active');
 
-      // Close all others
-      items.forEach(other => {
-        if (other !== item) other.classList.remove('active');
+      items.forEach((other) => {
+        if (other !== item) {
+          other.classList.remove('active');
+          const otherBtn = other.querySelector('.faq-trigger');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+        }
       });
 
-      if (isActive) {
-        item.classList.remove('active');
-      } else {
-        item.classList.add('active');
-      }
+      const willOpen = !isActive;
+      item.classList.toggle('active', willOpen);
+      trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
     });
   });
 }
@@ -565,6 +702,214 @@ function initChallengesCarousel() {
 }
 
 /**
+ * Shared Contact Page Configuration
+ * Supply official business email addresses and a live form submission endpoint before launch.
+ * Leaving values empty renders labeled placeholder blocks instead of fabricated contact details.
+ */
+const STOCKFLOW_CONTACT_CONFIG = {
+  generalEmail: '',
+  supportEmail: '',
+  salesEmail: '',
+  formEndpoint: ''
+};
+
+function initContactPage() {
+  const channelSlots = document.querySelectorAll('[data-contact-channel]');
+  const channelMap = {
+    general: STOCKFLOW_CONTACT_CONFIG.generalEmail,
+    support: STOCKFLOW_CONTACT_CONFIG.supportEmail,
+    sales: STOCKFLOW_CONTACT_CONFIG.salesEmail
+  };
+
+  channelSlots.forEach((slot) => {
+    const channel = slot.getAttribute('data-contact-channel');
+    const configuredEmail = (channelMap[channel] || '').trim();
+    if (configuredEmail) {
+      const link = document.createElement('a');
+      link.href = `mailto:${configuredEmail}`;
+      link.textContent = configuredEmail;
+      link.className = 'inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline break-all';
+      slot.replaceChildren(link);
+    }
+  });
+
+  const form = document.getElementById('contact-page-form');
+  if (!form) return;
+
+  const statusBox = document.getElementById('contact-form-status');
+  const submitBtn = document.getElementById('contact-submit-btn');
+  const nameInput = document.getElementById('contact-full-name');
+  const emailInput = document.getElementById('contact-email');
+  const subjectInput = document.getElementById('contact-subject');
+  const messageInput = document.getElementById('contact-message');
+
+  const errorEls = {
+    name: document.getElementById('contact-error-name'),
+    email: document.getElementById('contact-error-email'),
+    subject: document.getElementById('contact-error-subject'),
+    message: document.getElementById('contact-error-message')
+  };
+
+  const setFieldError = (input, errorEl, message) => {
+    if (!input || !errorEl) return;
+    if (message) {
+      input.setAttribute('aria-invalid', 'true');
+      input.classList.add('border-danger', 'focus:border-danger');
+      errorEl.textContent = message;
+      errorEl.classList.remove('hidden');
+    } else {
+      input.removeAttribute('aria-invalid');
+      input.classList.remove('border-danger', 'focus:border-danger');
+      errorEl.textContent = '';
+      errorEl.classList.add('hidden');
+    }
+  };
+
+  const showStatusBanner = (variant, heading, detail) => {
+    if (!statusBox) return;
+    const variantClasses = {
+      error: 'border-danger/30 bg-danger/10 text-charcoal dark:text-cream',
+      warning: 'border-warning/40 bg-warning/10 text-charcoal dark:text-cream',
+      success: 'border-success/30 bg-success/10 text-charcoal dark:text-cream'
+    };
+    const titleColor = {
+      error: 'text-danger',
+      warning: 'text-warning',
+      success: 'text-success'
+    };
+
+    statusBox.className = `rounded-2xl border p-4 text-sm ${variantClasses[variant] || variantClasses.warning}`;
+    statusBox.innerHTML = '';
+
+    const titleEl = document.createElement('p');
+    titleEl.className = `font-display font-bold text-sm ${titleColor[variant] || 'text-brand'}`;
+    titleEl.textContent = heading;
+
+    const descEl = document.createElement('p');
+    descEl.className = 'mt-1 text-xs leading-relaxed text-charcoal/80 dark:text-cream/80';
+    descEl.textContent = detail;
+
+    statusBox.appendChild(titleEl);
+    statusBox.appendChild(descEl);
+    statusBox.classList.remove('hidden');
+  };
+
+  [
+    { input: nameInput, errorEl: errorEls.name },
+    { input: emailInput, errorEl: errorEls.email },
+    { input: subjectInput, errorEl: errorEls.subject },
+    { input: messageInput, errorEl: errorEls.message }
+  ].forEach(({ input, errorEl }) => {
+    if (!input) return;
+    input.addEventListener('input', () => setFieldError(input, errorEl, ''));
+    input.addEventListener('change', () => setFieldError(input, errorEl, ''));
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (statusBox) statusBox.classList.add('hidden');
+
+    const fullName = (nameInput?.value || '').trim();
+    const email = (emailInput?.value || '').trim();
+    const subject = (subjectInput?.value || '').trim();
+    const message = (messageInput?.value || '').trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    let firstInvalid = null;
+
+    if (fullName.length < 2) {
+      setFieldError(nameInput, errorEls.name, 'Please enter your full name (at least 2 characters).');
+      firstInvalid = firstInvalid || nameInput;
+    } else {
+      setFieldError(nameInput, errorEls.name, '');
+    }
+
+    if (!email) {
+      setFieldError(emailInput, errorEls.email, 'Please enter your email address.');
+      firstInvalid = firstInvalid || emailInput;
+    } else if (!emailRegex.test(email)) {
+      setFieldError(emailInput, errorEls.email, 'Please enter a valid email address (for example, name@company.com).');
+      firstInvalid = firstInvalid || emailInput;
+    } else {
+      setFieldError(emailInput, errorEls.email, '');
+    }
+
+    if (!subject) {
+      setFieldError(subjectInput, errorEls.subject, 'Please select an enquiry type.');
+      firstInvalid = firstInvalid || subjectInput;
+    } else {
+      setFieldError(subjectInput, errorEls.subject, '');
+    }
+
+    if (message.length < 10) {
+      setFieldError(messageInput, errorEls.message, 'Please enter at least 10 characters describing how we can help.');
+      firstInvalid = firstInvalid || messageInput;
+    } else {
+      setFieldError(messageInput, errorEls.message, '');
+    }
+
+    if (firstInvalid) {
+      showStatusBanner(
+        'error',
+        'Please complete the highlighted fields.',
+        'Check your name, email address, enquiry type, and message before submitting.'
+      );
+      firstInvalid.focus();
+      return;
+    }
+
+    const endpoint = (STOCKFLOW_CONTACT_CONFIG.formEndpoint || '').trim();
+    if (!endpoint) {
+      showStatusBanner(
+        'warning',
+        'Enquiry details validated.',
+        `Thank you, ${fullName}. Your enquiry details passed form validation. Automated email sending is not enabled on this preview form.`
+      );
+      if (typeof window.showToast === 'function') {
+        window.showToast('Enquiry details validated. Email delivery is not enabled here.', 'info', 4000);
+      }
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+    }
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ fullName, email, subject, message })
+      });
+      if (!response.ok) {
+        throw new Error(`Submission returned HTTP ${response.status}`);
+      }
+      form.reset();
+      showStatusBanner(
+        'success',
+        'Enquiry submitted successfully.',
+        'Your message was delivered to the configured STOCKFLOW contact endpoint.'
+      );
+      if (typeof window.showToast === 'function') {
+        window.showToast('Your enquiry has been sent.', 'success');
+      }
+    } catch (err) {
+      showStatusBanner(
+        'error',
+        'Unable to submit enquiry right now.',
+        err instanceof Error ? err.message : 'Unexpected network error while contacting the configured form endpoint.'
+      );
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
+    }
+  });
+}
+
+/**
  * Shared Footer Social Media Configuration
  * Update any non-empty URL below when official STOCKFLOW profiles go live.
  */
@@ -658,8 +1003,10 @@ function initTestHooks() {
     const testScroll = params.get('test_scroll');
 
     if (testDropdown) {
-      const btn = document.getElementById('home-dropdown-btn');
-      const menu = document.getElementById('home-dropdown-menu');
+      const targetId = testDropdown === 'dashboard' ? 'dashboard-dropdown-btn' : 'home-dropdown-btn';
+      const menuId = testDropdown === 'dashboard' ? 'dashboard-dropdown-menu' : 'home-dropdown-menu';
+      const btn = document.getElementById(targetId);
+      const menu = document.getElementById(menuId);
       if (btn && menu) {
         menu.classList.remove('hidden', 'opacity-0', 'translate-y-1', 'pointer-events-none');
         btn.setAttribute('aria-expanded', 'true');

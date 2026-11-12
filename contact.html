@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | STOCKFLOW Retail Inventory Software</title>
+  <meta name="description" content="Get in touch with the STOCKFLOW team for general enquiries, technical support, or retail inventory business questions.">
+
+  <!-- Favicons & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <!-- Tailwind CSS Local Bundle -->
+  <script src="assets/vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#E88743',
+              50: '#FDF7F2',
+              100: '#FAECDF',
+              200: '#F4D4BC',
+              300: '#EEB994',
+              400: '#E89E6B',
+              500: '#E88743',
+              600: '#D5732E',
+              700: '#B85A1D',
+              800: '#944414',
+              900: '#73330D',
+            },
+            charcoal: {
+              DEFAULT: '#242A27',
+              50: '#F5F6F5',
+              100: '#E6E8E6',
+              200: '#CDD0CD',
+              700: '#2D3531',
+              800: '#242A27',
+              900: '#1A1E1C',
+            },
+            cream: {
+              DEFAULT: '#F7F5EF',
+              100: '#FAF9F5',
+              200: '#F1EFE6',
+            },
+            mutedOrange: '#F4C7A5',
+            sage: {
+              DEFAULT: '#A7B7A5',
+              light: '#D3DDD1',
+              dark: '#859883',
+            },
+            lightgrey: '#E8E8E2',
+            success: '#32845A',
+            warning: '#D99A32',
+            danger: '#D9534F'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons Local Bundle -->
+  <script src="assets/vendor/lucide.min.js"></script>
+
+  <!-- Custom Styles & Theme Initializer -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/theme.js"></script>
+  <script src="js/direction.js"></script>
+</head>
+<body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased selection:bg-brand selection:text-white">
+
+  <!-- ========================================================================
+       GLOBAL NAVIGATION BAR
+       ======================================================================== -->
+  <header class="sticky top-0 z-50 w-full transition-all duration-300 border-b border-charcoal/10 dark:border-charcoal-700/60 bg-cream/95 dark:bg-charcoal-900/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Standardized Brand Logo (Far Left) -->
+        <a href="index.html" class="inline-flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 rounded-xl flex-shrink-0" aria-label="STOCKFLOW Home">
+          <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200">
+            <i data-lucide="boxes" class="w-5 h-5 text-white" aria-hidden="true"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-display text-2xl font-extrabold tracking-tight text-charcoal dark:text-cream leading-none">STOCKFLOW</span>
+            <span class="text-[10px] tracking-widest uppercase font-semibold text-brand dark:text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
+          </div>
+        </a>
+
+        <!-- Center Navigation Links (Desktop 1280px+) -->
+        <!-- Order: Home | About | How It Works | Features | Contact Us | Pricing | Dashboard -->
+        <nav class="hidden xl:flex items-center gap-0.5 xl:gap-1 2xl:gap-1.5" aria-label="Primary">
+          
+          <!-- Home Dropdown (Home 1 and Home 2) -->
+          <div class="relative home-dropdown-container" data-dropdown="home">
+            <button 
+              type="button" 
+              id="home-dropdown-btn" 
+              data-dropdown-trigger
+              class="home-dropdown-trigger nav-link inline-flex items-center gap-1 px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 whitespace-nowrap"
+              aria-expanded="false" 
+              aria-haspopup="true"
+              aria-controls="home-dropdown-menu"
+            >
+              <span>Home</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 home-chevron" data-dropdown-chevron aria-hidden="true"></i>
+            </button>
+            <div 
+              id="home-dropdown-menu" 
+              data-dropdown-menu
+              class="home-dropdown-menu hidden absolute left-0 rtl:left-auto rtl:right-0 top-full mt-1.5 w-48 rounded-2xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50 animate-fade-in"
+            >
+              <a 
+                href="index.html" 
+                class="home-dropdown-item flex items-center px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+              >
+                <span>Home 1</span>
+              </a>
+              <a 
+                href="home-2.html" 
+                class="home-dropdown-item flex items-center px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+              >
+                <span>Home 2</span>
+              </a>
+            </div>
+          </div>
+
+          <a href="about.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">About</a>
+          <a href="how-it-works.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">How It Works</a>
+          <a href="features.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Features</a>
+          <a href="contact.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Contact Us</a>
+          <a href="pricing.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Pricing</a>
+
+          <!-- Dashboard Dropdown (Admin Dashboard & User Dashboard) -->
+          <div class="relative dashboard-dropdown-container" data-dropdown="dashboard">
+            <button 
+              type="button" 
+              id="dashboard-dropdown-btn" 
+              data-dropdown-trigger
+              class="dashboard-dropdown-trigger nav-link inline-flex items-center gap-1 px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-semibold rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 whitespace-nowrap"
+              aria-expanded="false" 
+              aria-haspopup="true"
+              aria-controls="dashboard-dropdown-menu"
+            >
+              <span>Dashboard</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 dashboard-chevron" data-dropdown-chevron aria-hidden="true"></i>
+            </button>
+            <div 
+              id="dashboard-dropdown-menu" 
+              data-dropdown-menu
+              class="dashboard-dropdown-menu hidden absolute left-0 rtl:left-auto rtl:right-0 top-full mt-1.5 w-52 rounded-2xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50 animate-fade-in"
+            >
+              <a 
+                href="dashboard/index.html" 
+                class="dashboard-dropdown-item flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 visited:text-charcoal/80 dark:visited:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+              >
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+                <span>Admin Dashboard</span>
+              </a>
+              <a 
+                href="dashboard/user-dashboard.html" 
+                class="dashboard-dropdown-item flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 visited:text-charcoal/80 dark:visited:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+              >
+                <i data-lucide="user-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+                <span>User Dashboard</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Right Utilities & Action Controls -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- Desktop-Only Utility Controls Group -->
+          <div class="hidden xl:flex items-center gap-1.5">
+            <!-- RTL/LTR Direction Toggle Button -->
+            <button 
+              type="button" 
+              class="dir-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40" 
+              title="Switch text direction (Current: LTR)" 
+              aria-label="Switch text direction"
+            >
+              <i data-lucide="arrow-left-right" class="w-4 h-4" aria-hidden="true"></i>
+            </button>
+
+            <!-- Light/Dark Mode Toggle Button -->
+            <button 
+              type="button" 
+              class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40" 
+              title="Toggle Light/Dark Theme" 
+              aria-label="Toggle Theme"
+            >
+              <i data-lucide="moon" class="theme-icon-dark w-4 h-4" aria-hidden="true"></i>
+              <i data-lucide="sun" class="theme-icon-light w-4 h-4" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <!-- Desktop-Only Login CTA -->
+          <a 
+            href="login.html" 
+            class="hidden xl:inline-flex items-center gap-1.5 h-9 px-4 rounded-xl border border-brand/80 bg-brand/10 dark:bg-brand/15 hover:bg-brand hover:border-brand text-brand dark:text-mutedOrange hover:text-white dark:hover:text-white text-[13px] font-semibold shadow-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 whitespace-nowrap"
+          >
+            <i data-lucide="user" class="w-3.5 h-3.5" aria-hidden="true"></i>
+            <span>Login</span>
+          </a>
+
+          <!-- Mobile / Tablet Hamburger Toggle (Only control beside logo <1280px) -->
+          <button 
+            type="button" 
+            id="mobile-menu-btn" 
+            class="xl:hidden w-10 h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40" 
+            aria-expanded="false" 
+            aria-controls="mobile-menu"
+            aria-label="Toggle navigation menu"
+          >
+            <i data-lucide="menu" class="icon-menu w-5 h-5" aria-hidden="true"></i>
+            <i data-lucide="x" class="icon-close w-5 h-5 hidden" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile & Tablet Drawer Menu (Samsung Galaxy & iPad Mini) -->
+    <!-- Order: Home | About | How It Works | Features | Pricing | Dashboard | Divider | Theme & Direction (2-up) | Login -->
+    <div id="mobile-menu" class="hidden xl:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain border-t border-charcoal/10 dark:border-charcoal-700/60 bg-cream/98 dark:bg-charcoal-900/98 px-4 pt-3.5 pb-6 space-y-2 shadow-xl animate-fade-in">
+      
+      <!-- 1. Mobile Home Accordion -->
+      <div class="mobile-home-accordion rounded-xl border border-charcoal/10 dark:border-charcoal-800 bg-white/60 dark:bg-charcoal-800/60 overflow-hidden" data-mobile-accordion>
+        <button 
+          type="button" 
+          id="mobile-home-btn" 
+          data-mobile-accordion-trigger
+          class="w-full flex items-center justify-between min-h-[44px] px-3.5 py-2.5 text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10 transition-colors"
+          aria-expanded="false"
+          aria-controls="mobile-home-sublinks"
+        >
+          <span>Home</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 mobile-home-chevron" data-mobile-accordion-chevron aria-hidden="true"></i>
+        </button>
+        <div id="mobile-home-sublinks" data-mobile-accordion-content class="hidden ps-4 pe-2 pb-2 pt-1 space-y-1">
+          <a href="index.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
+            Home 1
+          </a>
+          <a href="home-2.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
+            Home 2
+          </a>
+        </div>
+      </div>
+
+      <!-- 2-5. Core Public Links -->
+      <a href="about.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">About</a>
+      <a href="how-it-works.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">How It Works</a>
+      <a href="features.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">Features</a>
+      <a href="contact.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">Contact Us</a>
+      <a href="pricing.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">Pricing</a>
+
+      <!-- 6. Mobile Dashboard Accordion -->
+      <div class="mobile-dashboard-accordion rounded-xl border border-charcoal/10 dark:border-charcoal-800 bg-white/60 dark:bg-charcoal-800/60 overflow-hidden" data-mobile-accordion>
+        <button 
+          type="button" 
+          id="mobile-dashboard-btn" 
+          data-mobile-accordion-trigger
+          class="w-full flex items-center justify-between min-h-[44px] px-3.5 py-2.5 text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10 transition-colors"
+          aria-expanded="false"
+          aria-controls="mobile-dashboard-sublinks"
+        >
+          <span>Dashboard</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 mobile-dashboard-chevron" data-mobile-accordion-chevron aria-hidden="true"></i>
+        </button>
+        <div id="mobile-dashboard-sublinks" data-mobile-accordion-content class="hidden ps-4 pe-2 pb-2 pt-1 space-y-1">
+          <a href="dashboard/index.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <span>Admin Dashboard</span>
+          </a>
+          <a href="dashboard/user-dashboard.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
+            <i data-lucide="user-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <span>User Dashboard</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 7. Divider + 8. Utility Controls Row (Side-by-Side Equal Width Icon-Only Buttons) -->
+      <div class="pt-3 mt-2 border-t border-charcoal/10 dark:border-charcoal-700/60 space-y-2.5">
+        <div class="grid grid-cols-2 gap-2.5">
+          <!-- Theme Toggle Button (Icon-Only: Moon in Dark Mode, Sun in Light Mode) -->
+          <button 
+            type="button" 
+            class="theme-toggle-btn flex items-center justify-center min-h-[44px] h-11 w-full rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800 hover:border-brand/60 hover:bg-brand/10 dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+            title="Toggle Light/Dark Theme"
+            aria-label="Toggle Light/Dark Theme"
+          >
+            <i data-lucide="moon" class="theme-current-dark w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <i data-lucide="sun" class="theme-current-light w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+          </button>
+
+          <!-- Direction Toggle Button (Icon-Only: Align-Left in LTR, Align-Right in RTL) -->
+          <button 
+            type="button" 
+            class="dir-toggle-btn flex items-center justify-center min-h-[44px] h-11 w-full rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800 hover:border-brand/60 hover:bg-brand/10 dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+            title="Switch text direction (Current: LTR)"
+            aria-label="Switch text direction (Current: LTR)"
+          >
+            <i data-lucide="align-left" class="dir-current-ltr w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <i data-lucide="align-right" class="dir-current-rtl w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- 9. Full-Width Login Button Immediately Below Utility Controls -->
+        <a 
+          href="login.html" 
+          class="w-full flex items-center justify-center gap-2 min-h-[44px] px-4 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+        >
+          <i data-lucide="user" class="w-4 h-4" aria-hidden="true"></i>
+          <span>Login</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======================================================================
+         HERO SECTION (Photographic Full-Bleed Inner Page Banner)
+         ====================================================================== -->
+    <section id="hero-contact" class="page-hero">
+      <div class="page-hero-media">
+        <img
+          src="assets/images/about/retail-team.jpg"
+          alt="Retail store team coordinating daily STOCKFLOW inventory operations"
+          class="page-hero-image"
+          loading="eager"
+        >
+        <div class="page-hero-overlay" aria-hidden="true"></div>
+      </div>
+
+      <div class="page-hero-content space-y-6">
+        <div class="page-hero-eyebrow">
+          <span class="w-2 h-2 rounded-full bg-brand inline-block" aria-hidden="true"></span>
+          <span>GET IN TOUCH</span>
+        </div>
+
+        <h1 class="page-hero-title text-4xl sm:text-5xl lg:text-6xl">
+          We're Here to Help <br class="hidden sm:inline" />
+          <span class="text-brand">Your Business Grow.</span>
+        </h1>
+
+        <p class="page-hero-subtitle text-base sm:text-lg">
+          Reach out about store workflows, dashboard roles, SKU setup, or technical assistance. Choose an enquiry route below or validate your message using the contact form.
+        </p>
+
+        <div class="page-hero-actions">
+          <a
+            href="#contact-form-section"
+            class="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-brand/25 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+          >
+            <span>Contact Our Team</span>
+            <i data-lucide="arrow-down" class="w-4 h-4" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION A: CONTACT OPTIONS
+         ====================================================================== -->
+    <section id="contact-options" class="py-16 lg:py-20 bg-white dark:bg-charcoal-800 border-b border-charcoal/10 dark:border-charcoal-700/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-10 lg:mb-12">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand dark:text-mutedOrange">
+            <span class="w-5 h-0.5 bg-brand inline-block" aria-hidden="true"></span>
+            Contact Options
+          </span>
+          <h2 class="mt-3 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-charcoal dark:text-cream">
+            Route Your Enquiry to the Right Team
+          </h2>
+          <p class="mt-3 text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+            Choose the enquiry category that best fits your question and share details using the form below.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <!-- Card 1: General Enquiries -->
+          <article class="rounded-3xl bg-cream dark:bg-charcoal-900 border border-charcoal/10 dark:border-charcoal-700 p-7 sm:p-8 flex flex-col justify-between gap-6 shadow-sm hover:shadow-md hover:border-brand/40 transition-all">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-brand/15 dark:bg-brand/20 text-brand flex items-center justify-center mb-5">
+                <i data-lucide="mail" class="w-6 h-6" aria-hidden="true"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-charcoal dark:text-cream">General Enquiries</h3>
+              <p class="mt-2.5 text-sm text-charcoal/70 dark:text-cream/70 leading-relaxed">
+                Questions about how STOCKFLOW manages inventory workflows, SKU organization, or everyday store operations.
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-charcoal/10 dark:border-charcoal-700/70 space-y-2">
+              <div data-contact-channel="general" class="empty:hidden"></div>
+              <a
+                href="#contact-form-section"
+                class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand dark:text-mutedOrange hover:underline"
+              >
+                <span>Submit a General Enquiry</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 2: Technical Support -->
+          <article class="rounded-3xl bg-cream dark:bg-charcoal-900 border border-charcoal/10 dark:border-charcoal-700 p-7 sm:p-8 flex flex-col justify-between gap-6 shadow-sm hover:shadow-md hover:border-brand/40 transition-all">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-brand/15 dark:bg-brand/20 text-brand flex items-center justify-center mb-5">
+                <i data-lucide="life-buoy" class="w-6 h-6" aria-hidden="true"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-charcoal dark:text-cream">Technical Support</h3>
+              <p class="mt-2.5 text-sm text-charcoal/70 dark:text-cream/70 leading-relaxed">
+                Assistance with low-stock threshold alerts, supplier purchase orders, dashboard access, or data structure checks.
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-charcoal/10 dark:border-charcoal-700/70 space-y-2">
+              <div data-contact-channel="support" class="empty:hidden"></div>
+              <a
+                href="#contact-form-section"
+                class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand dark:text-mutedOrange hover:underline"
+              >
+                <span>Request Technical Support</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 3: Business & Sales Enquiries -->
+          <article class="rounded-3xl bg-cream dark:bg-charcoal-900 border border-charcoal/10 dark:border-charcoal-700 p-7 sm:p-8 flex flex-col justify-between gap-6 shadow-sm hover:shadow-md hover:border-brand/40 transition-all">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-brand/15 dark:bg-brand/20 text-brand flex items-center justify-center mb-5">
+                <i data-lucide="briefcase-business" class="w-6 h-6" aria-hidden="true"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-charcoal dark:text-cream">Business &amp; Sales Enquiries</h3>
+              <p class="mt-2.5 text-sm text-charcoal/70 dark:text-cream/70 leading-relaxed">
+                Discuss pricing tier suitability, multi-store rollouts, team roles, or retail onboarding requirements.
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-charcoal/10 dark:border-charcoal-700/70 space-y-2">
+              <div data-contact-channel="sales" class="empty:hidden"></div>
+              <a
+                href="#contact-form-section"
+                class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand dark:text-mutedOrange hover:underline"
+              >
+                <span>Send a Business Enquiry</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION B: CONTACT FORM
+         ====================================================================== -->
+    <section id="contact-form-section" class="py-16 lg:py-24 bg-cream dark:bg-charcoal-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          
+          <!-- Left Guidance Column -->
+          <div class="lg:col-span-5 space-y-6">
+            <div>
+              <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand dark:text-mutedOrange">
+                <span class="w-5 h-0.5 bg-brand inline-block" aria-hidden="true"></span>
+                Send a Message
+              </span>
+              <h2 class="mt-3 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-charcoal dark:text-cream">
+                Submit Your Enquiry
+              </h2>
+              <p class="mt-3 text-sm sm:text-base text-charcoal/70 dark:text-cream/70 leading-relaxed">
+                Complete the form with your name, email address, enquiry type, and message details.
+              </p>
+            </div>
+
+            <div class="rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 p-6 space-y-4">
+              <h3 class="font-display text-base font-bold text-charcoal dark:text-cream flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand flex-shrink-0" aria-hidden="true"></i>
+                <span>What Helps Us Respond Faster</span>
+              </h3>
+              <ul class="space-y-2.5 text-xs sm:text-sm text-charcoal/75 dark:text-cream/75">
+                <li class="flex items-start gap-2.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand mt-2 flex-shrink-0" aria-hidden="true"></span>
+                  <span>Your retail store format or approximate SKU catalog size.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand mt-2 flex-shrink-0" aria-hidden="true"></span>
+                  <span>Whether your question relates to Admin Dashboard or User Dashboard workflows.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand mt-2 flex-shrink-0" aria-hidden="true"></span>
+                  <span>Any specific inventory, purchase order, or alert topic you want clarified.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right Form Column -->
+          <div class="lg:col-span-7">
+            <div class="rounded-3xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 p-6 sm:p-8 lg:p-10 shadow-sm">
+              <form id="contact-page-form" class="space-y-5" novalidate>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <!-- Full Name -->
+                  <div>
+                    <label for="contact-full-name" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/85 mb-2">
+                      Full Name <span class="text-danger" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="contact-full-name"
+                      name="fullName"
+                      autocomplete="name"
+                      required
+                      placeholder="Your full name"
+                      class="w-full h-11 px-4 rounded-xl border border-charcoal/20 dark:border-charcoal-700 bg-cream/50 dark:bg-charcoal-900 text-sm text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/40 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition"
+                    >
+                    <p id="contact-error-name" class="hidden mt-1.5 text-xs font-medium text-danger" role="alert"></p>
+                  </div>
+
+                  <!-- Email Address -->
+                  <div>
+                    <label for="contact-email" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/85 mb-2">
+                      Email Address <span class="text-danger" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="contact-email"
+                      name="email"
+                      autocomplete="email"
+                      required
+                      placeholder="you@storefront.example"
+                      class="w-full h-11 px-4 rounded-xl border border-charcoal/20 dark:border-charcoal-700 bg-cream/50 dark:bg-charcoal-900 text-sm text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/40 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition"
+                    >
+                    <p id="contact-error-email" class="hidden mt-1.5 text-xs font-medium text-danger" role="alert"></p>
+                  </div>
+                </div>
+
+                <!-- Subject / Enquiry Type -->
+                <div>
+                  <label for="contact-subject" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/85 mb-2">
+                    Subject / Enquiry Type <span class="text-danger" aria-hidden="true">*</span>
+                  </label>
+                  <select
+                    id="contact-subject"
+                    name="subject"
+                    required
+                    class="w-full h-11 px-4 rounded-xl border border-charcoal/20 dark:border-charcoal-700 bg-cream/50 dark:bg-charcoal-900 text-sm text-charcoal dark:text-cream focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition"
+                  >
+                    <option value="">Select an enquiry type...</option>
+                    <option value="General Enquiry">General Enquiry</option>
+                    <option value="Technical Support">Technical Support</option>
+                    <option value="Business & Sales Enquiry">Business &amp; Sales Enquiry</option>
+                    <option value="Plan & Onboarding Question">Plan &amp; Onboarding Question</option>
+                  </select>
+                  <p id="contact-error-subject" class="hidden mt-1.5 text-xs font-medium text-danger" role="alert"></p>
+                </div>
+
+                <!-- Message -->
+                <div>
+                  <label for="contact-message" class="block text-xs font-bold uppercase tracking-wider text-charcoal/80 dark:text-cream/85 mb-2">
+                    Message <span class="text-danger" aria-hidden="true">*</span>
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows="5"
+                    required
+                    placeholder="Share your question, workflow details, or support request..."
+                    class="w-full p-4 rounded-xl border border-charcoal/20 dark:border-charcoal-700 bg-cream/50 dark:bg-charcoal-900 text-sm text-charcoal dark:text-cream placeholder:text-charcoal/40 dark:placeholder:text-cream/40 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition resize-y"
+                  ></textarea>
+                  <p id="contact-error-message" class="hidden mt-1.5 text-xs font-medium text-danger" role="alert"></p>
+                </div>
+
+                <!-- Honest Live Status Banner -->
+                <div id="contact-form-status" class="hidden" role="status" aria-live="polite"></div>
+
+                <!-- Submit Action -->
+                <div class="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <button
+                    type="submit"
+                    id="contact-submit-btn"
+                    class="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm shadow-md shadow-brand/20 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+                  >
+                    <span>Send Message</span>
+                    <i data-lucide="send" class="w-4 h-4 icon-flip-rtl" aria-hidden="true"></i>
+                  </button>
+                  <span class="text-xs text-charcoal/60 dark:text-cream/60">
+                    Required fields marked with <span class="text-danger">*</span>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION C: ADDITIONAL HELP
+         ====================================================================== -->
+    <section id="additional-help" class="py-16 lg:py-20 bg-white dark:bg-charcoal-800 border-t border-charcoal/10 dark:border-charcoal-700/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-12">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand dark:text-mutedOrange">
+            Additional Help
+          </span>
+          <h2 class="mt-2 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-charcoal dark:text-cream">
+            Explore Workflows &amp; Workspaces Directly
+          </h2>
+          <p class="mt-3 text-sm sm:text-base text-charcoal/70 dark:text-cream/70">
+            Jump straight into the step-by-step product guide or preview our role-based dashboards right away.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <a
+            href="how-it-works.html"
+            class="group rounded-2xl bg-cream dark:bg-charcoal-900 border border-charcoal/10 dark:border-charcoal-700 p-6 flex flex-col justify-between gap-4 hover:border-brand/50 hover:shadow-md transition-all"
+          >
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-brand/15 text-brand flex items-center justify-center mb-4">
+                <i data-lucide="route" class="w-5 h-5" aria-hidden="true"></i>
+              </div>
+              <h3 class="font-display text-lg font-bold text-charcoal dark:text-cream group-hover:text-brand transition-colors">
+                How It Works
+              </h3>
+              <p class="mt-2 text-xs sm:text-sm text-charcoal/70 dark:text-cream/70 leading-relaxed">
+                Follow how retail teams configure categories, receive purchase orders, and prevent stockouts step by step.
+              </p>
+            </div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand">
+              <span>View How It Works</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl" aria-hidden="true"></i>
+            </span>
+          </a>
+
+          <a
+            href="dashboard/index.html"
+            class="group rounded-2xl bg-cream dark:bg-charcoal-900 border border-charcoal/10 dark:border-charcoal-700 p-6 flex flex-col justify-between gap-4 hover:border-brand/50 hover:shadow-md transition-all"
+          >
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-brand/15 text-brand flex items-center justify-center mb-4">
+                <i data-lucide="shield-check" class="w-5 h-5" aria-hidden="true"></i>
+              </div>
+              <h3 class="font-display text-lg font-bold text-charcoal dark:text-cream group-hover:text-brand transition-colors">
+                Admin Dashboard
+              </h3>
+              <p class="mt-2 text-xs sm:text-sm text-charcoal/70 dark:text-cream/70 leading-relaxed">
+                Open the administrative control center for SKU management, suppliers, purchase orders, and stock reports.
+              </p>
+            </div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand">
+              <span>Open Admin Dashboard</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl" aria-hidden="true"></i>
+            </span>
+          </a>
+
+          <a
+            href="dashboard/user-dashboard.html"
+            class="group rounded-2xl bg-cream dark:bg-charcoal-900 border border-charcoal/10 dark:border-charcoal-700 p-6 flex flex-col justify-between gap-4 hover:border-brand/50 hover:shadow-md transition-all"
+          >
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-brand/15 text-brand flex items-center justify-center mb-4">
+                <i data-lucide="user-check" class="w-5 h-5" aria-hidden="true"></i>
+              </div>
+              <h3 class="font-display text-lg font-bold text-charcoal dark:text-cream group-hover:text-brand transition-colors">
+                User Dashboard
+              </h3>
+              <p class="mt-2 text-xs sm:text-sm text-charcoal/70 dark:text-cream/70 leading-relaxed">
+                Preview the daily retail associate workspace focused on shelf counts, quick lookups, and stock alerts.
+              </p>
+            </div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand">
+              <span>Open User Dashboard</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       GLOBAL FOOTER
+       ======================================================================== -->
+  <footer class="bg-charcoal-900 text-cream/80 border-t border-charcoal-700/60 pt-16 pb-20 sm:pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8 xl:gap-8 pb-12 border-b border-charcoal-700/60">
+        
+        <!-- Column 1: Brand Identity (Standardized Logo) -->
+        <div class="space-y-4 sm:col-span-2 lg:col-span-4 xl:col-span-1">
+          <a href="index.html" class="inline-flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="STOCKFLOW Home">
+            <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200">
+              <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+            </div>
+            <div class="flex flex-col">
+              <span class="font-display text-2xl font-extrabold tracking-tight text-white leading-none">STOCKFLOW</span>
+              <span class="text-[10px] tracking-widest uppercase font-semibold text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
+            </div>
+          </a>
+          <p class="text-xs text-cream/65 leading-relaxed max-w-md xl:max-w-none">
+            The intelligent inventory management and purchase order software designed specifically for general retailers, supermarkets, and specialty merchants.
+          </p>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Quick Links</h4>
+          <ul class="space-y-2 text-xs text-cream/70">
+            <li><a href="index.html" class="hover:text-brand transition">Home 1</a></li>
+            <li><a href="home-2.html" class="hover:text-brand transition">Home 2</a></li>
+            <li><a href="about.html" class="hover:text-brand transition">About Us</a></li>
+            <li><a href="how-it-works.html" class="hover:text-brand transition">How It Works</a></li>
+            <li><a href="features.html" class="hover:text-brand transition">Features</a></li>
+            <li><a href="contact.html" class="hover:text-brand transition">Contact Us</a></li>
+            <li><a href="pricing.html" class="hover:text-brand transition">Pricing Plans</a></li>
+            <li><a href="dashboard/index.html" class="hover:text-brand transition">Admin Dashboard</a></li>
+            <li><a href="dashboard/user-dashboard.html" class="hover:text-brand transition">User Dashboard</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Product Modules -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Product Modules</h4>
+          <ul class="space-y-2 text-xs text-cream/70">
+            <li><a href="dashboard/products.html" class="hover:text-brand transition">Products Catalog</a></li>
+            <li><a href="dashboard/categories.html" class="hover:text-brand transition">Categories</a></li>
+            <li><a href="dashboard/suppliers.html" class="hover:text-brand transition">Suppliers Directory</a></li>
+            <li><a href="dashboard/purchase-orders.html" class="hover:text-brand transition">Purchase Orders</a></li>
+            <li><a href="dashboard/stock-alerts.html" class="hover:text-brand transition">Stock Alerts</a></li>
+            <li><a href="dashboard/reports.html" class="hover:text-brand transition">Reports & Analytics</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Contact -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Contact</h4>
+          <p class="text-xs text-cream/60 leading-relaxed">
+            Have questions about STOCKFLOW workflows or workspace setup? Visit our Contact page to submit an enquiry.
+          </p>
+          <div class="space-y-2 pt-1 text-xs">
+            <div>
+              <span class="block text-cream/50 text-[10px] uppercase font-bold tracking-wider">Enquiry Channels:</span>
+              <span class="text-cream/75">General, Technical Support &amp; Business Enquiries</span>
+            </div>
+            <div class="pt-1">
+              <a 
+                href="contact.html#contact-form-section" 
+                class="inline-flex items-center gap-1.5 text-xs text-brand hover:text-brand-400 font-semibold transition"
+              >
+                <span>Open Contact Form</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 5: Social Media & Legal -->
+        <div class="space-y-3">
+          <h4 class="font-display text-xs font-bold uppercase tracking-wider text-white">Community & Legal</h4>
+          <!-- Social Media Icons: Instagram, Facebook, LinkedIn, X (Twitter) -->
+          <div id="footer-social-links" class="flex flex-wrap items-center gap-2.5 pt-0.5">
+            <a href="#footer-social-links" data-platform="instagram" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="Instagram" title="Instagram">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#footer-social-links" data-platform="facebook" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="Facebook" title="Facebook">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"></path>
+              </svg>
+            </a>
+            <a href="#footer-social-links" data-platform="linkedin" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="LinkedIn" title="LinkedIn">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z"></path>
+              </svg>
+            </a>
+            <a href="#footer-social-links" data-platform="x" class="social-link w-9 h-9 rounded-lg bg-charcoal-800 border border-charcoal-700/80 text-cream/85 hover:bg-brand hover:border-brand hover:text-white flex items-center justify-center transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900" aria-label="X (Twitter)" title="X (Twitter)">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </svg>
+            </a>
+          </div>
+          <!-- Dynamic Year Copyright Notice -->
+          <p class="text-xs text-cream/60 pt-2 leading-relaxed">
+            &copy; <span class="current-year-display">2026</span> STOCKFLOW. All rights reserved.
+          </p>
+          <div class="flex flex-col gap-1 text-[11px] text-cream/50 pt-1">
+            <button type="button" class="legal-notice-trigger text-start hover:text-brand transition" data-topic="Privacy Policy">Privacy Policy</button>
+            <button type="button" class="legal-notice-trigger text-start hover:text-brand transition" data-topic="Terms of Service">Terms of Service</button>
+            <button type="button" class="legal-notice-trigger text-start hover:text-brand transition" data-topic="Security Overview">Security Overview</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Disclaimer Bar -->
+      <div class="pt-8 sm:pe-14 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 text-xs text-cream/50 text-center sm:text-start">
+        <div>
+          STOCKFLOW Retail Operating System &bull; Automated Retail Inventory Suite
+        </div>
+        <div class="text-[11px]">
+          Trusted by supermarkets, grocers &amp; specialty retail teams
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Back to Top Button -->
+  <button 
+    id="back-to-top-btn" 
+    type="button" 
+    class="back-to-top fixed bottom-6 end-6 z-40 w-11 h-11 rounded-xl bg-brand text-white shadow-lg flex items-center justify-center opacity-0 pointer-events-none translate-y-4 transition-all duration-300 hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+    aria-label="Back to top"
+  >
+    <i data-lucide="arrow-up" class="w-5 h-5" aria-hidden="true"></i>
+  </button>
+
+  <!-- Main Public Interactions JS -->
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -8,6 +8,31 @@ const Auth = {
   REGISTRATIONS_KEY: 'stockflow_demo_registrations',
   RESERVED_DEMO_EMAILS: ['retailer@stockflow.demo', 'associate@stockflow.demo'],
 
+  // Structured OAuth provider registry (populated dynamically when backend OAuth is configured)
+  oauthConfig: {
+    google: {
+      id: 'google',
+      label: 'Google',
+      enabled: false,
+      clientId: null,
+      authEndpoint: null
+    },
+    facebook: {
+      id: 'facebook',
+      label: 'Facebook',
+      enabled: false,
+      appId: null,
+      authEndpoint: null
+    },
+    apple: {
+      id: 'apple',
+      label: 'Apple',
+      enabled: false,
+      clientId: null,
+      authEndpoint: null
+    }
+  },
+
   // Get current logged-in demo user or null
   getUser() {
     try {
@@ -18,8 +43,8 @@ const Auth = {
     }
   },
 
-  // Log in demo user
-  login(email, password, role = 'admin', remember = false) {
+  // Log in demo user (authentication no longer requires selecting a workspace role)
+  login(email, password, rememberOrRole = false, maybeRemember = false) {
     if (!email || !password) {
       return { success: false, message: 'Please enter both email address and password.' };
     }
@@ -34,6 +59,9 @@ const Auth = {
       return { success: false, message: 'Password must be at least 4 characters long.' };
     }
 
+    const hasExplicitRole = typeof rememberOrRole === 'string';
+    const role = hasExplicitRole ? rememberOrRole : 'admin';
+    const remember = hasExplicitRole ? Boolean(maybeRemember) : Boolean(rememberOrRole);
     const isUserRole = role === 'user';
     const roleKey = isUserRole ? 'user' : 'admin';
     const roleDisplayName = isUserRole ? 'Store Associate (User)' : 'Store Manager (Admin)';
@@ -115,11 +143,14 @@ const Auth = {
   },
 
   // Frontend prototype workspace registration (never stores passwords or alters demo accounts)
-  registerWorkspace({ fullName, storeName, email, password, confirmPassword }) {
+  registerWorkspace({ fullName, storeName, email, mobileNumber, password, confirmPassword, agreedToTerms }) {
     const cleanName = (fullName || '').trim();
     const cleanStore = (storeName || '').trim();
     const cleanEmail = (email || '').trim();
+    const cleanPhone = (mobileNumber || '').trim();
+    const phoneDigits = cleanPhone.replace(/\D/g, '');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneCharRegex = /^[+\d\s().-]+$/;
 
     if (cleanName.length < 2) {
       return { success: false, field: 'name', message: 'Please enter your full name (at least 2 characters).' };
@@ -137,11 +168,17 @@ const Auth = {
         message: 'That address is reserved for pre-configured demo role sign-in. Enter a different store email.'
       };
     }
+    if (!cleanPhone || !phoneCharRegex.test(cleanPhone) || phoneDigits.length < 7 || phoneDigits.length > 15) {
+      return { success: false, field: 'phone', message: 'Please enter a valid mobile number (7–15 digits).' };
+    }
     if (!password || password.length < 8) {
       return { success: false, field: 'password', message: 'Password must be at least 8 characters long.' };
     }
     if (password !== confirmPassword) {
       return { success: false, field: 'confirm', message: 'Passwords do not match. Please verify both password fields.' };
+    }
+    if (!agreedToTerms) {
+      return { success: false, field: 'terms', message: 'Please agree to the Terms of Service and Privacy Policy to continue.' };
     }
 
     let existing = [];
@@ -167,6 +204,7 @@ const Auth = {
       fullName: cleanName,
       storeName: cleanStore,
       email: cleanEmail,
+      mobileNumber: cleanPhone,
       createdAt: new Date().toISOString(),
       demoPreview: true
     };
@@ -174,6 +212,41 @@ const Auth = {
     localStorage.setItem(this.REGISTRATIONS_KEY, JSON.stringify(existing));
 
     return { success: true, profile };
+  },
+
+  // Frontend integration hook for external OAuth providers (does not create fake sessions)
+  initiateOAuth(providerKey) {
+    const normalizedKey = String(providerKey || '').toLowerCase();
+    const provider = this.oauthConfig[normalizedKey];
+
+    if (!provider) {
+      return {
+        success: false,
+        configured: false,
+        provider: 'Social',
+        message: 'Requested social sign-in provider is not recognized.'
+      };
+    }
+
+    if (!provider.enabled || !provider.authEndpoint) {
+      return {
+        success: false,
+        configured: false,
+        provider: provider.label,
+        message:
+          `${provider.label} authentication is a frontend integration placeholder — OAuth client credentials and backend callback endpoints are not configured in this static prototype. ` +
+          'No session was created. Sign in with email and password or use the demo credentials to explore the dashboard.'
+      };
+    }
+
+    // Integration point for configured OAuth 2.0 / OIDC backend handoff:
+    // window.location.assign(provider.authEndpoint);
+    return {
+      success: true,
+      configured: true,
+      provider: provider.label,
+      authEndpoint: provider.authEndpoint
+    };
   }
 };
 
@@ -314,6 +387,34 @@ function evaluatePasswordStrength(val) {
 }
 
 /**
+ * Bind social OAuth placeholder buttons cleanly across login and registration pages.
+ */
+function bindSocialOAuthButtons(statusBanner, inputsToReset = []) {
+  document.querySelectorAll('.login-social-btn[data-oauth-provider]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const providerKey = btn.getAttribute('data-oauth-provider');
+      inputsToReset.forEach((inputEl) => {
+        if (inputEl) inputEl.removeAttribute('aria-invalid');
+      });
+
+      const result = Auth.initiateOAuth(providerKey);
+      if (!result.configured) {
+        renderAuthStatusBanner(
+          statusBanner,
+          'info',
+          `${result.provider} OAuth Not Configured`,
+          escapeAuthHtml(result.message)
+        );
+        if (statusBanner) {
+          statusBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        showToast(`${result.provider} sign-in requires OAuth configuration.`, 'info');
+      }
+    });
+  });
+}
+
+/**
  * Login Portal Controller (split-screen login.html only)
  */
 function initLoginPortal() {
@@ -327,30 +428,8 @@ function initLoginPortal() {
   const eyeIcon = document.getElementById('eye-icon');
   const eyeOffIcon = document.getElementById('eye-off-icon');
   const statusBanner = document.getElementById('login-status-banner');
-  const roleInput = document.getElementById('selected-role');
-  const roleOptions = document.querySelectorAll('.role-option');
   const forgotLink = document.getElementById('forgot-password-link');
   const submitBtn = document.getElementById('login-submit-btn');
-
-  // Role Selector Handling (Store Manager vs Store Associate)
-  roleOptions.forEach((opt) => {
-    opt.addEventListener('click', () => {
-      const role = opt.getAttribute('data-role') === 'user' ? 'user' : 'admin';
-      if (roleInput) roleInput.value = role;
-
-      roleOptions.forEach((btn) => {
-        const isSelected = btn === opt;
-        btn.classList.toggle('is-active', isSelected);
-        btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-      });
-
-      if (emailInput) {
-        emailInput.value = role === 'user' ? 'associate@stockflow.demo' : 'retailer@stockflow.demo';
-        emailInput.removeAttribute('aria-invalid');
-      }
-      hideAuthStatusBanner(statusBanner);
-    });
-  });
 
   bindPasswordVisibilityToggle(togglePasswordBtn, passwordInput, eyeIcon, eyeOffIcon);
 
@@ -375,6 +454,9 @@ function initLoginPortal() {
     });
   }
 
+  // Social OAuth Integration Placeholders (Google, Facebook & Apple)
+  bindSocialOAuthButtons(statusBanner, [emailInput, passwordInput]);
+
   // Form Submission
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -382,13 +464,12 @@ function initLoginPortal() {
 
     const email = emailInput ? emailInput.value.trim() : '';
     const password = passwordInput ? passwordInput.value : '';
-    const role = roleInput ? roleInput.value || 'admin' : 'admin';
     const remember = rememberCheckbox ? rememberCheckbox.checked : false;
 
     if (emailInput) emailInput.removeAttribute('aria-invalid');
     if (passwordInput) passwordInput.removeAttribute('aria-invalid');
 
-    const result = Auth.login(email, password, role, remember);
+    const result = Auth.login(email, password, remember);
 
     if (!result.success) {
       const msg = result.message || 'Please enter valid login credentials.';
@@ -425,8 +506,10 @@ function initRegisterPortal() {
   const nameInput = document.getElementById('reg-name');
   const storeInput = document.getElementById('reg-store');
   const emailInput = document.getElementById('reg-email');
+  const phoneInput = document.getElementById('reg-phone');
   const passwordInput = document.getElementById('reg-password');
   const confirmInput = document.getElementById('reg-confirm-password');
+  const termsInput = document.getElementById('reg-terms');
   const strengthMeter = document.getElementById('password-strength-meter');
   const strengthText = document.getElementById('password-strength-text');
   const confirmHint = document.getElementById('confirm-match-hint');
@@ -468,7 +551,7 @@ function initRegisterPortal() {
     confirmHint.className = `text-[11px] font-medium mt-1 ${matches ? 'text-emerald-700 dark:text-emerald-400' : 'text-danger'}`;
   };
 
-  [nameInput, storeInput, emailInput, passwordInput, confirmInput].forEach((inputEl) => {
+  [nameInput, storeInput, emailInput, phoneInput, passwordInput, confirmInput].forEach((inputEl) => {
     if (!inputEl) return;
     inputEl.addEventListener('input', () => {
       inputEl.removeAttribute('aria-invalid');
@@ -482,6 +565,23 @@ function initRegisterPortal() {
     });
   });
 
+  if (termsInput) {
+    termsInput.addEventListener('change', () => {
+      termsInput.removeAttribute('aria-invalid');
+      hideAuthStatusBanner(statusBanner);
+    });
+  }
+
+  document.querySelectorAll('.legal-notice-trigger[data-legal-doc]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const docTitle = trigger.getAttribute('data-legal-doc') || 'Legal Terms';
+      showToast(`${docTitle} is a static prototype placeholder in this frontend demo.`, 'info');
+    });
+  });
+
+  // Social OAuth Integration Placeholders (Google, Facebook & Apple)
+  bindSocialOAuthButtons(statusBanner, [nameInput, storeInput, emailInput, phoneInput, passwordInput, confirmInput, termsInput]);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     hideAuthStatusBanner(statusBanner);
@@ -490,8 +590,10 @@ function initRegisterPortal() {
       name: nameInput,
       store: storeInput,
       email: emailInput,
+      phone: phoneInput,
       password: passwordInput,
-      confirm: confirmInput
+      confirm: confirmInput,
+      terms: termsInput
     };
     Object.values(fieldMap).forEach((el) => {
       if (el) el.removeAttribute('aria-invalid');
@@ -501,8 +603,10 @@ function initRegisterPortal() {
       fullName: nameInput ? nameInput.value : '',
       storeName: storeInput ? storeInput.value : '',
       email: emailInput ? emailInput.value : '',
+      mobileNumber: phoneInput ? phoneInput.value : '',
       password: passwordInput ? passwordInput.value : '',
-      confirmPassword: confirmInput ? confirmInput.value : ''
+      confirmPassword: confirmInput ? confirmInput.value : '',
+      agreedToTerms: termsInput ? termsInput.checked : false
     });
 
     if (!result.success) {

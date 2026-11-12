@@ -6,6 +6,13 @@
   <title>Pricing Plans | STOCKFLOW - Retail Inventory Software</title>
   <meta name="description" content="Simple, predictable subscription plans for retail store inventory management. Basic, Professional, and Enterprise tiers.">
 
+  <!-- Favicons & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+
   <!-- Tailwind CSS Local Bundle -->
   <script src="assets/vendor/tailwindcss.js"></script>
   <script>
@@ -79,9 +86,9 @@
       <div class="flex items-center justify-between h-20">
         
         <!-- Brand Logo & Identity (Far Left) -->
-        <a href="index.html" class="inline-flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="STOCKFLOW Home">
+        <a href="index.html" class="inline-flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 rounded-xl flex-shrink-0" aria-label="STOCKFLOW Home">
           <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200">
-            <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+            <i data-lucide="boxes" class="w-5 h-5 text-white" aria-hidden="true"></i>
           </div>
           <div class="flex flex-col">
             <span class="font-display text-2xl font-extrabold tracking-tight text-charcoal dark:text-cream leading-none">STOCKFLOW</span>
@@ -89,136 +96,229 @@
           </div>
         </a>
 
-        <!-- 2-6. Center Navigation Links (Desktop) -->
-        <!-- Exact Order: Home | About | Features | Pricing | Dashboard -->
-        <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Primary Navigation">
+        <!-- Center Navigation Links (Desktop 1280px+) -->
+        <!-- Order: Home | About | How It Works | Features | Contact Us | Pricing | Dashboard -->
+        <nav class="hidden xl:flex items-center gap-0.5 xl:gap-1 2xl:gap-1.5" aria-label="Primary">
           
           <!-- Home Dropdown (Home 1 and Home 2) -->
-          <div class="relative home-dropdown-container">
+          <div class="relative home-dropdown-container" data-dropdown="home">
             <button 
               type="button" 
               id="home-dropdown-btn" 
-              class="home-dropdown-trigger nav-link inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange focus:outline-none focus:ring-2 focus:ring-brand/30 whitespace-nowrap"
+              data-dropdown-trigger
+              class="home-dropdown-trigger nav-link inline-flex items-center gap-1 px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 whitespace-nowrap"
               aria-expanded="false" 
               aria-haspopup="true"
+              aria-controls="home-dropdown-menu"
             >
               <span>Home</span>
-              <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 home-chevron"></i>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 home-chevron" data-dropdown-chevron aria-hidden="true"></i>
             </button>
             <div 
               id="home-dropdown-menu" 
+              data-dropdown-menu
               class="home-dropdown-menu hidden absolute left-0 rtl:left-auto rtl:right-0 top-full mt-1.5 w-48 rounded-2xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50 animate-fade-in"
-              role="menu"
             >
               <a 
                 href="index.html" 
                 class="home-dropdown-item flex items-center px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
-                role="menuitem"
               >
                 <span>Home 1</span>
               </a>
               <a 
                 href="home-2.html" 
                 class="home-dropdown-item flex items-center px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
-                role="menuitem"
               >
                 <span>Home 2</span>
               </a>
             </div>
           </div>
 
-          <a href="about.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">About</a>
-          <a href="features.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Features</a>
-          <a href="pricing.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Pricing</a>
-          <a href="dashboard/index.html" class="nav-link px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-semibold rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Dashboard</a>
+          <a href="about.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">About</a>
+          <a href="how-it-works.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">How It Works</a>
+          <a href="features.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Features</a>
+          <a href="contact.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Contact Us</a>
+          <a href="pricing.html" class="nav-link px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-medium rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange whitespace-nowrap">Pricing</a>
+
+          <!-- Dashboard Dropdown (Admin Dashboard & User Dashboard) -->
+          <div class="relative dashboard-dropdown-container" data-dropdown="dashboard">
+            <button 
+              type="button" 
+              id="dashboard-dropdown-btn" 
+              data-dropdown-trigger
+              class="dashboard-dropdown-trigger nav-link inline-flex items-center gap-1 px-2 xl:px-2.5 2xl:px-3 py-2 text-xs xl:text-[13px] 2xl:text-sm font-semibold rounded-lg text-charcoal/80 dark:text-cream/80 transition-colors hover:text-brand dark:hover:text-mutedOrange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 whitespace-nowrap"
+              aria-expanded="false" 
+              aria-haspopup="true"
+              aria-controls="dashboard-dropdown-menu"
+            >
+              <span>Dashboard</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 dashboard-chevron" data-dropdown-chevron aria-hidden="true"></i>
+            </button>
+            <div 
+              id="dashboard-dropdown-menu" 
+              data-dropdown-menu
+              class="dashboard-dropdown-menu hidden absolute left-0 rtl:left-auto rtl:right-0 top-full mt-1.5 w-52 rounded-2xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50 animate-fade-in"
+            >
+              <a 
+                href="dashboard/index.html" 
+                class="dashboard-dropdown-item flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 visited:text-charcoal/80 dark:visited:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+              >
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+                <span>Admin Dashboard</span>
+              </a>
+              <a 
+                href="dashboard/user-dashboard.html" 
+                class="dashboard-dropdown-item flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-charcoal/80 dark:text-cream/80 visited:text-charcoal/80 dark:visited:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700/70 hover:text-brand dark:hover:text-mutedOrange rounded-xl mx-1 transition"
+              >
+                <i data-lucide="user-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+                <span>User Dashboard</span>
+              </a>
+            </div>
+          </div>
         </nav>
 
-        <!-- 8-10. Right Utilities & Action Controls (Far Right) -->
-        <!-- Exact Order: LTR/RTL Toggle | Light/Dark Theme Toggle | Login CTA -->
-        <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
-          <!-- Utility Controls Group -->
-          <div class="flex items-center gap-1.5">
+        <!-- Right Utilities & Action Controls -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- Desktop-Only Utility Controls Group -->
+          <div class="hidden xl:flex items-center gap-1.5">
             <!-- RTL/LTR Direction Toggle Button -->
             <button 
               type="button" 
-              class="dir-toggle-btn w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/40" 
+              class="dir-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40" 
               title="Switch text direction (Current: LTR)" 
               aria-label="Switch text direction"
             >
-              <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+              <i data-lucide="arrow-left-right" class="w-4 h-4" aria-hidden="true"></i>
             </button>
 
             <!-- Light/Dark Mode Toggle Button -->
             <button 
               type="button" 
-              class="theme-toggle-btn w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/40" 
+              class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40" 
               title="Toggle Light/Dark Theme" 
               aria-label="Toggle Theme"
             >
-              <i data-lucide="moon" class="theme-icon-dark w-4 h-4"></i>
-              <i data-lucide="sun" class="theme-icon-light w-4 h-4"></i>
+              <i data-lucide="moon" class="theme-icon-dark w-4 h-4" aria-hidden="true"></i>
+              <i data-lucide="sun" class="theme-icon-light w-4 h-4" aria-hidden="true"></i>
             </button>
           </div>
 
-          <!-- Login Button (Rightmost CTA) -->
+          <!-- Desktop-Only Login CTA -->
           <a 
             href="login.html" 
-            class="hidden sm:inline-flex items-center gap-1.5 h-9 sm:h-10 px-3.5 xl:px-4 rounded-xl border border-brand/80 bg-brand/10 dark:bg-brand/15 hover:bg-brand hover:border-brand text-brand dark:text-mutedOrange hover:text-white dark:hover:text-white text-xs xl:text-sm font-semibold shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/50 whitespace-nowrap"
+            class="hidden xl:inline-flex items-center gap-1.5 h-9 px-4 rounded-xl border border-brand/80 bg-brand/10 dark:bg-brand/15 hover:bg-brand hover:border-brand text-brand dark:text-mutedOrange hover:text-white dark:hover:text-white text-[13px] font-semibold shadow-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 whitespace-nowrap"
           >
-            <i data-lucide="user" class="w-4 h-4"></i>
+            <i data-lucide="user" class="w-3.5 h-3.5" aria-hidden="true"></i>
             <span>Login</span>
           </a>
 
-          <!-- Mobile Hamburger Toggle -->
+          <!-- Mobile / Tablet Hamburger Toggle (Only control beside logo <1280px) -->
           <button 
             type="button" 
             id="mobile-menu-btn" 
-            class="lg:hidden w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand/40" 
+            class="xl:hidden w-10 h-10 flex items-center justify-center rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-brand/10 dark:hover:bg-charcoal-800 text-charcoal dark:text-cream transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40" 
             aria-expanded="false" 
+            aria-controls="mobile-menu"
             aria-label="Toggle navigation menu"
           >
-            <i data-lucide="menu" class="icon-menu w-5 h-5"></i>
-            <i data-lucide="x" class="icon-close w-5 h-5 hidden"></i>
+            <i data-lucide="menu" class="icon-menu w-5 h-5" aria-hidden="true"></i>
+            <i data-lucide="x" class="icon-close w-5 h-5 hidden" aria-hidden="true"></i>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Mobile Drawer Menu (Hidden by default) -->
-    <div id="mobile-menu" class="hidden lg:hidden border-t border-charcoal/10 dark:border-charcoal-700/60 bg-cream/98 dark:bg-charcoal-900/98 px-4 pt-3 pb-6 space-y-2 shadow-xl animate-fade-in">
+    <!-- Mobile & Tablet Drawer Menu (Samsung Galaxy & iPad Mini) -->
+    <!-- Order: Home | About | How It Works | Features | Pricing | Dashboard | Divider | Theme & Direction (2-up) | Login -->
+    <div id="mobile-menu" class="hidden xl:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain border-t border-charcoal/10 dark:border-charcoal-700/60 bg-cream/98 dark:bg-charcoal-900/98 px-4 pt-3.5 pb-6 space-y-2 shadow-xl animate-fade-in">
       
-      <!-- Mobile Home Accordion -->
-      <div class="mobile-home-accordion rounded-xl border border-charcoal/10 dark:border-charcoal-800 bg-white/50 dark:bg-charcoal-800/50 overflow-hidden">
+      <!-- 1. Mobile Home Accordion -->
+      <div class="mobile-home-accordion rounded-xl border border-charcoal/10 dark:border-charcoal-800 bg-white/60 dark:bg-charcoal-800/60 overflow-hidden" data-mobile-accordion>
         <button 
           type="button" 
           id="mobile-home-btn" 
-          class="w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10 transition-colors"
+          data-mobile-accordion-trigger
+          class="w-full flex items-center justify-between min-h-[44px] px-3.5 py-2.5 text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10 transition-colors"
           aria-expanded="false"
+          aria-controls="mobile-home-sublinks"
         >
           <span>Home</span>
-          <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 mobile-home-chevron"></i>
+          <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 mobile-home-chevron" data-mobile-accordion-chevron aria-hidden="true"></i>
         </button>
-        <div id="mobile-home-sublinks" class="hidden ps-4 pe-2 pb-2 pt-1 space-y-1">
-          <a href="index.html" class="nav-link flex items-center px-3 py-2 rounded-lg text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-brand/10 hover:text-brand">
+        <div id="mobile-home-sublinks" data-mobile-accordion-content class="hidden ps-4 pe-2 pb-2 pt-1 space-y-1">
+          <a href="index.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
             Home 1
           </a>
-          <a href="home-2.html" class="nav-link flex items-center px-3 py-2 rounded-lg text-xs font-semibold text-charcoal/80 dark:text-cream/80 hover:bg-brand/10 hover:text-brand">
+          <a href="home-2.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
             Home 2
           </a>
         </div>
       </div>
 
-      <a href="about.html" class="nav-link block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10">About</a>
-      <a href="features.html" class="nav-link block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10">Features</a>
-      <a href="pricing.html" class="nav-link block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10">Pricing</a>
-      <a href="dashboard/index.html" class="nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-brand bg-brand/10">
-        <span>Dashboard</span>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-brand text-white font-bold">Launch App</span>
-      </a>
-      
-      <div class="pt-3 border-t border-charcoal/10 dark:border-charcoal-700/60 flex items-center justify-between gap-3">
-        <a href="login.html" class="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm transition shadow-sm">
-          <i data-lucide="user" class="w-4 h-4"></i>
+      <!-- 2-5. Core Public Links -->
+      <a href="about.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">About</a>
+      <a href="how-it-works.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">How It Works</a>
+      <a href="features.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">Features</a>
+      <a href="contact.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">Contact Us</a>
+      <a href="pricing.html" class="nav-link flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">Pricing</a>
+
+      <!-- 6. Mobile Dashboard Accordion -->
+      <div class="mobile-dashboard-accordion rounded-xl border border-charcoal/10 dark:border-charcoal-800 bg-white/60 dark:bg-charcoal-800/60 overflow-hidden" data-mobile-accordion>
+        <button 
+          type="button" 
+          id="mobile-dashboard-btn" 
+          data-mobile-accordion-trigger
+          class="w-full flex items-center justify-between min-h-[44px] px-3.5 py-2.5 text-sm font-semibold text-charcoal dark:text-cream hover:bg-brand/10 transition-colors"
+          aria-expanded="false"
+          aria-controls="mobile-dashboard-sublinks"
+        >
+          <span>Dashboard</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 mobile-dashboard-chevron" data-mobile-accordion-chevron aria-hidden="true"></i>
+        </button>
+        <div id="mobile-dashboard-sublinks" data-mobile-accordion-content class="hidden ps-4 pe-2 pb-2 pt-1 space-y-1">
+          <a href="dashboard/index.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <span>Admin Dashboard</span>
+          </a>
+          <a href="dashboard/user-dashboard.html" class="nav-link flex items-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-semibold text-charcoal dark:text-cream visited:text-charcoal dark:visited:text-cream hover:bg-brand/10 hover:text-brand dark:hover:text-mutedOrange active:bg-brand/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 transition-colors">
+            <i data-lucide="user-check" class="w-3.5 h-3.5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <span>User Dashboard</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 7. Divider + 8. Utility Controls Row (Side-by-Side Equal Width Icon-Only Buttons) -->
+      <div class="pt-3 mt-2 border-t border-charcoal/10 dark:border-charcoal-700/60 space-y-2.5">
+        <div class="grid grid-cols-2 gap-2.5">
+          <!-- Theme Toggle Button (Icon-Only: Moon in Dark Mode, Sun in Light Mode) -->
+          <button 
+            type="button" 
+            class="theme-toggle-btn flex items-center justify-center min-h-[44px] h-11 w-full rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800 hover:border-brand/60 hover:bg-brand/10 dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+            title="Toggle Light/Dark Theme"
+            aria-label="Toggle Light/Dark Theme"
+          >
+            <i data-lucide="moon" class="theme-current-dark w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <i data-lucide="sun" class="theme-current-light w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+          </button>
+
+          <!-- Direction Toggle Button (Icon-Only: Align-Left in LTR, Align-Right in RTL) -->
+          <button 
+            type="button" 
+            class="dir-toggle-btn flex items-center justify-center min-h-[44px] h-11 w-full rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800 hover:border-brand/60 hover:bg-brand/10 dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+            title="Switch text direction (Current: LTR)"
+            aria-label="Switch text direction (Current: LTR)"
+          >
+            <i data-lucide="align-left" class="dir-current-ltr w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+            <i data-lucide="align-right" class="dir-current-rtl w-5 h-5 text-brand flex-shrink-0" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- 9. Full-Width Login Button Immediately Below Utility Controls -->
+        <a 
+          href="login.html" 
+          class="w-full flex items-center justify-center gap-2 min-h-[44px] px-4 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-sm shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+        >
+          <i data-lucide="user" class="w-4 h-4" aria-hidden="true"></i>
           <span>Login</span>
         </a>
       </div>
@@ -246,7 +346,8 @@
       </div>
 
       <h1 class="page-hero-title text-4xl sm:text-5xl lg:text-6xl leading-tight lg:leading-none">
-        Simple Plans for Smarter<br class="hidden sm:block" /> Inventory Management
+        Simple Plans for Smarter<br class="hidden sm:block" />
+        <span class="text-brand">Inventory Management</span>
       </h1>
 
       <p class="page-hero-subtitle text-base sm:text-lg leading-relaxed">
@@ -563,7 +664,7 @@
   <!-- ========================================================================
        SECTION: LET'S MAKE INVENTORY MANAGEMENT SIMPLER (CTA)
        ======================================================================== -->
-  <section class="py-16 sm:py-20 bg-charcoal text-cream dark:bg-charcoal-950 border-t border-charcoal-700/60 relative overflow-hidden">
+  <section id="platform-cta" class="py-16 sm:py-20 bg-charcoal text-cream dark:bg-charcoal-950 border-t border-charcoal-700/60 relative overflow-hidden scroll-mt-20">
     <!-- Subtle ambient brand glow -->
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[260px] bg-brand/10 blur-[100px] rounded-full pointer-events-none"></div>
 
@@ -597,12 +698,6 @@
           <i data-lucide="arrow-right" class="w-4 h-4 icon-flip-rtl"></i>
         </a>
       </div>
-
-      <!-- Live Contact Note -->
-      <div class="pt-2 text-xs text-cream/50 flex items-center justify-center gap-2">
-        <i data-lucide="clock" class="w-3.5 h-3.5 text-brand"></i>
-        <span>Average demo inquiry response time: under 2 hours</span>
-      </div>
     </div>
   </section>
 
@@ -610,12 +705,12 @@
   <!-- ========================================================================
        STANDARDIZED 5-COLUMN FOOTER
        ======================================================================== -->
-  <footer class="bg-charcoal-900 text-cream/80 border-t border-charcoal-700/60 pt-16 pb-12">
+  <footer class="bg-charcoal-900 text-cream/80 border-t border-charcoal-700/60 pt-16 pb-20 sm:pb-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-charcoal-700/60">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8 xl:gap-8 pb-12 border-b border-charcoal-700/60">
         
         <!-- Column 1: Brand Identity (Standardized Logo) -->
-        <div class="space-y-4">
+        <div class="space-y-4 sm:col-span-2 lg:col-span-4 xl:col-span-1">
           <a href="index.html" class="inline-flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="STOCKFLOW Home">
             <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200">
               <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
@@ -625,7 +720,7 @@
               <span class="text-[10px] tracking-widest uppercase font-semibold text-mutedOrange mt-1 leading-none">Retail Inventory OS</span>
             </div>
           </a>
-          <p class="text-xs text-cream/65 leading-relaxed">
+          <p class="text-xs text-cream/65 leading-relaxed max-w-md xl:max-w-none">
             The intelligent inventory management and purchase order software designed specifically for general retailers, supermarkets, and specialty merchants.
           </p>
         </div>
@@ -637,9 +732,12 @@
             <li><a href="index.html" class="hover:text-brand transition">Home 1</a></li>
             <li><a href="home-2.html" class="hover:text-brand transition">Home 2</a></li>
             <li><a href="about.html" class="hover:text-brand transition">About Us</a></li>
+            <li><a href="how-it-works.html" class="hover:text-brand transition">How It Works</a></li>
             <li><a href="features.html" class="hover:text-brand transition">Features</a></li>
+            <li><a href="contact.html" class="hover:text-brand transition">Contact Us</a></li>
             <li><a href="pricing.html" class="hover:text-brand transition">Pricing Plans</a></li>
-            <li><a href="dashboard/index.html" class="hover:text-brand transition font-semibold text-brand">Dashboard</a></li>
+            <li><a href="dashboard/index.html" class="hover:text-brand transition">Admin Dashboard</a></li>
+            <li><a href="dashboard/user-dashboard.html" class="hover:text-brand transition">User Dashboard</a></li>
           </ul>
         </div>
 
@@ -721,7 +819,7 @@
       </div>
 
       <!-- Bottom Disclaimer Bar -->
-      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream/50">
+      <div class="pt-8 sm:pe-14 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 text-xs text-cream/50 text-center sm:text-start">
         <div>
           STOCKFLOW Retail Operating System &bull; Automated Retail Inventory Suite
         </div>

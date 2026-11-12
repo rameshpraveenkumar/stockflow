@@ -41,13 +41,31 @@ function initThemeToggle() {
 
 function updateThemeIcons() {
   const isDark = document.documentElement.classList.contains('dark');
+  const themeToggles = document.querySelectorAll('.theme-toggle-btn');
   const lightIcons = document.querySelectorAll('.theme-icon-light');
   const darkIcons = document.querySelectorAll('.theme-icon-dark');
+  const currentLightIcons = document.querySelectorAll('.theme-current-light');
+  const currentDarkIcons = document.querySelectorAll('.theme-current-dark');
+
+  themeToggles.forEach((btn) => {
+    const modeLabel = isDark ? 'Dark' : 'Light';
+    const nextLabel = isDark ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', `Toggle theme (Current: ${modeLabel}, click for ${nextLabel})`);
+    btn.setAttribute('title', `Toggle Light/Dark Theme (Current: ${modeLabel})`);
+  });
 
   lightIcons.forEach((el) => {
     el.style.display = isDark ? 'inline-block' : 'none';
   });
   darkIcons.forEach((el) => {
+    el.style.display = isDark ? 'none' : 'inline-block';
+  });
+
+  // Mobile/Tablet utility button shows current mode icon (Moon in Dark, Sun in Light)
+  currentDarkIcons.forEach((el) => {
+    el.style.display = isDark ? 'inline-block' : 'none';
+  });
+  currentLightIcons.forEach((el) => {
     el.style.display = isDark ? 'none' : 'inline-block';
   });
 }

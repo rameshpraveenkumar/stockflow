@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | STOCKFLOW Retail Associate Workspace</title>
+  <meta name="description" content="STOCKFLOW User Dashboard - Retail store associate workspace for floor stock checks, quantity adjustments, restock checklists, and shipment receiving.">
+
+  <!-- Favicons & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="../favicon.ico">
+
+  <!-- Tailwind CSS Local Bundle -->
+  <script src="../assets/vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#E88743',
+              50: '#FDF7F2',
+              100: '#FAECDF',
+              200: '#F4D4BC',
+              300: '#EEB994',
+              400: '#E89E6B',
+              500: '#E88743',
+              600: '#D5732E',
+              700: '#B85A1D',
+              800: '#944414',
+              900: '#73330D',
+            },
+            charcoal: {
+              DEFAULT: '#242A27',
+              50: '#F5F6F5',
+              100: '#E6E8E6',
+              200: '#CDD0CD',
+              700: '#2D3531',
+              800: '#242A27',
+              900: '#1A1E1C',
+            },
+            cream: {
+              DEFAULT: '#F7F5EF',
+              100: '#FAF9F5',
+              200: '#F1EFE6',
+            },
+            mutedOrange: '#F4C7A5',
+            sage: {
+              DEFAULT: '#A7B7A5',
+              light: '#D3DDD1',
+              dark: '#859883',
+            },
+            lightgrey: '#E8E8E2',
+            success: '#32845A',
+            warning: '#D99A32',
+            danger: '#D9534F'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & Chart.js Local Bundles -->
+  <script src="../assets/vendor/lucide.min.js"></script>
+  <script src="../assets/vendor/chart.umd.min.js"></script>
+
+  <!-- Custom Styles & Theme Initializer -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/theme.js"></script>
+  <script src="../js/direction.js"></script>
+</head>
+<body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased min-h-screen flex selection:bg-brand selection:text-white">
+
+  <!-- Mobile Sidebar Overlay Backdrop -->
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-charcoal/60 backdrop-blur-sm hidden lg:hidden"></div>
+
+  <!-- ========================================================================
+       VERTICAL DASHBOARD SIDEBAR / MOBILE DRAWER (RETAIL ASSOCIATE WORKSPACE)
+       ======================================================================== -->
+  <aside
+    id="dashboard-sidebar"
+    aria-label="User Workspace Navigation"
+    class="fixed inset-y-0 left-0 rtl:left-auto rtl:right-0 z-50 w-[min(22rem,calc(100vw-1.25rem))] sm:w-80 lg:w-64 max-w-full bg-white dark:bg-charcoal-800 border-r rtl:border-r-0 rtl:border-l border-charcoal/10 dark:border-charcoal-700/60 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full rtl:translate-x-full lg:translate-x-0 shadow-2xl lg:shadow-none"
+  >
+    <!-- Drawer Sticky Top Brand Header -->
+    <div class="p-4 sm:p-5 pb-4 border-b border-charcoal/10 dark:border-charcoal-700 flex items-center justify-between gap-2 flex-shrink-0">
+      <a href="../index.html" class="inline-flex items-center gap-3 group focus:outline-none min-w-0 flex-1" aria-label="STOCKFLOW Home">
+        <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200 flex-shrink-0">
+          <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="font-display text-xl font-extrabold tracking-tight text-charcoal dark:text-cream leading-none truncate">STOCKFLOW</span>
+          <span class="text-[9px] tracking-widest uppercase font-semibold text-brand dark:text-mutedOrange mt-1 leading-none truncate">Retail Associate OS</span>
+        </div>
+      </a>
+      <button
+        type="button"
+        id="drawer-close-btn"
+        class="lg:hidden w-9 h-9 rounded-xl border border-charcoal/15 dark:border-charcoal-700 flex items-center justify-center text-charcoal dark:text-cream hover:bg-cream dark:hover:bg-charcoal-700 transition flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+        aria-label="Close navigation drawer"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Scrollable Drawer / Sidebar Body -->
+    <div id="drawer-scroll-body" class="p-4 sm:p-5 flex-1 min-h-0 overflow-y-auto overscroll-contain space-y-5">
+      <!-- GROUP 1: Dashboard Navigation (Associate Workspace Only) -->
+      <section aria-labelledby="drawer-nav-heading">
+        <h2 id="drawer-nav-heading" class="lg:hidden text-[10px] font-bold uppercase tracking-wider text-charcoal/50 dark:text-cream/50 px-1 mb-2">
+          Dashboard Navigation
+        </h2>
+        <nav class="space-y-1 text-xs font-semibold" aria-label="User Workspace Sidebar">
+          <a href="user-dashboard.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <i data-lucide="user-check" class="w-4 h-4 text-brand flex-shrink-0"></i>
+              <span>User Dashboard</span>
+            </div>
+          </a>
+
+          <a href="index.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <i data-lucide="layout-dashboard" class="w-4 h-4 flex-shrink-0"></i>
+              <span>Admin Dashboard</span>
+            </div>
+          </a>
+
+          <a href="products.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <i data-lucide="box" class="w-4 h-4 flex-shrink-0"></i>
+              <span>Floor Catalog</span>
+            </div>
+          </a>
+
+          <a href="categories.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <i data-lucide="folder-tree" class="w-4 h-4 flex-shrink-0"></i>
+              <span>Aisles &amp; Categories</span>
+            </div>
+          </a>
+
+          <a href="purchase-orders.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <i data-lucide="package-check" class="w-4 h-4 flex-shrink-0"></i>
+              <span>Receiving Dock</span>
+            </div>
+            <span id="sidebar-po-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand/15 text-brand">2</span>
+          </a>
+
+          <a href="stock-alerts.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl text-charcoal/70 dark:text-cream/70 hover:bg-cream dark:hover:bg-charcoal-700/60 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <i data-lucide="bell" class="w-4 h-4 flex-shrink-0"></i>
+              <span>Restock Queue</span>
+            </div>
+            <span id="sidebar-alerts-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-danger/15 text-danger">5</span>
+          </a>
+        </nav>
+      </section>
+
+      <!-- GROUP 2: Notifications (Mobile / Tablet Drawer Only) -->
+      <section id="drawer-notifications-section" class="lg:hidden pt-4 border-t border-charcoal/10 dark:border-charcoal-700" aria-labelledby="drawer-notifications-toggle">
+        <button
+          type="button"
+          id="drawer-notifications-toggle"
+          class="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl bg-cream/70 dark:bg-charcoal-900/60 hover:bg-cream dark:hover:bg-charcoal-700/60 text-charcoal dark:text-cream transition text-xs font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+          aria-expanded="false"
+          aria-controls="drawer-notifications-panel"
+        >
+          <span class="flex items-center gap-2 min-w-0">
+            <i data-lucide="bell" class="w-4 h-4 text-brand flex-shrink-0"></i>
+            <span>Notifications</span>
+            <span id="drawer-notif-badge" class="hidden inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-bold bg-danger text-white leading-none"></span>
+          </span>
+          <i data-lucide="chevron-down" class="drawer-notif-chevron w-4 h-4 text-charcoal/60 dark:text-cream/60 transition-transform duration-200 flex-shrink-0"></i>
+        </button>
+
+        <div id="drawer-notifications-panel" class="hidden mt-2.5 space-y-2.5 w-full min-w-0">
+          <div class="flex flex-wrap items-center justify-between gap-2 px-1">
+            <span id="drawer-notif-summary" class="text-[11px] font-semibold text-charcoal/70 dark:text-cream/70">Floor Restock Alerts</span>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <button type="button" id="drawer-mark-all-read-btn" class="text-[11px] font-semibold text-brand hover:underline focus:outline-none">
+                Mark all read
+              </button>
+              <a href="stock-alerts.html" class="drawer-nav-close-link text-[11px] font-semibold text-charcoal/70 dark:text-cream/70 hover:text-brand hover:underline">
+                View Queue
+              </a>
+            </div>
+          </div>
+          <div id="drawer-notifications-list" class="space-y-2 w-full min-w-0"></div>
+        </div>
+      </section>
+
+      <!-- GROUP 3: Appearance (Mobile / Tablet Drawer Only) -->
+      <section id="drawer-appearance-section" class="lg:hidden pt-4 border-t border-charcoal/10 dark:border-charcoal-700 space-y-2.5" aria-labelledby="drawer-appearance-heading">
+        <h2 id="drawer-appearance-heading" class="text-[10px] font-bold uppercase tracking-wider text-charcoal/50 dark:text-cream/50 px-1">
+          Appearance
+        </h2>
+        <div class="grid grid-cols-2 gap-2.5">
+          <button
+            type="button"
+            class="theme-toggle-btn h-11 rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-cream/60 dark:bg-charcoal-900/50 hover:bg-cream dark:hover:bg-charcoal-700 flex items-center justify-center text-charcoal dark:text-cream transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+            aria-label="Toggle Light/Dark Theme"
+            title="Toggle Light/Dark Theme"
+          >
+            <i data-lucide="moon" class="theme-current-dark w-4 h-4 text-brand dark:text-mutedOrange"></i>
+            <i data-lucide="sun" class="theme-current-light w-4 h-4 text-brand dark:text-mutedOrange"></i>
+          </button>
+          <button
+            type="button"
+            class="dir-toggle-btn h-11 rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-cream/60 dark:bg-charcoal-900/50 hover:bg-cream dark:hover:bg-charcoal-700 flex items-center justify-center text-charcoal dark:text-cream transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+            aria-label="Switch text direction"
+            title="Switch text direction"
+          >
+            <i data-lucide="align-left" class="dir-current-ltr w-4 h-4 text-brand dark:text-mutedOrange"></i>
+            <i data-lucide="align-right" class="dir-current-rtl w-4 h-4 text-brand dark:text-mutedOrange"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- GROUP 4: Account (Mobile / Tablet Drawer Only) -->
+      <section id="drawer-account-section" class="lg:hidden pt-4 border-t border-charcoal/10 dark:border-charcoal-700 space-y-2.5" aria-labelledby="drawer-account-heading">
+        <h2 id="drawer-account-heading" class="text-[10px] font-bold uppercase tracking-wider text-charcoal/50 dark:text-cream/50 px-1">
+          Account
+        </h2>
+        <div class="p-3 rounded-xl bg-cream/50 dark:bg-charcoal-900/50 border border-charcoal/10 dark:border-charcoal-700 space-y-3">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="retailer-avatar-initials w-9 h-9 rounded-full bg-brand text-white font-bold flex items-center justify-center text-xs flex-shrink-0">
+              AM
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream truncate">Alex Morgan</span>
+                <span class="retailer-role-badge inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sage/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">Associate</span>
+              </div>
+              <span class="retailer-email-display text-[10px] text-charcoal/60 dark:text-cream/60 block truncate">retailer@stockflow.demo</span>
+            </div>
+          </div>
+
+          <div class="drawer-role-switch-slot"></div>
+
+          <div class="space-y-1 pt-2 border-t border-charcoal/10 dark:border-charcoal-700 text-xs">
+            <a href="index.html" class="drawer-nav-close-link flex items-center gap-2 px-2.5 py-2 rounded-lg text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 flex-shrink-0"></i>
+              <span>Admin Dashboard</span>
+            </a>
+            <a href="../index.html" class="drawer-nav-close-link flex items-center gap-2 px-2.5 py-2 rounded-lg text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="globe" class="w-3.5 h-3.5 flex-shrink-0"></i>
+              <span>Public Website</span>
+            </a>
+          </div>
+
+          <button
+            type="button"
+            class="logout-trigger w-full h-10 rounded-xl border border-danger/25 bg-red-50/70 dark:bg-red-950/20 hover:bg-red-100 dark:hover:bg-red-950/40 text-danger font-semibold text-xs flex items-center justify-center gap-2 transition"
+          >
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            <span>Logout Session</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Desktop Sidebar Bottom: Associate Profile & Logout (Preserved on >= lg) -->
+    <div class="hidden lg:block p-4 border-t border-charcoal/10 dark:border-charcoal-700 bg-cream/30 dark:bg-charcoal-900/40 flex-shrink-0">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="retailer-avatar-initials w-9 h-9 rounded-full bg-brand/20 text-brand font-bold flex items-center justify-center text-xs flex-shrink-0">
+            AM
+          </div>
+          <div class="min-w-0">
+            <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block truncate">Alex Morgan</span>
+            <span class="retailer-role-display text-[10px] text-emerald-700 dark:text-emerald-300 font-semibold block truncate">Store Associate (User)</span>
+          </div>
+        </div>
+        <button type="button" class="logout-trigger text-charcoal/50 hover:text-danger dark:text-cream/50 dark:hover:text-danger p-1.5 transition" title="Logout">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       MAIN USER WORKSPACE CONTENT AREA
+       ======================================================================== -->
+  <div id="dashboard-main-wrapper" class="flex-1 lg:pl-64 rtl:lg:pl-0 rtl:lg:pr-64 flex flex-col min-w-0 transition-all duration-300">
+
+    <!-- DASHBOARD TOP BAR -->
+    <header class="sticky top-0 z-30 h-16 bg-white/95 dark:bg-charcoal-800/95 backdrop-blur-md border-b border-charcoal/10 dark:border-charcoal-700/60 px-4 sm:px-6 flex items-center justify-between gap-3">
+
+      <!-- Left (Mobile/Tablet < lg): Brand Logo ONLY -->
+      <a href="../index.html" class="lg:hidden inline-flex items-center gap-2.5 group focus:outline-none min-w-0" aria-label="STOCKFLOW Home">
+        <div class="w-9 h-9 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm group-hover:bg-brand-600 transition-colors duration-200 flex-shrink-0">
+          <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="font-display text-lg font-extrabold tracking-tight text-charcoal dark:text-cream leading-none truncate">STOCKFLOW</span>
+          <span class="text-[8px] tracking-widest uppercase font-semibold text-brand dark:text-mutedOrange mt-0.5 leading-none truncate">Retail Associate OS</span>
+        </div>
+      </a>
+
+      <!-- Left (Desktop >= lg): Page Title + Subtitle -->
+      <div class="hidden lg:flex items-center gap-3">
+        <div>
+          <h1 class="font-display text-lg font-bold text-charcoal dark:text-cream leading-tight">
+            User Dashboard
+          </h1>
+          <span class="text-[10px] text-charcoal/50 dark:text-cream/50 block">Retail Floor &amp; Associate Operations</span>
+        </div>
+      </div>
+
+      <!-- Right (Mobile/Tablet < lg): Hamburger Button with Unread Badge ONLY -->
+      <button
+        type="button"
+        id="sidebar-toggle-btn"
+        class="lg:hidden relative w-10 h-10 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 text-charcoal dark:text-cream hover:bg-cream dark:hover:bg-charcoal-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 flex-shrink-0"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="dashboard-sidebar"
+      >
+        <i data-lucide="menu" class="sidebar-icon-menu w-5 h-5"></i>
+        <i data-lucide="x" class="sidebar-icon-close w-5 h-5 hidden"></i>
+        <span id="hamburger-notif-badge" class="hidden absolute -top-1.5 -end-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-danger text-white text-[10px] font-bold leading-none flex items-center justify-center ring-2 ring-white dark:ring-charcoal-800 pointer-events-none"></span>
+      </button>
+
+      <!-- Right (Desktop >= lg): Search, Toggles, Notifications, Profile -->
+      <div class="hidden lg:flex items-center gap-3">
+
+        <!-- Global Search Field -->
+        <div class="relative w-64">
+          <input
+            type="text"
+            id="global-quick-search"
+            placeholder="Lookup SKU, product..."
+            class="w-full h-9 ps-8 pe-3 rounded-xl bg-cream/70 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream placeholder-charcoal/40 dark:placeholder-cream/40 focus:outline-none focus:ring-2 focus:ring-brand/40"
+          >
+          <i data-lucide="search" class="w-3.5 h-3.5 text-charcoal/40 dark:text-cream/40 absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+
+          <!-- Search Results Dropdown -->
+          <div id="global-search-results" class="hidden absolute top-full left-0 right-0 mt-1.5 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 overflow-hidden z-50"></div>
+        </div>
+
+        <!-- RTL/LTR Toggle -->
+        <button
+          type="button"
+          class="dir-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition"
+          title="Switch text direction"
+        >
+          <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button
+          type="button"
+          class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition"
+          title="Toggle Light/Dark Theme"
+        >
+          <i data-lucide="moon" class="theme-icon-dark w-4 h-4"></i>
+          <i data-lucide="sun" class="theme-icon-light w-4 h-4"></i>
+        </button>
+
+        <!-- Notifications Bell -->
+        <div class="relative">
+          <button
+            type="button"
+            id="notifications-btn"
+            class="w-9 h-9 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition relative"
+            title="Notifications"
+          >
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span id="notif-unread-dot" class="hidden absolute top-1.5 end-1.5 w-2 h-2 rounded-full bg-danger"></span>
+          </button>
+
+          <!-- Notifications Dropdown -->
+          <div id="notifications-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-2xl bg-white dark:bg-charcoal-800 shadow-2xl border border-charcoal/10 dark:border-charcoal-700 p-2 z-50">
+            <div class="flex items-center justify-between gap-2 px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="font-bold text-xs text-charcoal dark:text-cream">Floor Restock Alerts</span>
+              <div class="flex items-center gap-2.5">
+                <button type="button" id="desktop-mark-all-read-btn" class="text-[10px] text-charcoal/60 dark:text-cream/60 hover:text-brand font-semibold">Mark read</button>
+                <a href="stock-alerts.html" class="text-[10px] text-brand font-semibold hover:underline">View Queue</a>
+              </div>
+            </div>
+            <div id="notifications-list-container" class="max-h-72 overflow-y-auto divide-y divide-charcoal/5 dark:divide-charcoal-700 py-1"></div>
+          </div>
+        </div>
+
+        <!-- User Profile Avatar & Menu -->
+        <div class="relative flex items-center gap-2">
+          <span class="retailer-role-badge hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sage/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">Associate</span>
+
+          <button
+            type="button"
+            id="user-profile-btn"
+            class="flex items-center gap-2 p-1 rounded-xl hover:bg-cream dark:hover:bg-charcoal-700 transition focus:outline-none"
+          >
+            <div class="retailer-avatar-initials w-8 h-8 rounded-full bg-brand text-white font-bold flex items-center justify-center text-xs shadow-sm">
+              AM
+            </div>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-charcoal/50 dark:text-cream/50 hidden sm:block"></i>
+          </button>
+
+          <!-- User Menu Dropdown -->
+          <div id="user-profile-dropdown" class="hidden absolute right-0 rtl:right-auto rtl:left-0 top-full mt-2 w-52 rounded-xl bg-white dark:bg-charcoal-800 shadow-xl border border-charcoal/10 dark:border-charcoal-700 py-1.5 z-50">
+            <div class="px-3 py-2 border-b border-charcoal/10 dark:border-charcoal-700">
+              <span class="retailer-name-display font-bold text-xs text-charcoal dark:text-cream block">Alex Morgan</span>
+              <span class="retailer-email-display text-[10px] text-charcoal/50 dark:text-cream/50 block truncate">retailer@stockflow.demo</span>
+            </div>
+            <a href="index.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+              <span>Admin Dashboard</span>
+            </a>
+            <a href="../index.html" class="flex items-center gap-2 px-3 py-2 text-xs text-charcoal/80 dark:text-cream/80 hover:bg-cream dark:hover:bg-charcoal-700 transition">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              <span>Public Website</span>
+            </a>
+            <button type="button" class="logout-trigger w-full text-start flex items-center gap-2 px-3 py-2 text-xs text-danger hover:bg-red-50 dark:hover:bg-red-950/20 transition border-t border-charcoal/10 dark:border-charcoal-700">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Logout Session</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN USER WORKSPACE CONTENT -->
+    <main class="p-4 sm:p-6 lg:p-8 space-y-6 flex-1">
+
+      <!-- Welcome Banner -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold uppercase tracking-wider mb-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            Store Floor Workspace • Shift Active
+          </div>
+          <h2 class="font-display text-2xl font-extrabold text-charcoal dark:text-cream">
+            Ready for Your Shift, Associate!
+          </h2>
+          <p class="text-xs sm:text-sm text-charcoal/60 dark:text-cream/60 mt-0.5">
+            Verify aisle quantities, prioritize low-stock refills, and check incoming deliveries. <span id="user-current-date" class="font-medium text-charcoal dark:text-cream"></span>
+          </p>
+        </div>
+
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 flex-shrink-0">
+          <a href="stock-alerts.html" class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-brand hover:bg-brand-600 text-white font-semibold text-xs shadow-sm transition whitespace-nowrap">
+            <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+            <span>Restock Checklist</span>
+          </a>
+          <a href="purchase-orders.html" class="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-charcoal/20 dark:border-charcoal-700 hover:bg-cream dark:hover:bg-charcoal-700 text-charcoal dark:text-cream font-semibold text-xs transition whitespace-nowrap">
+            <i data-lucide="package-check" class="w-4 h-4"></i>
+            <span>Receive Delivery</span>
+          </a>
+          <a href="index.html" class="inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-brand/40 bg-brand/5 hover:bg-brand/10 text-brand font-semibold text-xs transition whitespace-nowrap">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>Admin View</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 ASSOCIATE OPERATIONAL KPI CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <!-- KPI 1: Active Floor SKUs -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between text-charcoal/60 dark:text-cream/60 text-xs">
+            <span class="font-semibold uppercase tracking-wider">Floor SKUs</span>
+            <div class="w-8 h-8 rounded-lg bg-brand/10 text-brand flex items-center justify-center">
+              <i data-lucide="scan-barcode" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-display font-extrabold text-charcoal dark:text-cream" id="user-kpi-skus">--</div>
+          <div class="text-[11px] text-charcoal/60 dark:text-cream/60">
+            <span class="font-bold text-success" id="user-kpi-healthy">-- fully stocked</span>
+          </div>
+        </div>
+
+        <!-- KPI 2: Total Shelf Units -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between text-charcoal/60 dark:text-cream/60 text-xs">
+            <span class="font-semibold uppercase tracking-wider">Units On Shelf</span>
+            <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/40 text-success flex items-center justify-center">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-display font-extrabold text-brand" id="user-kpi-units">--</div>
+          <div class="text-[11px] text-charcoal/60 dark:text-cream/60">
+            Live countable store inventory
+          </div>
+        </div>
+
+        <!-- KPI 3: Restock Priority -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between text-charcoal/60 dark:text-cream/60 text-xs">
+            <span class="font-semibold uppercase tracking-wider">Restock Needed</span>
+            <div class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-950/40 text-warning flex items-center justify-center">
+              <i data-lucide="alert-circle" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-display font-extrabold text-warning" id="user-kpi-alerts">--</div>
+          <div class="text-[11px] text-warning font-semibold" id="user-kpi-stockouts">-- empty shelves</div>
+        </div>
+
+        <!-- KPI 4: Shipments Expected -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between text-charcoal/60 dark:text-cream/60 text-xs">
+            <span class="font-semibold uppercase tracking-wider">Inbound Dock</span>
+            <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/40 text-blue-600 flex items-center justify-center">
+              <i data-lucide="truck" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-display font-extrabold text-charcoal dark:text-cream" id="user-kpi-incoming">--</div>
+          <div class="text-[11px] text-charcoal/60 dark:text-cream/60">
+            Deliveries open for check-in
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK FLOOR COUNT LOOKUP + DEPARTMENT AVAILABILITY CHART -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Quick Shelf Adjustment Widget (7 cols) -->
+        <div class="lg:col-span-7 p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Quick Shelf Stock Counter</h3>
+              <p class="text-xs text-charcoal/55 dark:text-cream/55">Lookup a product by name or SKU and adjust floor shelf counts in one tap.</p>
+            </div>
+            <div class="relative w-full sm:w-56">
+              <input
+                type="text"
+                id="floor-sku-filter"
+                placeholder="Filter item or SKU..."
+                class="w-full h-9 ps-8 pe-3 rounded-xl bg-cream/70 dark:bg-charcoal-900 border border-charcoal/15 dark:border-charcoal-700 text-xs text-charcoal dark:text-cream placeholder-charcoal/40 dark:placeholder-cream/40 focus:outline-none focus:ring-2 focus:ring-brand/40"
+              >
+              <i data-lucide="search" class="w-3.5 h-3.5 text-charcoal/40 dark:text-cream/40 absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-start">
+              <thead class="border-b border-charcoal/10 dark:border-charcoal-700 text-charcoal/60 dark:text-cream/60">
+                <tr>
+                  <th class="pb-2.5 font-semibold">Item &amp; SKU</th>
+                  <th class="pb-2.5 font-semibold">Category</th>
+                  <th class="pb-2.5 font-semibold text-center">Floor Count</th>
+                  <th class="pb-2.5 font-semibold text-end">Quick Adjust</th>
+                </tr>
+              </thead>
+              <tbody id="floor-counter-tbody" class="divide-y divide-charcoal/5 dark:divide-charcoal-700/60"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Category Shelf Units Chart (5 cols) -->
+        <div class="lg:col-span-5 p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4 flex flex-col justify-between">
+          <div>
+            <h3 class="font-display font-bold text-base text-charcoal dark:text-cream">Units On Hand by Department</h3>
+            <p class="text-xs text-charcoal/55 dark:text-cream/55">Current shelf availability across retail aisles</p>
+          </div>
+          <div class="relative h-64 w-full">
+            <canvas id="associateCategoryChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TWO FLOOR PANELS: PRIORITY RESTOCKS & EXPECTED RECEIVING -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Priority Restock Queue -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-warning"></span>
+              <h3 class="font-display font-bold text-sm sm:text-base text-charcoal dark:text-cream">Priority Shelf Refills</h3>
+            </div>
+            <a href="stock-alerts.html" class="text-xs font-semibold text-brand hover:underline flex items-center gap-1">
+              <span>Full Queue</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl"></i>
+            </a>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-start">
+              <thead class="border-b border-charcoal/10 dark:border-charcoal-700 text-charcoal/60 dark:text-cream/60">
+                <tr>
+                  <th class="pb-2 font-semibold">Item</th>
+                  <th class="pb-2 font-semibold text-center">Remaining</th>
+                  <th class="pb-2 font-semibold text-center">Target Min</th>
+                  <th class="pb-2 font-semibold text-end">Priority</th>
+                </tr>
+              </thead>
+              <tbody id="user-restock-tbody" class="divide-y divide-charcoal/5 dark:divide-charcoal-700/60"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Incoming Shipments Receiving Check-In -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-display font-bold text-sm sm:text-base text-charcoal dark:text-cream">Incoming Shipments to Receive</h3>
+            <a href="purchase-orders.html" class="text-xs font-semibold text-brand hover:underline flex items-center gap-1">
+              <span>Receiving Log</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 icon-flip-rtl"></i>
+            </a>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-start">
+              <thead class="border-b border-charcoal/10 dark:border-charcoal-700 text-charcoal/60 dark:text-cream/60">
+                <tr>
+                  <th class="pb-2 font-semibold">Order Ref</th>
+                  <th class="pb-2 font-semibold">Vendor</th>
+                  <th class="pb-2 font-semibold text-center">Items</th>
+                  <th class="pb-2 font-semibold text-end">Dock Status</th>
+                </tr>
+              </thead>
+              <tbody id="user-receiving-tbody" class="divide-y divide-charcoal/5 dark:divide-charcoal-700/60"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ASSOCIATE SHIFT LOG -->
+      <div class="p-6 rounded-2xl bg-white dark:bg-charcoal-800 border border-charcoal/10 dark:border-charcoal-700 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-charcoal/10 dark:border-charcoal-700 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="history" class="w-4 h-4 text-brand"></i>
+            <h3 class="font-display font-bold text-sm sm:text-base text-charcoal dark:text-cream">Recent Floor &amp; Stock Activity</h3>
+          </div>
+          <span class="text-[11px] text-charcoal/50 dark:text-cream/50">Live associate shift feed</span>
+        </div>
+
+        <div id="user-activity-feed" class="space-y-3"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Central scripts -->
+  <script src="../js/auth.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/dashboard.js"></script>
+
+  <!-- User Dashboard Logic -->
+  <script>
+    let departmentChart = null;
+    let currentFilter = '';
+
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const dateEl = document.getElementById('user-current-date');
+      if (dateEl) {
+        const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        dateEl.textContent = new Date().toLocaleDateString(undefined, options);
+      }
+
+      const filterInput = document.getElementById('floor-sku-filter');
+      if (filterInput) {
+        filterInput.addEventListener('input', (e) => {
+          currentFilter = e.target.value.trim().toLowerCase();
+          renderFloorCounterTable();
+        });
+      }
+
+      refreshUserWorkspace();
+
+      window.addEventListener('themechange', initDepartmentChart);
+      window.addEventListener('directionchange', initDepartmentChart);
+    });
+
+    function refreshUserWorkspace() {
+      renderUserKPIs();
+      renderFloorCounterTable();
+      renderPriorityRestocks();
+      renderIncomingShipments();
+      renderUserActivityFeed();
+      initDepartmentChart();
+    }
+
+    function renderUserKPIs() {
+      const products = DataStore.getProducts();
+      const metrics = DataStore.calculateMetrics();
+      const orders = DataStore.getPurchaseOrders();
+      const totalUnits = products.reduce((sum, p) => sum + Number(p.stock || 0), 0);
+      const openShipments = orders.filter(o => o.status === 'Pending' || o.status === 'Partially Received').length;
+
+      document.getElementById('user-kpi-skus').textContent = `${metrics.totalProducts} SKUs`;
+      document.getElementById('user-kpi-healthy').textContent = `${metrics.inStockCount} healthy on floor`;
+      document.getElementById('user-kpi-units').textContent = `${totalUnits.toLocaleString()} Units`;
+      document.getElementById('user-kpi-alerts').textContent = `${metrics.lowStockCount + metrics.outOfStockCount} Items`;
+      document.getElementById('user-kpi-stockouts').textContent = `${metrics.outOfStockCount} empty shelves`;
+      document.getElementById('user-kpi-incoming').textContent = `${openShipments} Deliveries`;
+    }
+
+    function renderFloorCounterTable() {
+      const tbody = document.getElementById('floor-counter-tbody');
+      if (!tbody) return;
+      let products = DataStore.getProducts();
+      if (currentFilter) {
+        products = products.filter(p =>
+          p.name.toLowerCase().includes(currentFilter) ||
+          p.sku.toLowerCase().includes(currentFilter) ||
+          p.categoryName.toLowerCase().includes(currentFilter)
+        );
+      }
+      const list = products.slice(0, 6);
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-charcoal/50 dark:text-cream/50">No matching shelf items found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = list.map(p => `
+        <tr class="hover:bg-cream/50 dark:hover:bg-charcoal-700/40 transition">
+          <td class="py-2.5">
+            <span class="font-bold text-charcoal dark:text-cream block">${esc(p.name)}</span>
+            <span class="text-[10px] font-mono text-charcoal/50 dark:text-cream/50">${esc(p.sku)}</span>
+          </td>
+          <td class="py-2.5 text-charcoal/70 dark:text-cream/70">${esc(p.categoryName)}</td>
+          <td class="py-2.5 text-center font-mono font-bold ${p.stock === 0 ? 'text-danger' : p.stock <= p.threshold ? 'text-warning' : 'text-success'}">
+            ${Number(p.stock)}
+          </td>
+          <td class="py-2.5 text-end">
+            <div class="inline-flex items-center gap-1.5">
+              <button type="button" onclick="adjustFloorCount('${esc(p.id)}', -1)" class="w-7 h-7 rounded-lg border border-charcoal/15 dark:border-charcoal-600 hover:bg-cream dark:hover:bg-charcoal-700 font-bold text-charcoal dark:text-cream transition" aria-label="Decrease floor count for ${esc(p.name)}">-</button>
+              <button type="button" onclick="adjustFloorCount('${esc(p.id)}', 1)" class="w-7 h-7 rounded-lg bg-brand/15 hover:bg-brand text-brand hover:text-white font-bold transition" aria-label="Increase floor count for ${esc(p.name)}">+</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function adjustFloorCount(productId, delta) {
+      const product = DataStore.getProductById(productId);
+      if (!product) return;
+      const nextQty = Math.max(0, Number(product.stock || 0) + delta);
+      DataStore.adjustStock(productId, nextQty, 'Floor Associate Count');
+      refreshUserWorkspace();
+      if (typeof updateSidebarBadges === 'function') updateSidebarBadges();
+      if (typeof showToast === 'function') {
+        showToast(`${product.name}: floor stock updated to ${nextQty}`, 'info');
+      }
+    }
+
+    function renderPriorityRestocks() {
+      const tbody = document.getElementById('user-restock-tbody');
+      const alerts = DataStore.getStockAlerts().slice(0, 5);
+      if (!alerts.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-charcoal/50">All shelves stocked above reorder targets!</td></tr>';
+        return;
+      }
+      tbody.innerHTML = alerts.map(item => `
+        <tr class="hover:bg-cream/50 dark:hover:bg-charcoal-700/40 transition">
+          <td class="py-2.5">
+            <span class="font-bold text-charcoal dark:text-cream block">${esc(item.name)}</span>
+            <span class="text-[10px] text-charcoal/50 dark:text-cream/50">${esc(item.sku)}</span>
+          </td>
+          <td class="py-2.5 text-center font-mono font-bold ${item.stock === 0 ? 'text-danger' : 'text-warning'}">${item.stock}</td>
+          <td class="py-2.5 text-center font-mono text-charcoal/60 dark:text-cream/60">${item.threshold}</td>
+          <td class="py-2.5 text-end">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.stock === 0 ? 'badge-out-of-stock' : 'badge-low-stock'}">${esc(item.severity)}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderIncomingShipments() {
+      const tbody = document.getElementById('user-receiving-tbody');
+      const orders = DataStore.getPurchaseOrders().slice(0, 5);
+      if (!orders.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-charcoal/50">No inbound shipments scheduled.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = orders.map(po => {
+        const lineCount = Array.isArray(po.items) ? po.items.reduce((s, it) => s + Number(it.orderedQty || 1), 0) : 0;
+        const badgeCls =
+          po.status === 'Received' ? 'badge-received' :
+          po.status === 'Pending' ? 'badge-pending' :
+          po.status === 'Partially Received' ? 'badge-partially-received' : 'badge-cancelled';
+        return `
+          <tr class="hover:bg-cream/50 dark:hover:bg-charcoal-700/40 transition">
+            <td class="py-2.5 font-mono font-bold text-charcoal dark:text-cream">${esc(po.id)}</td>
+            <td class="py-2.5">
+              <span class="font-medium text-charcoal dark:text-cream block truncate max-w-[140px]">${esc(po.supplierName)}</span>
+              <span class="text-[10px] text-charcoal/50 dark:text-cream/50">${esc(po.orderDate)}</span>
+            </td>
+            <td class="py-2.5 text-center font-mono font-semibold text-charcoal/80 dark:text-cream/80">${lineCount || '--'} u</td>
+            <td class="py-2.5 text-end"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeCls}">${esc(po.status)}</span></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderUserActivityFeed() {
+      const container = document.getElementById('user-activity-feed');
+      const activities = DataStore.getActivities(5);
+      if (!activities.length) {
+        container.innerHTML = '<div class="text-xs text-charcoal/50 text-center py-2">No shift activity recorded yet.</div>';
+        return;
+      }
+      container.innerHTML = activities.map(act => `
+        <div class="flex items-start gap-3 p-2.5 rounded-xl bg-cream/40 dark:bg-charcoal-900/40 border border-charcoal/5 text-xs">
+          <div class="w-7 h-7 rounded-lg bg-brand/10 text-brand flex items-center justify-center flex-shrink-0 mt-0.5">
+            <i data-lucide="${esc(act.icon || 'activity')}" class="w-3.5 h-3.5"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-charcoal dark:text-cream">${esc(act.text)}</p>
+            <span class="text-[10px] text-charcoal/50 dark:text-cream/50">${esc(act.timestamp || 'Recently')}</span>
+          </div>
+        </div>
+      `).join('');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function initDepartmentChart() {
+      if (typeof Chart === 'undefined') return;
+      const ctx = document.getElementById('associateCategoryChart');
+      if (!ctx) return;
+
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#E8E8E2' : '#242A27';
+      const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
+
+      const products = DataStore.getProducts();
+      const deptTotals = {};
+      products.forEach(p => {
+        const key = p.categoryName || 'General';
+        deptTotals[key] = (deptTotals[key] || 0) + Number(p.stock || 0);
+      });
+
+      const labels = Object.keys(deptTotals);
+      const values = Object.values(deptTotals);
+
+      if (departmentChart) departmentChart.destroy();
+      departmentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Units On Shelf',
+            data: values,
+            backgroundColor: '#E88743',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: textColor, font: { size: 11 } }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: textColor, font: { size: 11 } }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

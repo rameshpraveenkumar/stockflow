@@ -47,4 +47,13 @@ function updateDirLabels() {
   dirLabels.forEach((label) => {
     label.textContent = currentDir.toUpperCase();
   });
+
+  const currentLtrIcons = document.querySelectorAll('.dir-current-ltr');
+  const currentRtlIcons = document.querySelectorAll('.dir-current-rtl');
+  currentLtrIcons.forEach((el) => {
+    el.style.display = currentDir === 'ltr' ? 'inline-block' : 'none';
+  });
+  currentRtlIcons.forEach((el) => {
+    el.style.display = currentDir === 'rtl' ? 'inline-block' : 'none';
+  });
 }
