@@ -79,8 +79,33 @@
 </head>
 <body class="bg-cream text-charcoal dark:bg-charcoal-900 dark:text-cream antialiased min-h-screen flex flex-col selection:bg-brand selection:text-white">
 
+  <!-- Compact Top-Right Utility Toggles (No Navbar / No Hamburger Menu) -->
+  <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-5 flex items-center justify-end gap-2">
+    <!-- Light/Dark Theme Toggle Button (Icon-Only) -->
+    <button
+      type="button"
+      class="theme-toggle-btn w-10 h-10 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800 hover:border-brand/60 hover:bg-brand/10 dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+      title="Toggle Light/Dark Theme"
+      aria-label="Toggle Light/Dark Theme"
+    >
+      <i data-lucide="moon" class="theme-current-dark w-4 h-4 text-brand flex-shrink-0" aria-hidden="true"></i>
+      <i data-lucide="sun" class="theme-current-light w-4 h-4 text-brand flex-shrink-0" aria-hidden="true"></i>
+    </button>
+
+    <!-- LTR/RTL Direction Toggle Button (Icon-Only) -->
+    <button
+      type="button"
+      class="dir-toggle-btn w-10 h-10 flex items-center justify-center rounded-xl border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800 hover:border-brand/60 hover:bg-brand/10 dark:hover:bg-charcoal-700 text-charcoal dark:text-cream transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+      title="Switch text direction (Current: LTR)"
+      aria-label="Switch text direction (Current: LTR)"
+    >
+      <i data-lucide="align-left" class="dir-current-ltr w-4 h-4 text-brand flex-shrink-0" aria-hidden="true"></i>
+      <i data-lucide="align-right" class="dir-current-rtl w-4 h-4 text-brand flex-shrink-0" aria-hidden="true"></i>
+    </button>
+  </div>
+
   <!-- Split-Screen Registration Container -->
-  <main class="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-8">
+  <main class="flex-grow flex items-center justify-center px-4 pb-6 pt-3 sm:px-6 sm:pb-8 sm:pt-4 lg:px-8">
     <div class="login-split-card w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden border border-charcoal/15 dark:border-charcoal-700 bg-white dark:bg-charcoal-800">
 
       <!-- ====================================================================
